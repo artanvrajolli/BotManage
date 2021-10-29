@@ -54,7 +54,7 @@ ${silter2[1]}
         $('#test123test').on("select2:select", function(e) { 
             dropDownChoice(document.getElementById('test123test'),document.querySelector('#CB442'),'browserBrowser');
         });
-
+     
         tinymce.init({
             selector: '#messageEmail',
             height: 400,
@@ -62,10 +62,11 @@ ${silter2[1]}
             plugins: [
               'advlist autolink lists link image charmap print preview anchor',
               'searchreplace visualblocks code fullscreen',
-              'insertdatetime media table paste code'
+              'insertdatetime media table paste code',
             ],
+            lineheight_formats: "7pt 8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 36pt",
             toolbar: 'undo redo | styleselect | fontsizeselect | ' +
-            'bold italic backcolor | alignleft aligncenter ' +
+            'bold italic backcolor | lineheight | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat',
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
@@ -73,6 +74,9 @@ ${silter2[1]}
             branding: false,
             statusbar: false,
             placeholder: 'Enter message',
+            mobile: {
+                theme: 'mobile',
+            },
             setup:function(editor) {
                 editor.on('keyup', function(e) {
                     document.querySelector('[name="messageEmail"]').value = editor.getContent();
@@ -89,7 +93,7 @@ ${silter2[1]}
             document.querySelector('.tox-notification__dismiss').click();
             clearInterval(xInterval1);
         }catch(error){}
-      });
+      },1);
 
       var activeCollapse = 0;
       document.querySelector('.bar-collapse').addEventListener('click',()=>{
@@ -98,7 +102,7 @@ ${silter2[1]}
         else
         fullCollapseSetHolder();
         activeCollapse = !activeCollapse;
-    });
+        });
       
     const collapseSetHolder = ()=>{
         if(activeCollapse == 0 ){;
@@ -141,11 +145,30 @@ $(".preview-holder-content")[0].classList.remove('col-12');
         }
     };
 
-    
-    if(document.documentElement.clientWidth < 990){
+    window.onresize = function(){
+        if(document.documentElement.clientWidth < 990 && activeCollapse == 0){
+            fullCollapseSetHolder();
+            activeCollapse = !activeCollapse;
+        }
+    }
+    if(document.documentElement.clientWidth < 990 && activeCollapse == 0){
         fullCollapseSetHolder();
         activeCollapse = !activeCollapse;
     }
 
+
+    $(".customTextArea").emojioneArea({
+        searchPosition: "bottom",
+        pickerPosition: "bottom"
+    });
+    setTimeout(()=>{
+        document.querySelector('.emojionearea-button').style.top = '92.5%';
+        document.querySelector('.emojionearea-button').style.bottom = '10px';
+        document.querySelectorAll('.emojionearea-editor').forEach(element => {
+            element.classList.add('fixedMaxHeight');
+           element.style.setProperty('min-height', '100%', 'important');
+        });
+        document.querySelector('[role="application"]').style.height = '70%';
+    },500);
 
 });

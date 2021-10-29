@@ -226,7 +226,10 @@ function previewPath(isFinal = false){
     var previewHolder = document.getElementById('previewHolder');
     previewHolder.innerHTML = '';
     var levelRender = currentLevel;
-    if(isFinal) levelRender++;
+    if(isFinal) {
+        levelRender++;
+        currentLevel++;
+    }
 
     for(var i=0;i<levelRender;i++){
         var tmpHolder = platformHolder[i]["current"]["titleInfo"];
@@ -242,30 +245,9 @@ function previewPath(isFinal = false){
         }else if(platformHolder[i]["current"]["render"] == 'cat-space'){
             catSpaceRender(i);
         }else if(platformHolder[i]["current"]["render"] == 'SM-ITA'){
-            // render as concatenated text [form value="t1"] and [form value="t2"] --> t1 t2
-            var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
-            var inputsListValues = [];
-            inputsList.forEach((item)=>{
-                inputsListValues.push(item.value);
-            });
-            if(levelRender-1 != i)
-            var extraBorder = 'border:2px solid #60cef500;';
-            else
-            var extraBorder = 'border:2px solid rgb(96, 206, 245);';
-
-            previewHolder.insertAdjacentHTML('beforeend',`
-            <div>
-                <h5 class="mt-5 mb-1 col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-                <div class="row justify-content-center">
-                    <div style="${extraBorder}" onclick="GOBackTo(${i})" class="${levelRender-1 == i ? '': 'line-to-bottom'}  col-lg-5 col-12 text-start canSelect align-items-center  justify-content-center">
-                        <div class="form-text">Subject:</div>
-                        <div class="mb-2">${inputsListValues[0]}</div>
-                        <div class="form-text">Message:</div>
-                        <div>${inputsListValues[1]}</div>
-                    </div>
-                </div>
-            </div>
-            `);
+            subjectWithTextArea(i);
+        }else if(platformHolder[i]["current"]["render"] == 'one-textarea'){
+            oneTextArea(i);
         }
         platformHolder[i]["current"]["titleInfo"] = tmpHolder; // return to the orginal value
         
@@ -275,7 +257,7 @@ function previewPath(isFinal = false){
     if(previewHolder.innerHTML == ''){
         previewHolder.innerHTML = `
         <div>
-            <h5 class="mt-5 mb-1 col-12">Choose a trigger</h5>
+            <h5 class="preview-main-title col-12">Choose a trigger</h5>
             <div class="row justify-content-center">
                 <div class="col-lg-3 col-4">
                     <div class="d-flex ps-2 canSelect align-items-center">
@@ -285,9 +267,68 @@ function previewPath(isFinal = false){
             </div>
         </div>`;
     }
-    previewHolder.scrollTop = previewHolder.scrollHeight;
+    document.querySelector('.preview-holder-content').scrollTop = document.querySelector('.preview-holder-content').scrollHeight;
+    if(isFinal) {
+        currentLevel--;
+    }
 }
 // endline previewpath
+
+function oneTextArea(i){
+    // render input 0 as div for just one
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    var inputsListValues = [];
+    inputsList.forEach((item)=>{
+        inputsListValues.push(item.value);
+    });
+    if(currentLevel-1 != i)
+    var extraBorder = 'border:2px solid #60cef500;';
+    else
+    var extraBorder = 'border:2px solid rgb(96, 206, 245);';
+
+    previewHolder.insertAdjacentHTML('beforeend',`
+    <div>
+        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+        <div class="row justify-content-center">
+            <div style="${extraBorder}" onclick="GOBackTo(${i})" class="${currentLevel-1 == i ? '': 'line-to-bottom'}  col-lg-3 col-12 text-start canSelect align-items-center  justify-content-center">
+                <div>
+                <pre >${inputsListValues[0]}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    `);
+}
+
+
+function subjectWithTextArea(i){
+    // render input 0 as Subject and input 1 as TextArea
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    var inputsListValues = [];
+    inputsList.forEach((item)=>{
+        inputsListValues.push(item.value);
+    });
+    if(currentLevel-1 != i)
+    var extraBorder = 'border:2px solid #60cef500;';
+    else
+    var extraBorder = 'border:2px solid rgb(96, 206, 245);';
+
+    previewHolder.insertAdjacentHTML('beforeend',`
+    <div>
+        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+        <div class="row justify-content-center">
+            <div style="${extraBorder} ;padding-right: 30px;
+            padding-left: 30px;
+            padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(${i})" class="${currentLevel-1 == i ? '': 'line-to-bottom'}  col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
+                <div class="form-text">Subject:</div>
+                <div class="mb-2" style="font-weight: 600;">${inputsListValues[0]}</div>
+                <div class="form-text">Message:</div>
+                <div class="text-wrap">${inputsListValues[1]}</div>
+            </div>
+        </div>
+    </div>
+    `);
+}
 
 
 function normalBoxRender(i){
@@ -303,7 +344,7 @@ function normalBoxRender(i){
     newCloneNode.classList.add('mb-0');
     previewHolder.insertAdjacentHTML('beforeend',`
     <div>
-        <h5 class="mt-5 mb-1 col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
         <div class="row justify-content-center">
             <div id="${randomIDGEN}" class="${currentLevel-1 == i ? '': 'line-to-bottom'} col-lg-3 col-12">
             </div>
@@ -328,7 +369,7 @@ function catSpaceRender(i){
 
             previewHolder.insertAdjacentHTML('beforeend',`
             <div>
-                <h5 class="mt-5 mb-1 col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+                <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
                 <div class="row justify-content-center">
                     <div style="${extraBorder}" onclick="GOBackTo(${i})" class="${currentLevel-1 == i ? '': 'line-to-bottom'} col-lg-3 col-12 d-flex canSelect align-items-center text-center justify-content-center">
                         ${inputsListValues.join(' ')}
