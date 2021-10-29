@@ -12,17 +12,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 mutation.target.innerHTML = `<span class="form-text">${spliter[0]}:</span> ${spliter[1]}`
             }
 
-            
             if(mutation.target.innerHTML.includes('(') 
             && mutation.target.innerHTML.includes(')') 
             && mutation.target.innerHTML?.split('(',2)[1].includes(')')){
                 
-                var spliter = mutation.target.innerHTML.split('(',2);
-                var silter2 = spliter[1].split(')',2);
-mutation.target.innerHTML = `${spliter[0]}
-<span class="form-text">(${silter2[0]})</span>
-${silter2[1]}
-`;
+            var spliter = mutation.target.innerHTML.split('(',2);
+            var silter2 = spliter[1].split(')',2);
+            mutation.target.innerHTML = `${spliter[0]}
+            <span class="form-text">(${silter2[0]})</span>
+            ${silter2[1]}
+            `;
             }
             
         });   
@@ -57,7 +56,7 @@ ${silter2[1]}
      
         tinymce.init({
             selector: '#messageEmail',
-            height: 400,
+            height: 400, 
             menubar: false,
             plugins: [
               'advlist autolink lists link image charmap print preview anchor',
