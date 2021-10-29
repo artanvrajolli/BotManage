@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.css" />
+    <link rel="stylesheet" href="./style/bot.css">
+    <script src="scripts/scriptbotlines.js"></script>
+
+</head>
+
+<body style="background-color: #F5F7F9;">
+    <div>
+        <div id="menu" class="d-flex justify-content-end mx-4 my-3">
+            <span>
+                <button class="cancelButton">
+                    Cancel
+                </button>
+            </span>
+            <span>
+                <button type="submit" form="formAutoMessage" class="saveButton">
+                    Save
+                </button>
+            </span>
+        </div>
+        <div hidden>
+            <form id="formAutoMessage" method="POST">
+                <input type="text" name="autoTrigger" id="chooseAutoTriggerInput" value="">
+                <input type="text" name="trigger" id="chooseTriggerInput" value="">
+                <input type="text" name="interval" id="chooseIntervalInput" value="">
+                <textarea name="message" id="messageInput" value=""></textarea>
+            </form>
+        </div>
+        <div class="messageHolder justify-content-center container" >
+            <div id="workinghours" >
+                <div class="row justify-content-center">
+                    <h5 class="mb-4">Working hours automessage trigger</h5>
+                    <div class="col-lg-3 col-6">
+                        <div level="0" onclick="extend(this,'chooseTrigger','chooseAutoTriggerInput','autoTrigger')"
+                            class="d-flex justify-content-start canSelect">
+                            <span class="d-flex align-items-center ms-3">
+                                <img class="iconBox" src="./imagesBot/operator.svg">
+                            </span>
+                            <span class="ms-lg-3 d-flex align-items-center">
+                                Operator Unavaible
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chooseTrigger" class="cardRow">
+                <div class="row justify-content-center">
+                    <h5 class="my-4">Choose automessage trigger</h5>
+                    <div class="col-lg-3 col-6">
+                        <div level="1" onclick="extend(this,'chooseInterval','chooseTriggerInput','firstVisit')"
+                            class="d-flex justify-content-start canSelect">
+                            <span class="d-flex align-items-center ms-3">
+                                <img class="iconBox" src="./imagesBot/blueHouseicon.svg">
+                            </span>
+                            <span class="ms-3 d-flex align-items-center">
+                                First visit on site
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div level="1" onclick="extend(this,'chooseInterval','chooseTriggerInput','onClickIcon')"
+                            class="d-flex justify-content-start canSelect">
+                            <span class="d-flex align-items-center ms-3">
+                                <img class="iconBox" src="./imagesBot/chatIcon.svg">
+                            </span>
+                            <span class="ms-3 d-flex align-items-center">
+                                Visitor clicks on chat icon
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRow" id="chooseInterval" >
+                <div class="row justify-content-center">
+                    <h5 class="mb-4">Interval</h5>
+                    <div class="col-lg-3 col-4">
+                        <div level="2" onclick="extend(this,'typemessage','chooseIntervalInput','once24hours')"
+                            class="d-flex justify-content-center text-center canSelect align-items-center">
+                            Send once per 24 hours
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-4">
+                        <div level="2" onclick="extend(this,'typemessage','chooseIntervalInput','onceUniqueVisitor')"
+                            class="d-flex justify-content-center text-center canSelect align-items-center">
+                            Send only once for a unique visitor
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-4">
+                        <div level="2" onclick="extend(this,'typemessage','chooseIntervalInput','eachVisit')"
+                            class="d-flex justify-content-center text-center canSelect align-items-center">
+                            Send on each visit
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRow" id="typemessage">
+                <div class="row justify-content-center">
+                    <h5 class="mb-4">Automessage</h5>
+                    <div class="col-lg-3 col-12">
+                        <div class="customTextAreaBox d-flex py-2 justify-content-center text-center align-items-center">
+                            <!-- overflow: hidden; height: 173px;width:80%;margin-top:10px; -->
+                            <textarea onloadeddata="textAreaAdjust(this)" class="customTextArea text-left"
+                                onkeyup="textAreaAdjust(this)"
+                                style="overflow:hidden;width:80%;margin-top:10px;height:100px;"
+                                placeholder="Hi there 👋.&#13;&#10;Welcome to Mydev Chat Support&#13;&#10;What can I help you with today?"></textarea>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+$(document).ready(function () {
+            $(".customTextArea").emojioneArea({
+                searchPosition: "bottom",
+                pickerPosition: "bottom",
+                events: {
+                    keyup: function (editor, event) {
+                        var hiddenTextArea = document.getElementById('messageInput');
+                        hiddenTextArea.value = this.getText();
+                      //  hiddenTextArea.value = editor.html();
+                    },
+                    paste: function (editor, event) {
+                        var hiddenTextArea = document.getElementById('messageInput');
+                        hiddenTextArea.value = this.getText();
+                       // hiddenTextArea.value = editor.html();
+                    },
+                    change: function (editor, event) {
+                        var hiddenTextArea = document.getElementById('messageInput');
+                        hiddenTextArea.value = this.getText();
+                       // hiddenTextArea.value = editor.html();
+                    },
+                    emojibtn_click: function (button, event) {
+                        var hiddenTextArea = document.getElementById('messageInput');
+                        hiddenTextArea.value = this.getText();
+                       // hiddenTextArea.value = editor.html();
+                    }
+                }
+            });
+            setTimeout(()=>{
+                document.querySelector('.emojionearea-button').style.top = '80%';
+                document.querySelector('.emojionearea-button').style.bottom = '10px';
+                document.querySelectorAll('.emojionearea-editor').forEach(element => {
+                    element.classList.add('fixedMaxHeight');
+                });
+                document.querySelector('[role="application"]').style.border = '0px solid red';
+                document.querySelector('[role="application"]').style.boxShadow = '0 0 0px #719ECE';
+            },500);
+        });
+        // startline global Variable
+        var globalLines = [];
+        var mainParent = document.querySelector('.messageHolder');
+        // endline global variable
+        function extend(element_t, idNextBranch, inputForm, newValue) {
+            var nextBranch = document.getElementById(idNextBranch);
+            nextBranch.style.setProperty('visibility', 'visible', 'important');
+            document.getElementById(inputForm).value = newValue;
+            var currentLevel = element_t.getAttribute('level');
+            if (globalLines[currentLevel] && globalLines[currentLevel]["from"]) {
+                globalLines[currentLevel]["from"].style.border = '';
+            }
+            destroyLinesInLevel(currentLevel);
+            // draw the lines start_ end_ endDot_
+            var linesAndDot = drawLines(element_t, nextBranch, mainParent);
+            //save the lines
+            globalLines[currentLevel] = linesAndDot;
+            //save from and to
+            globalLines[currentLevel]["from"] = element_t;
+            globalLines[currentLevel]["to"] = nextBranch;
+            
+            //give activated borders
+            element_t.style.border = '2px solid #60CEF5';
+        }
+        
+        window.onresize = function(event) {
+            var width = document.documentElement.clientWidth;
+            var height = document.documentElement.clientHeight;
+            reRenderLines();
+        };
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.css" />
+    <link rel="stylesheet" href="./style/advanceFlow.css">
+    <script src="scripts/advanceFlow.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8 justify-content-center text-center" style="background-color: #F5F7F9;">
+                <div id="previewHolder" class="row gx-1 gx-lg-4 justify-content-center">
+
+                    <h5 class="mt-5 mb-1 col-12">Interval</h5>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 col-4">
+                            <div class="d-flex ps-2 canSelect align-items-center">
+                                Send once per 24 hours
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-4" style="min-height:100vh;">
+                <div class="container border h-100">
+                    <div class="mb-4">
+                        <h3 id="titleInfo">Triggers</h3>
+                        <hr>
+                        <p id="descriptionInfo" class="form-text">
+                            Choose a trigger to continue
+                        </p>
+                    </div>
+                    <form methods="post" id="HolderForm" hidden>
+                    </form>
+                    <div id="triggerToChoose" class="row">
+                        <div class="row gy-1 gx-1 fixedBox">
+                            <div onclick="selectBox(this,{name:'trigger',value:'fistVisitOnSite'})" class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Visitor first visit on site
+                                    </span>
+                                </div>
+                            </div>
+                            <div onclick="selectBox(this,{name:'trigger',value:'clicksOnChatIcon'})" class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Visitor clicks on chat icon
+                                    </span>
+                                </div>
+                            </div>
+                            <div onclick="selectBox(this,{name:'trigger',value:'opensAPage',title:'Visitor opens a page',description:'What URL must the visitor hit in order for the chatbot to trigger?',next:'urlBox',render:'self'})"
+                                class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Visitor opens a page
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="urlBox" class="row" style="display:none;">
+                        <div class="row gy-1 gx-1 fixedBox">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <input
+                                        onkeyup="customText(this,{name:'urlHit',title:'Interval',description:'Trigger limitation interval',value:this.value,next:'intervalChoose'});"
+                                        type="email" class="form-control ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="intervalChoose" class="row" style="display:none;">
+                        <div class="row gy-1 gx-1 fixedBox">
+                            <div onclick="selectBox(this,{name:'interval',value:'once24hours',title:'Condition',description:'What condition is needed in order to make next execute',next:'conditionTrigger',render:'self'})"
+                                class="col-12">
+                                <div class="mb-2 col-12 no-color-border-2">
+                                    <div class="d-flex ps-2 canSelect align-items-center">
+                                        <span class="d-flex justify-content-center text-center w-100">
+                                            Send once per 24 hours
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div onclick="selectBox(this,{name:'interval',value:'once24hours',title:'Condition',description:'What condition is needed in order to make next execute',next:'conditionTrigger',render:'self'})"
+                                class="col-12">
+                                <div class="mb-2 col-12 no-color-border-2">
+                                    <div class="d-flex ps-2 canSelect align-items-center">
+                                        <span class="d-flex justify-content-center text-center w-100">
+                                            Send only once for a unique visitor
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div onclick="selectBox(this,{name:'interval',value:'once24hours',title:'Condition',description:'What condition is needed in order to make next execute',next:'conditionTrigger',render:'self'})"
+                                class="col-12">
+                                <div class="mb-2 col-12 no-color-border-2">
+                                    <div class="d-flex ps-2 canSelect align-items-center">
+                                        <span class="d-flex justify-content-center text-center w-100">
+                                            Send on each visit
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="conditionTrigger" class="row" style="display:none;">
+                        <div class="row gy-1 gx-1 fixedBox">
+                            <div onclick="selectBox(this,{name:'condition',value:'Browser',title:'',description:'',next:''})"
+                                class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Browser
+                                    </span>
+                                </div>
+                            </div>
+                            <div onclick="selectBox(this,{name:'condition',value:'day',title:'Day',description:'When the day:',next:'dayChoose',render:'self'})"
+                                class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Day
+                                    </span>
+                                </div>
+                            </div>
+                            <div onclick="selectBox(this,{name:'condition',value:'OS',title:'',description:'',next:''})"
+                                class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Operating system
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="dayChoose" class="row" style="display:none;">
+                        <div class="row gy-1 gx-1 fixedBox">
+                            <div class="col-12">
+                                <div>
+                                    <select
+                                        onclick="customText(this,{name:'dayRule',title:'Action',description:'What condition is needed in order to make next execute',value:this.value,next:'actionChose'})"
+                                        class="form-select form-select-lg" aria-label="Default select example">
+                                        <option selected>Select rule</option>
+                                        <option value="is">Is</option>
+                                        <option value="isNot">Is Not</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div>
+                                    <select
+                                        onclick="customText(this,{name:'dayValue',title:'Action',description:'What condition is needed in order to make next execute',value:this.value,next:'actionChose'})"
+                                        class="form-select form-select-lg" aria-label="Default select example">
+                                        <option selected>Select day</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="actionChose" class="row" style="display:none;">
+                        <div class="row gy-1 gx-1 fixedBox">
+                            <div class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Send a chat message
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Send an email
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Notify Operators
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Chat with bot ended
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Notify Operators
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex ps-2 canSelect align-items-center">
+                                    <span class="d-flex align-items-center ms-3">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                    </span>
+                                    <span class="d-flex justify-content-center text-center w-100">
+                                        Decision
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="row" style="display:none;">
+                        <div class="row gy-1 gx-1 fixedBox">
+
+                        </div>
+                    </div>
+
+                    <div class="border row justify-content-between">
+                        <div class="d-inline col-6 ">
+                            <button onclick="back()" class="btn btn-primary">Back</button>
+                        </div>
+                        <div class="d-inline col-6  text-end">
+                            <button onclick="nextStage()" class="btn btn-primary">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // startline global variables
+        const dd = console.log;
+        var mainForm = document.getElementById('HolderForm');
+        var Trigger = null;
+        var currentLevel = 0;
+        var levelHolder = [];
+        var nextStageId = null;
+        var nextTitle = null;
+        var nextDescription = null;
+        //endline global variables
+    </script>
+</body>
+
+</html>

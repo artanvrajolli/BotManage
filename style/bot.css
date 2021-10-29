@@ -1,0 +1,242 @@
+
+
+#openCreateModal{
+    background: #18AEE3;
+    border: 1px solid #18AEE3;
+    color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 9px 6px 11px 6px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    transition: all 1s ease;
+}
+#openCreateModal:hover{
+    background: #169dce;
+    border: 1px solid #169dce;
+    color: #f5f5f5;
+}
+
+#buttonTextModal{
+    padding: 4px 10px 7px 10px;
+    background-color: #60CEF5FA;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+
+.dropdown-toggle::after{
+    content: none;
+}
+
+.normal-row-dropdown{
+    padding-left: 1rem;
+    padding-top:0.25rem;
+    padding-bottom:0.25rem;
+    cursor: pointer;
+}
+.normal-row-dropdown:hover{
+  background-color: #ebebeb;
+}
+
+.trash-icon-danger{
+    color: #DC3545;
+}
+
+.description-bot-text{
+    max-height: 100px;
+    overflow:hidden;
+}
+
+.icon-align-dropdown{
+    margin-left:0.5rem;
+    margin-right:0.5rem;
+    width:15px;
+}
+.vertical-line-dropdown{
+    margin-bottom: 9px;
+    margin-top:5px;
+}
+
+.cardBot{
+    background: #FFFFFF;
+    margin-right:3em;
+    margin-bottom:2em;
+    padding-top:1em;
+    padding-bottom:1em;
+    border: 1px solid #EEEEEE;
+    box-sizing: border-box;
+    box-shadow: 0px 15px 50px rgba(115, 115, 115, 0.05);
+    border-radius: 15px;
+    height: 300px;
+    width: 300px;
+}
+.cardimage{
+    height:60px;
+    width: 60px;
+}
+
+.cardBotHeader{
+    border-bottom:0px;
+    background: #FFFFFF;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-end;
+    align-items: center;
+}
+
+.cardBotFooter{
+    border-top:0px;
+    background-color:white;
+    padding-bottom:0px;
+}
+
+
+
+.cardBotConent{
+    height: 165px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+#cardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.customModal{
+    border-radius: 10px;
+    border:0px solid red;
+}
+
+.customformlabel{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.customForm{
+    border: 1px solid #C6E8F4;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.customForm::placeholder{
+    color: #B7B7B7;
+    font-size: 1.1rem;
+    
+}
+
+.startWithHeader{
+    background: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    box-sizing: border-box;
+    box-shadow: 0px 15px 50px rgba(115, 115, 115, 0.05);
+    border-radius: 10px;
+    cursor:pointer;
+    user-select: none;
+}
+.startWithHeader:hover{
+    border: 1px solid #d9d9d9;
+    box-shadow: rgb(115 115 115 / 20%) 0px 15px 50px;
+}
+.startWithHeaderContent{
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+}
+.canSelect{
+    height:100%;
+    background: #FFFFFF;
+    box-shadow: 0px 5px 15px rgba(37, 49, 60, 0.05);
+    border-radius: 5px;
+    min-height:68px;
+    cursor: pointer;
+    user-select: none;
+    border:2px solid #25313c00;
+}
+.iconBox{
+    height:38px;
+    width:38px;
+}
+
+.customTextAreaBox{
+    background: #FFFFFF;
+    box-shadow: 0px 5px 15px rgba(37, 49, 60, 0.05);
+    border-radius: 5px;
+}
+
+
+.cancelButton{
+    padding: 10px 30px 9px 30px;
+    background: #F5F7F9;
+    border: 1px solid #DADADA;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color:#92989D;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.saveButton{
+    padding: 10px 40px 9px 40px;
+    background: #18AEE3;
+    border: 1px solid #18AEE3;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color:white;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left:20px;
+}
+
+.emojionearea .emojionearea-editor {
+    text-align:left;
+
+}
+
+.emojionearea .emojionearea-inline{
+    outline: none !important;
+    border:0px solid red;
+    box-shadow: 0 0 0px #719ECE;
+}
+
+.fixedMaxHeight{
+    max-height: 1000vh !important;
+}
+
+.dots3horz{
+    padding-bottom:1rem;
+    padding-right:0.5rem;
+}
+
+.cardRow{
+    visibility: hidden;
+    z-index: 1;
+    margin-top:3rem;
+}
+
+.messageHolder{
+    position: relative;
+    text-align: center;
+}

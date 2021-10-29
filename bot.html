@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./style/bot.css">
+</head>
+
+<body>
+    <div class="w-100 p-4">
+        <div class="d-flex justify-content-between " style="flex-direction: row;align-items: flex-end;">
+            <h3>My Bots</h3>
+            <div>
+                <button id="openCreateModal" data-bs-toggle="modal" data-bs-target="#createBotModal">
+                    <span>
+                        <span class="ms-2 me-3" style="color:18AEE3">Create Bot</span><span class="rounded"
+                            id="buttonTextModal"><i style="font-size:small" class="fas fa-plus"></i></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <p class="form-text w-100 w-lg-100">
+                Build a chatbot with zero coding, integrate it with all your favorite apps, and provide personalized
+                resolutions to your customers in multiple languages without live-agent intervention.
+            </p>
+        </div>
+
+        <div id="cardContainer"
+            class="mt-5 d-flex align-items-stretch w-100 justify-content-center justify-content-lg-start">
+
+            <!-- One Card BOT -->
+            <div class="card d-block cardBot">
+                <div class="card-header d-flex justify-content-between cardBotHeader">
+                    <div>
+                        <img src="./imagesBot/autoBot1.svg" class="card-img-top cardimage">
+                    </div>
+                    <div class="dots3horz">
+                        <div class="dropdown">
+                            <div class="dropdown-toggle px-1" data-bs-offset="-50,0" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="./imagesBot/3dotsHorz.svg">
+                            </div>
+                           
+                            <ul class="dropdown-menu custom-dropdown-toggle" aria-labelledby="dropdownMenuLink">
+                                <li class="normal-row-dropdown"><i class="fas fa-edit icon-align-dropdown"></i>Edit</li>
+                                <li onclick="deActivate(this,1)" class="normal-row-dropdown"><i class="fas fa-toggle-on icon-align-dropdown"></i>Disable</li>
+                                <hr class="vertical-line-dropdown">
+                                <li onclick="deleteThis(this,1)" class="normal-row-dropdown trash-icon-danger"><i class="far fa-trash-alt icon-align-dropdown"></i>Remove</li>
+                            </ul>
+                          </div>
+                    </div>
+                </div>
+                <div class="card-body cardBotConent">
+                    <div class="w-100">
+                        <h5 class="text-truncate">Auto Message Bots</h5>
+                        <p class="text-wrap description-bot-text" >Flow short descriptiond</p>
+                    </div>
+                </div>
+                <div class="card-footer cardBotFooter">
+                    <p class="form-text">
+                        Created: 04 Oct 2021, 19:31
+                    </p>
+                </div>
+            </div>
+            <!-- end of card BOT -->
+
+
+        </div>
+    </div>
+    <script>
+        document.querySelector('.dropdown').addEventListener('click',(e)=>{
+            e.stopPropagation();
+        })
+        function deActivate(element,id){
+            // var oReq = new XMLHttpRequest();
+            // oReq.addEventListener("load", ()=>{
+            //     //this.responseText
+             // success
+             element.innerHTML = `<i class="fas fa-toggle-off icon-align-dropdown"></i>Enable`;
+             element.setAttribute('onclick',`Activate(this,${id})`);
+            // });
+            // oReq.open("GET", "http://www.example.com/"+id);
+            // oReq.send();            
+        }
+        function Activate(element,id){
+            // var oReq = new XMLHttpRequest();
+            // oReq.addEventListener("load", ()=>{
+            //     //this.responseText
+             // success
+             element.innerHTML = `<i class="fas fa-toggle-on icon-align-dropdown"></i>Disable`;
+             element.setAttribute('onclick',`deActivate(this,${id})`);
+            // });
+            // oReq.open("GET", "http://www.example.com/"+id);
+            // oReq.send();
+        }
+        function deleteThis(id){
+            // var oReq = new XMLHttpRequest();
+            // oReq.addEventListener("load", ()=>{
+            //     //this.responseText
+             // success
+             window.location.reload();
+            // });
+            // oReq.open("DELETE", "http://www.example.com/"id);
+            // oReq.send();
+        }
+
+
+    </script>
+
+
+    <!-- Create Bot Modal -->
+    <div class="modal fade" id="createBotModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content customModal">
+                <div class="modal-header border-0 px-4">
+                    <h4 class="modal-title" id="staticBackdropLabel">Create Bot</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="createBotFrom" class="px-2">
+                        <div class="my-3 ">
+                            <label for="botname" class="customformlabel">Bot Name</label>
+                            <input type="text" class="form-control form-control-lg customForm" name="botname" id="botname"
+                                placeholder="Type Name">
+                        </div>
+                        <div class="my-3 mt-4">
+                            <label for="botdescription" class="customformlabel">Description</label>
+                            <input type="text" class="form-control form-control-lg customForm" name="botdescription" id="botdescription"
+                                placeholder="Type description">
+                        </div>
+                        <input id="startwith" name="startwith" type="text" value="" hidden>
+                        <div class="my-3 mt-4">
+                            <label for="botdescription" class="customformlabel">Start with</label><br>
+                            <div class="row gx-3">
+                                <!-- Auto-Message -->
+                                <div class="col d-flex">
+                                    <div onclick="selectedStartWith(this,0)"
+                                        class="align-self-stretch mb-4 px-4 py-3 startWithHeader">
+                                        <div class="d-flex startWithHeaderContent mb-1">
+                                            <div style="margin-left: -6px;">
+                                                <embed style="height: 45;width:45px;"
+                                                    src="./imagesBot/autoMessageIcon.svg">
+                                            </div>
+                                            <div style="font-weight: 500;padding-bottom:10px;padding-left: 20px;">
+                                                Auto-Message
+                                            </div>
+                                        </div>
+                                        <div class="my-3">
+                                            Vitae volutpat sem non arcu in facilisi ultricies euismod tristique. Neque
+                                            arcu risus urna consequat egestas et.Neque arcu risus urna consequat egestas
+                                            et.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Working Hours -->
+                                <div class="col d-flex">
+                                    <div onclick="selectedStartWith(this,1)"
+                                        class="align-self-stretch mb-4 px-4 py-3 startWithHeader">
+                                        <div class="d-flex startWithHeaderContent mb-1">
+                                            <div>
+                                                <embed style="height: 45;width:45px;"
+                                                    src="./imagesBot/workingHours.svg">
+                                            </div>
+                                            <div style="font-weight: 500;padding-bottom:10px;padding-left: 20px;">
+                                                Working Hours
+                                            </div>
+                                        </div>
+                                        <div class="my-3">
+                                            Nibh natoque sit tincidunt quam urna, eget pharetra nisl. Diam posuere ut
+                                            velit mi neque. Mi, congue semper lacinia dignissim mi.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Advanced Flows -->
+                                <div class="col d-flex">
+                                    <div onclick="selectedStartWith(this,2)"
+                                        class="align-self-stretch mb-4 px-4 py-3 startWithHeader">
+                                        <div class="d-flex startWithHeaderContent mb-1">
+                                            <div >
+                                                <embed style="height: 45;width:45px;"
+                                                    src="./imagesBot/AdvancedFlows.svg">
+                                            </div>
+                                            <div style="font-weight: 500;padding-bottom:10px;padding-left: 20px;">
+                                                Advanced Flows
+                                            </div>
+                                        </div>
+                                        <div class="my-3">
+                                            Nibh natoque sit tincidunt quam urna, eget pharetra nisl. Diam posuere ut
+                                            velit mi neque. Mi, congue semper lacinia dignissim mi.
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+                    <script>
+                        function selectedStartWith(element, newValue) {
+                            var startwithElement = document.getElementById('startwith');
+                            startwithElement.value = newValue;
+                            for (var i = 0; i < element.parentNode.parentNode.children.length; i++) {
+                                var elementSelced = element.parentNode.parentNode.children[i];
+                                elementSelced.children[0].style.border = '';
+                                elementSelced.children[0].style.boxShadow = '';
+                            }
+                            element.style.border = '1px solid #18caff';
+                            element.style.boxShadow = 'rgb(115 115 115 / 20%) 0px 15px 50px';
+                           
+                        }
+                    </script>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-secondary border border-info bg-white text-info btn-lg " id="cancelCreate" style="font-size: 1rem;" data-bs-dismiss="modal">CANCEL</button>
+                    <button type="submit" form="createBotFrom" class="btn btn-primary border border-info bg-info text-light btn-lg px-4" style="font-size: 1rem;">CREATE BOT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
