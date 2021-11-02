@@ -24,6 +24,7 @@
         referrerpolicy="origin"></script>
     <script src="scripts/advanceFlow2.js"></script>
     <script src="scripts/advanceFlow2Attach.js"></script>
+    <script src="scripts/decisionAdvanceFlow.js"></script>
 </head>
 
 <body>
@@ -111,15 +112,15 @@
                                     </span>
                                 </div>
                             </div>
-                            <!-- On specific days-->
+                            <!-- On certain days-->
                             <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'trigger_test442',nextTitle:'Something on title placeholder',nextDescription:'description placeholder'})"
+                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'triggerOnSpecifiDay',nextTitle:'Trigger: On certain days',nextDescription:'Select days to trigger chatbot'})"
                                     class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
                                     </span>
                                     <span class="box-select-content-text">
-                                        On specific days
+                                        On certain days
                                     </span>
                                 </div>
                             </div>
@@ -150,6 +151,60 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Trigger:On certain days -->
+                    <div id="triggerOnSpecifiDay" class="row" style="display:none;">
+                        <div class="row fixedBox">
+                            <form render="dayOfWeek-r1" id="trigSpecifiD" next="intervalChoice" nextTitle='Interval' nextDescription="Trigger limitation interval" hidden>
+                                <input type="text" name="dayOFWeekSelected" value="">
+                            </form>
+                            <div class="row ms-2 gx-2 gy-2 col-12">
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Monday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="mondaySelect">
+                                    <label class="form-check-label" for="mondaySelect">
+                                        Monday
+                                    </label>
+                                </div>
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Tuesday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="tuesdaySelect">
+                                    <label class="form-check-label" for="tuesdaySelect">
+                                        Tuesday
+                                    </label>
+                                </div>
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Wednesday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect"  class="form-check-input" type="checkbox" value="" id="wednesdaySelect">
+                                    <label class="form-check-label" for="wednesdaySelect">
+                                        Wednesday
+                                    </label>
+                                </div>
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Thursday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="thursdaySelect">
+                                    <label class="form-check-label" for="thursdaySelect">
+                                        Thursday
+                                    </label>
+                                </div>
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Friday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="fridaySelect">
+                                    <label class="form-check-label" for="fridaySelect">
+                                        Friday
+                                    </label>
+                                </div>
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Saturday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="saturdaySelect">
+                                    <label class="form-check-label" for="saturdaySelect">
+                                        Saturday
+                                    </label>
+                                </div>
+                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Sunday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
+                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="sundaySelect">
+                                    <label class="form-check-label" for="sundaySelect">
+                                        Sunday
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Trigger:TEST442 placeholder for testing purpose -->
                     <div id="trigger_test442" class="row" style="display:none;">
@@ -233,7 +288,7 @@
                                 <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','None',{nextStage:'actionTrigger',nextTitle:'Action',nextDescription:'What condition is needed in order to make next execute'})"
                                     class="box-format canSelect">
                                     <span class="box-select-content-img">
-                                        <img class="iconBox" style="height: 32px;" src="https://pics.freeicons.io/uploads/icons/png/7008267241626679983-512.png">
+                                        <img class="iconBox" src="./imagesBot/operator.svg">
                                     </span>
                                     <span class="box-select-content-text">
                                         None
@@ -294,7 +349,9 @@
                                 <option value="" selected>Select Operating System</option>
                                 <option value="Windows">Windows</option>
                                 <option value="Linux">Linux</option>
-                                <option value="MacOS">MacOS</option>
+                                <option value="MacOS">Mac OS</option>
+                                <option value="Android">Android</option>
+                                <option value="Iphone">Iphone</option>
                             </select>
                         </div>
                     </div>
@@ -348,7 +405,7 @@
                             </div>
                             <div class="col-lg-6 col-12">
                                 <!-- actionSendanEmail -->
-                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','sendEmail',{nextStage:'actionSendanEmail',nextTitle:'Action: Send an email',nextDescription:' '})"
+                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','sendEmail',{nextStage:'actionSendanEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})"
                                     class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/greenChatIcon.svg">
@@ -358,16 +415,19 @@
                                     </span>
                                 </div>
                             </div>
+                        
+                            
                             <div class="col-lg-6 col-12">
-                                <div class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','decision',{nextStage:'actionDecision',nextTitle:'Action: Decision',nextDescription:'Message that will be sent to visitor:',nextChanger:'AAD'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
                                     </span>
                                     <span class="box-select-content-text">
-                                        Notify Operators
+                                        Decision
                                     </span>
                                 </div>
                             </div>
+
                             <div class="col-lg-6 col-12">
                                 <div class="box-format canSelect">
                                     <span class="box-select-content-img">
@@ -378,29 +438,71 @@
                                     </span>
                                 </div>
                             </div>
+                            
+
+                        </div>
+                    </div>
+
+                    <!-- Action: Decision -->
+                    <div id="actionDecision" class="row" style="display:none;">
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <div>
+                                <form render="multiDecision" id="actionDChoice" next="actionActionDecision_1" nextTitle="Action: Decision Answers (1)" nextDescription="Choose an action you want to take now based on decision answer">
+                                    <textarea class="custom-form-control-textarea" ></textarea>
+                                    <div class="container" id="boxDecisionHolder">
+                                        <!-- this is require to not allow empty input -->
+                                        <input type="text" value="" name="doNotAllowEmptyInput" hidden />
+                                    </div>
+                                </form>
+                                <div class="container">
+                                    <div id="addDecisionButton" class="custom-form-control-rounded">
+                                        <img class="me-2" src="imagesBot/plusIconInBlue.svg">Add new answer
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action in action Decision answer 1-->
+                    <div id="actionActionDecision_1" class="row" style="display:none;">
+                        <form id="AAD_1">
+                            <input type="text" name="actionDecision_1" />
+                        </form>
+                        <div class="row gy-1 gx-2 fixedBox">
                             <div class="col-lg-6 col-12">
-                                <div class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendChatMessageDecision',{nextStage:'trigger_test442',nextTitle:'Something on title placeholder',nextDescription:'description placeholder'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
                                     </span>
                                     <span class="box-select-content-text">
-                                        Notify Operators
+                                        Send a chat message
                                     </span>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="box-format canSelect">
                                     <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
                                     </span>
                                     <span class="box-select-content-text">
-                                        Decision
+                                        Send an email
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Chat with bot ended
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
+
                     <!-- Action: Send a chat message -->
                     <div id="actionChatMessage" class="row" style="display:none;">
                         <form final render="one-textarea" id="ACM1">
@@ -414,7 +516,7 @@
                     <div id="actionSendanEmail" class="row" style="display:none;">
                         <form render='SM-ITA' final id="ASENDE" hidden>
                             <input type="text" id="" name="subjectEmail" value="">
-                            <textarea name="messageEmail" value=""></textarea>
+                            <textarea type="text" name="messageEmail" value=""></textarea>
                         </form>
                         <div class="row gy-1 gx-2 fixedBox">
                             <div class="mb-3">
@@ -430,20 +532,23 @@
                         </div>
 
                     </div>
+
                     <!-- Buttons:BACK and NEXT -->
                     <div class="row set-content-footer-buttons">
-                        <div class="d-inline col-lg-3 col-12">
-                            <button style="visibility: hidden;" id="backButton" onclick="GObackStage(this)"
-                                class="back-button w-100">Back</button>
-                        </div>
-                        <div id="messageOutputContainer" class="col-lg-6 col-12">
+                        <div id="messageOutputContainer" class="col-12">
                             <span id="messageOutput">
 
                             </span>
                         </div>
-                        <div class="d-inline col-lg-3 col-12 text-end">
-                            <button id="nextButton" onclick="GOnextStage(this)"
-                                class="btn btn-info next-button w-100">Next</button>
+                        <div class="col-12 d-flex justify-content-between">
+                            <div class="col-lg-3">
+                                <button style="visibility: hidden;" id="backButton" onclick="GObackStage(this)"
+                                    class="back-button">Back</button>
+                            </div>
+                            <div class="col-lg-3">
+                                <button id="nextButton" onclick="GOnextStage(this)"
+                                    class="btn btn-info next-button">Next</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -451,4 +556,5 @@
         </div>
     </div>
 </body>
+
 </html>

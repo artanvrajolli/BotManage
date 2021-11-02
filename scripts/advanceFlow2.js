@@ -8,6 +8,7 @@ var platformActiveNode = null;
 var nextButton = null;
 var backButton = null;
 window.onload = () => {
+    // on load save next and back button on variables and as starting platform triggerTochoose
     platformActiveNode = document.getElementById('triggerToChoose');
     nextButton = document.getElementById('nextButton');
     backButton = document.getElementById('backButton');
@@ -18,11 +19,17 @@ window.onload = () => {
 // startline tmp variable
 var TMPPreviewsSelected = [];
 var TMPDefaultValue = [];
-
+var TMPDecisionData = [];
 // endline tmp variable
 
+/*
+    On the TMP Variables are saved about everything
+    when the path is change etc. 
+    On the global Variables are saved only currentPath path
+*/
 
 
+// save currentdata that been select or choosen
 function saveCurrentData() {
     try {
         var titleInfo = document.getElementById('titleInfo').innerHTML;
@@ -54,6 +61,7 @@ function saveCurrentData() {
 
 }
 
+// save nextData that will be used
 function saveNextData() {
     try {
         var nextPlatformId = platformHolder[currentLevel]["current"]["formNode"].getAttribute('next');
@@ -72,13 +80,18 @@ function saveNextData() {
     }
 }
 
+// check the next form if is final/finish 
 function isTheNextFinalForm() {
     return platformHolder[currentLevel]["next"]["formNode"].getAttributeNames().includes('final');
 }
 
-
 function selectBox(element_t, localForm, localInput, localValue, nextData) {
-    var localFormID = localForm.getAttribute('id')
+    if(!localForm.getAttribute('id')){
+        dde("LocalForm required to have id and has to be unique!");
+        return;
+    }
+    var localFormID = localForm.getAttribute('id');
+    
     //change border if has previews
     if (TMPPreviewsSelected[localFormID]) {
         TMPPreviewsSelected[localFormID].style.border = '2px solid #60CEF500';
@@ -103,7 +116,6 @@ function selectBox(element_t, localForm, localInput, localValue, nextData) {
         localForm.setAttribute('nextTitle', "");
         localForm.setAttribute('nextDescription', "");
     }
-
 
     localForm.setAttribute('next', nextData.nextStage);
     localForm.setAttribute('nextTitle', nextData.nextTitle);
@@ -152,6 +164,7 @@ function GOnextStage() {
     currentLevel++;
     previewPath();
     showOrHideBackArrowButton();
+
 }
 
 
@@ -213,13 +226,13 @@ function dropDownChoice(element_t, localForm, nameInput) {
 
 // startline Utils
 function checkRequirment() {
-    var allInputs = platformHolder[currentLevel]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    var allInputs = platformHolder[currentLevel]["current"]["formNode"].querySelectorAll('input:not(.search)[type="text"],textarea,input[type="checkbox"]');
 
     if (allInputs.length == 0) {
         return false;
     }
     for (var i = 0; i < allInputs.length; i++) {
-
+        
         if (!allInputs[i].value || allInputs[i].value == "") {
             return false;
         }
@@ -255,7 +268,14 @@ function previewPath(isFinal = false) {
             subjectWithTextArea(i);
         } else if (platformHolder[i]["current"]["render"] == 'one-textarea') {
             oneTextArea(i);
+        } else if (platformHolder[i]["current"]["render"] == 'dayOfWeek-r1'){
+            dayOfWeekRender(i);
+        } else if (platformHolder[i]["current"]["render"] == 'multiDecision'){
+            multiDecisionRender(i);
         }
+
+
+
         platformHolder[i]["current"]["titleInfo"] = tmpHolder; // return to the orginal value
 
     }
@@ -281,6 +301,50 @@ function previewPath(isFinal = false) {
 }
 // endline previewpath
 
+// startline types of rendering
+function multiDecisionRender(i){
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    var extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    previewHolder.insertAdjacentHTML('beforeend', `
+    <div>
+        <h5 class="preview-main-title col-12">Decision message</h5>
+        <div class="row justify-content-around line-to-bottom">
+            <div style="display: flex;flex-direction: column;flex-wrap: wrap;align-content: flex-start;justify-content: flex-end;min-width: 50%;max-width: 50%;" class="canSelect simple-text-aligned">
+                <pre>${inputsList[0].value}</pre>
+            </div>
+        </div>
+        <h5 class="preview-main-title col-12">Decision answers</h5>
+        <div id="ACDS-Holder" class="parentMultiDecision container row justify-content-around">
+            
+        </div>
+    </div>
+    `);
+    var ACDSHolder = document.getElementById('ACDS-Holder');
+    for(var j=1;j<inputsList.length;j++){
+        ACDSHolder.insertAdjacentHTML('beforeend',`
+        <div class="childMultiDecision_${i} canSelect-limited row col-3 line-to-bottom justify-content-center">
+            <div class="row d-flex w-100 justify-content-center line-to-bottom">
+                <div class="w-100  canSelect d-flex align-items-center justify-content-center">
+                    ${inputsList[j].value}
+                </div>
+            </div>
+            <!-- to be used later 
+            <div class="row d-flex w-100 justify-content-center line-to-bottom">
+                <h5 class="preview-main-title col-12">Decision message</h5>
+                <div class="w-75 canSelect d-flex align-items-center justify-content-center">
+                    SomeDAta
+                </div>
+            </div>
+            -->
+        </div>`);
+        TMPDecisionData[j] = [];
+        TMPDecisionData[j]["value"] = inputsList[j].value;
+        
+    }
+          
+}
+
+
 function oneTextArea(i) {
     // render input 0 as div for just one
     var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
@@ -296,10 +360,10 @@ function oneTextArea(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center">
-            <div style="${extraBorder}" onclick="GOBackTo(${i})" class="${currentLevel - 1 == i ? '' : 'line-to-bottom'} col-lg-3 col-12 canSelect simple-text-aligned">
+        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+            <div style="${extraBorder}" onclick="GOBackTo(${i})" class="col-lg-3 col-12 canSelect simple-text-aligned">
                 <div>
-                <pre >${inputsListValues[0]}</pre>
+                <pre>${inputsListValues[0]}</pre>
                 </div>
             </div>
         </div>
@@ -323,10 +387,10 @@ function subjectWithTextArea(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
             <div style="${extraBorder} ;padding-right: 30px;
             padding-left: 30px;
-            padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(${i})" class="${currentLevel - 1 == i ? '' : 'line-to-bottom'}  col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
+            padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(${i})" class="col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
                 <div class="form-text">Subject:</div>
                 <div class="mb-2" style="font-weight: 600;">${inputsListValues[0]}</div>
                 <div class="form-text">Message:</div>
@@ -352,8 +416,8 @@ function normalBoxRender(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center">
-            <div id="${randomIDGEN}" class="${currentLevel - 1 == i ? '' : 'line-to-bottom'} col-lg-3 col-12">
+        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+            <div id="${randomIDGEN}" class=" col-lg-3 col-12">
             </div>
         </div>
     </div>
@@ -368,17 +432,12 @@ function catSpaceRender(i) {
     inputsList.forEach((item) => {
         inputsListValues.push(item.value);
     });
-
-    if (currentLevel - 1 != i)
-        var extraBorder = 'border:2px solid #60cef500;';
-    else
-        var extraBorder = 'border:2px solid rgb(96, 206, 245);';
-
+    extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center">
-            <div class="${currentLevel - 1 == i ? '' : 'line-to-bottom'} col-lg-3 col-12">
+        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+            <div class="col-lg-3 col-12">
                 <div class="box-format canSelect mb-0" style="${extraBorder}" level="${i}" onclick="GOBackTo(${i})">
                     <span class="box-select-content-text">${inputsListValues.join(' ')}</span>
                 </div>
@@ -387,8 +446,30 @@ function catSpaceRender(i) {
     </div>
     `);
 }
+// render day1,day2,day3 ---> day1-(dot)-day2-(dot)-day3
+function dayOfWeekRender(i){
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelector('input').value;
+    var parsedValues = inputsList.split(',') ? inputsList.split(',') : [inputsList];
+    var extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    previewHolder.insertAdjacentHTML('beforeend', `
+    <div>
+        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+            <div>
+                <div class="d-flex justify-content-center">
+                    <div class="box-format canSelect mb-0" style="${extraBorder} padding-right: 30px;
+                    padding-left: 30px;" level="${i}" onclick="GOBackTo(${i})">
+                        <span class="box-select-content-text">${parsedValues.join('<span class="small-dot"></span>')}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `);
+}
+// endline types of rendering
 
-// for backend get the inputs choosen
+// startline for backend get the inputs choosen
 function getAllInputs() {
     var formData = new FormData();
     for (var i = 0; i <= currentLevel; i++) {
@@ -407,3 +488,45 @@ function getAllInputs() {
     xhttp.open("POST", "https://httpbin.org/anything", true);
     xhttp.send(formData);
 }
+// endline for backend get the inputs choosen
+
+
+// startline checkBoxHandler
+function checkBoxSetValue(parentElement,inputName,valueInput,localFormElement){
+    var orderDayOfWeek = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+    var onclickElementInput = parentElement.querySelector('input');
+    var inputElement = localFormElement.querySelector(`[name="${inputName}"]`);
+    
+    // first element
+    if(!inputElement.value && onclickElementInput.checked){
+        inputElement.value = valueInput;
+        return;
+    }
+    var parsedValue = inputElement?.value?.split(',') ? inputElement?.value?.split(',') : [inputElement.value];
+    //push if not in list
+    if(!parsedValue.includes(valueInput) && onclickElementInput.checked){
+        parsedValue.push(valueInput);
+        // order the week
+        var tmpParsedValue = [];
+        for(var i=0;i<orderDayOfWeek.length;i++){
+            if(parsedValue.includes(orderDayOfWeek[i])){
+                tmpParsedValue.push(orderDayOfWeek[i]);
+            }
+        }
+        parsedValue = tmpParsedValue;
+
+        inputElement.value = parsedValue.join(',');
+    }
+    // on unched remove from list
+    if(!onclickElementInput.checked){
+        const index = parsedValue.indexOf(valueInput);
+        if (index > -1) {
+            parsedValue.splice(index, 1);
+        }
+        inputElement.value = parsedValue.join(',')
+    }
+    
+}
+// endline checkBoxHandler
+
+

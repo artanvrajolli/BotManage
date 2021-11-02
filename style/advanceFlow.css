@@ -1,6 +1,8 @@
 
 
 .canSelect{
+    overflow: hidden;
+    overflow-wrap: anywhere;
     background: #FFFFFF;
     box-shadow: 0px 5px 15px rgba(37, 49, 60, 0.05);
     border-radius: 5px;
@@ -9,7 +11,9 @@
     user-select: none;
     border:2px solid #25313c00;
 }
-
+.canSelect-limited{
+    height: 68px;
+}
 .fixedBox{
     display: flex;
     overflow-y:auto;
@@ -69,7 +73,6 @@
     content: "";
     position: absolute;
     bottom: -50px;
-    right: 48.76%;
     height: 6.5px;
     border-radius: 50%;
     background: #60cef5;
@@ -206,4 +209,94 @@
     text-align: left;
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+
+.small-dot{
+    background: #92989D;
+    height: 4px;
+    width: 4px;
+    border-radius: 50%;
+    flex-grow: 0;
+    margin: 10px 7px 0px 7px;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    align-content: flex-end;
+}
+
+
+.custom-form-control-rounded{
+    position: relative;
+    margin-top: 12.5px;
+    margin-bottom: 12.5px;
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    box-sizing: border-box;
+    box-shadow: 0px 5px 15px rgb(37 49 60 / 5%);
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+    -webkit-appearance: none;
+    height: 68px;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 35px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    align-items: center;
+    flex-direction: row;
+}
+/* test on focus */
+.custom-form-control-rounded:focus {
+    outline: none !important;
+    border: 1px solid #18AEE3;
+}
+
+
+#addDecisionButton{
+    cursor: pointer;
+    color:#92989D;
+}
+
+.custom-form-control-textarea{
+    padding:10px;
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    box-sizing: border-box;
+    box-shadow: 0px 5px 15px rgba(37, 49, 60, 0.05);
+    border-radius: 5px;
+    width:100%;
+}
+
+
+.selected-decision-remove{
+    position: absolute;
+    right: -11px;
+    z-index: 1;
+    top: 50%;
+    height: 30px;
+    border-radius: 35px;
+    text-align: center;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    transform: translateY(-50%);
+    background-color:#F9F9F9;
+    border: 0.5px solid #E4E4E4;
+    color:#E4E4E4;
+    flex-direction: column;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.selected-decision-remove:hover{
+    background-color: #FF5454;
+    border: 0.5px solid #FF5454;
+    color: white;
 }

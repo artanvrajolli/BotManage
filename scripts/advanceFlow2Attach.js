@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         mutations.forEach(function(mutation) {
             
             if(mutation.target.innerHTML.includes(':')){
-                var spliter = mutation.target.innerHTML.split(':',2)
+                var spliter = mutation.target.innerText.split(':',2)
                 mutation.target.innerHTML = `<span class="form-text">${spliter[0]}:</span> ${spliter[1]}`
             }
 
@@ -30,6 +30,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     // pass in the target node, as well as the observer options
     observer.observe(document.querySelector('#titleInfo'), config);
+
+    // ///////////
+    var observer2 = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if(mutation.target.querySelectorAll('input').length <= 0){
+                mutation.target.insertAdjacentHTML('beforeend',`
+                <input type="text" value="" name="doNotAllowEmptyInput" hidden />
+                `);
+            }else{
+                try{
+                    mutation.target.querySelector(`[name="doNotAllowEmptyInput"]`).remove();
+                }catch(err){}
+            }
+        });   
+        observer2.disconnect();
+        observer2.observe(document.querySelector('#boxDecisionHolder'), { attributes: true, childList: true, characterData: true }); 
+       
+    });
+    observer2.observe(document.querySelector('#boxDecisionHolder'), { attributes: true, childList: true, characterData: true });
+    ////////////
 
 
 
@@ -169,5 +189,8 @@ $(".preview-holder-content")[0].classList.remove('col-12');
         });
         document.querySelector('[role="application"]').style.height = '70%';
     },500);
+
+
+
 
 });
