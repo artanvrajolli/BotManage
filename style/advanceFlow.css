@@ -95,7 +95,7 @@
     padding-left: 0.5rem;
     display:flex;
     align-items: center;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
 }
 
 .set-path-holder-container{
@@ -163,6 +163,10 @@
 }
 
 
+pre{
+    font-family: inherit;
+}
+
 
 .preview-holder-content{
     background-color: #F5F7F9;
@@ -203,7 +207,7 @@
 .box-select-content-img{
     display:flex;
     align-items:center;
-    margin-left:1rem;
+    
 }
 .simple-text-aligned{
     text-align: left;

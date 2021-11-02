@@ -448,7 +448,7 @@
                         <div class="row gy-1 gx-2 fixedBox">
                             <div>
                                 <form render="multiDecision" id="actionDChoice" next="actionActionDecision_1" nextTitle="Action: Decision Answers (1)" nextDescription="Choose an action you want to take now based on decision answer">
-                                    <textarea class="custom-form-control-textarea" ></textarea>
+                                    <textarea name="messageToVisitor" class="custom-form-control-textarea" ></textarea>
                                     <div class="container" id="boxDecisionHolder">
                                         <!-- this is require to not allow empty input -->
                                         <input type="text" value="" name="doNotAllowEmptyInput" hidden />
@@ -465,12 +465,12 @@
 
                     <!-- Action in action Decision answer 1-->
                     <div id="actionActionDecision_1" class="row" style="display:none;">
-                        <form id="AAD_1">
+                        <form render="self_1_1" id="AAD_1" hidden>
                             <input type="text" name="actionDecision_1" />
                         </form>
                         <div class="row gy-1 gx-2 fixedBox">
                             <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendChatMessageDecision',{nextStage:'trigger_test442',nextTitle:'Something on title placeholder',nextDescription:'description placeholder'})" class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendChatMessageDecision',{nextStage:'actionActionDecision_1_sendChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
                                     </span>
@@ -480,7 +480,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
-                                <div class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendAnEmailDecision',{nextStage:'actionActionDecision_1_sendAnEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
                                     </span>
@@ -489,8 +489,9 @@
                                     </span>
                                 </div>
                             </div>
+                            <!-- actionActionDecision_1_chatBotEnded -->
                             <div class="col-lg-6 col-12">
-                                <div class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','chatBotEnded',{nextStage:'actionActionDecision_1_chatBotEnded',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
                                     </span>
@@ -500,6 +501,226 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+
+                    <!-- Action in action Decision: Send a chat message -->
+                    <div id="actionActionDecision_1_sendChatMessage" class="row" style="display:none;">
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <form class="couldBeFinal" render="chat_1_2" id="AAD1ChatM" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer ">
+                                <textarea class="customTextArea" name="ITTS_1"></textarea>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Action in action Decision: Action: Send an email -->
+                    <div id="actionActionDecision_1_sendAnEmail" class="row" style="display:none;">
+                    <form class="couldBeFinal" render="AADSanEMAIL_1" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer " hidden>
+                        <input type="text" name="subjectEmailDecision_1" value="">
+                        <textarea type="text" name="messageEmailDecision_1" value=""></textarea>
+                    </form>
+                    <div class="row gy-1 gx-2 fixedBox">
+                        <div class="mb-3">
+                            <label class="form-text">Subject:</label>
+                            <input onkeyup="document.querySelector(`[name='subjectEmailDecision_1']`).value = this.value"
+                                onchange="document.querySelector(`[name='subjectEmailDecision_1']`).value = this.value"
+                                class="form-control" type="text" name="subjectEmailDecision_1" placeholder="Enter Subject">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-text">Message:</label>
+                            <textarea id="messageEmailDecision_1" name="messageEmailDecision_1"></textarea>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Action in action Decision: Action: Chat with bot ended -->
+                    <div id="actionActionDecision_1_chatBotEnded" class="row" style="display:none;">
+                        <form class="couldBeFinal" render="AADChatBotEnded_1" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer " >
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="container form-check form-switch">
+                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                    <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                                </div>
+                                <div>
+                                    <label class="form-text my-4">Transfer to operator message:</label>
+                                    <textarea name="transferOperatorMessage" class="customTextArea"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- Action in action Decision answer 2-->
+                    <div id="actionActionDecision_2" class="row" style="display:none;">
+                        <form render="self_2_1" id="AAD_2" hidden>
+                            <input type="text" name="actionDecision_2" />
+                        </form>
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <div class="col-lg-6 col-12">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','sendChatMessageDecision',{nextStage:'actionActionDecision_2_sendChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})" class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Send a chat message
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','sendAnEmailDecision',{nextStage:'actionActionDecision_2_sendAnEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})" class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Send an email
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- actionActionDecision_2_chatBotEnded -->
+                            <div class="col-lg-6 col-12">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','chatBotEnded',{nextStage:'actionActionDecision_2_chatBotEnded',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Chat with bot ended
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Action in action Decision: Send a chat message -->
+                    <div id="actionActionDecision_2_sendChatMessage" class="row" style="display:none;">
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <form class="couldBeFinal" render="chat_2_2" id="AAD1ChatM" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer ">
+                                <textarea class="customTextArea" name="ITTS_2"></textarea>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Action in action Decision: Action: Send an email -->
+                    <div id="actionActionDecision_2_sendAnEmail" class="row" style="display:none;">
+                    <form class="couldBeFinal" render="AADSanEMAIL_2" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer " hidden>
+                        <input type="text" name="subjectEmailDecision_2" value="">
+                        <textarea type="text" name="messageEmailDecision_2" value=""></textarea>
+                    </form>
+                    <div class="row gy-1 gx-2 fixedBox">
+                        <div class="mb-3">
+                            <label class="form-text">Subject:</label>
+                            <input onkeyup="document.querySelector(`[name='subjectEmailDecision_2']`).value = this.value"
+                                onchange="document.querySelector(`[name='subjectEmailDecision_2']`).value = this.value"
+                                class="form-control" type="text" name="subjectEmailDecision_2" placeholder="Enter Subject">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-text">Message:</label>
+                            <textarea id="messageEmailDecision_2" name="messageEmailDecision_2"></textarea>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Action in action Decision: Action: Chat with bot ended -->
+                    <div id="actionActionDecision_2_chatBotEnded" class="row" style="display:none;">
+                        <form class="couldBeFinal" render="AADChatBotEnded_2" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer " >
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="container form-check form-switch">
+                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                    <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                                </div>
+                                <div>
+                                    <label class="form-text my-4">Transfer to operator message:</label>
+                                    <textarea name="transferOperatorMessage" class="customTextArea"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- Action in action Decision answer 2-->
+                    <div id="actionActionDecision_3" class="row" style="display:none;">
+                        <form render="self_3_1" id="AAD_3" hidden>
+                            <input type="text" name="actionDecision_3" />
+                        </form>
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <div class="col-lg-6 col-12">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','sendChatMessageDecision',{nextStage:'actionActionDecision_3_sendChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})" class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Send a chat message
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','sendAnEmailDecision',{nextStage:'actionActionDecision_3_sendAnEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})" class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Send an email
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- actionActionDecision_2_chatBotEnded -->
+                            <div class="col-lg-6 col-12">
+                                <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','chatBotEnded',{nextStage:'actionActionDecision_3_chatBotEnded',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
+                                    <span class="box-select-content-img">
+                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                    </span>
+                                    <span class="box-select-content-text">
+                                        Chat with bot ended
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Action in action Decision: Send a chat message -->
+                    <div id="actionActionDecision_3_sendChatMessage" class="row" style="display:none;">
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <form render="chat_3_2" final>
+                                <textarea class="customTextArea" name="ITTS_3"></textarea>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Action in action Decision: Action: Send an email -->
+                    <div id="actionActionDecision_3_sendAnEmail" class="row" style="display:none;">
+                    <form render="AADSanEMAIL_3" final hidden>
+                        <input type="text" name="subjectEmailDecision_3" value="">
+                        <textarea type="text" name="messageEmailDecision_3" value=""></textarea>
+                    </form>
+                    <div class="row gy-1 gx-2 fixedBox">
+                        <div class="mb-3">
+                            <label class="form-text">Subject:</label>
+                            <input onkeyup="document.querySelector(`[name='subjectEmailDecision_3']`).value = this.value"
+                                onchange="document.querySelector(`[name='subjectEmailDecision_3']`).value = this.value"
+                                class="form-control" type="text" name="subjectEmailDecision_3" placeholder="Enter Subject">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-text">Message:</label>
+                            <textarea id="messageEmailDecision_3" name="messageEmailDecision_3"></textarea>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Action in action Decision: Action: Chat with bot ended -->
+                    <div id="actionActionDecision_3_chatBotEnded" class="row" style="display:none;">
+                        <form render="AADChatBotEnded_3" final>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="container form-check form-switch">
+                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                    <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                                </div>
+                                <div>
+                                    <label class="form-text my-4">Transfer to operator message:</label>
+                                    <textarea name="transferOperatorMessage" class="customTextArea"></textarea>
+                                </div>
+                            </div>
+                        </form>
                     </div>
 
 
@@ -530,8 +751,13 @@
                                 <textarea id="messageEmail" name="messageEmail"></textarea>
                             </div>
                         </div>
-
                     </div>
+
+
+
+
+
+
 
                     <!-- Buttons:BACK and NEXT -->
                     <div class="row set-content-footer-buttons">

@@ -106,10 +106,111 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         });
 
+        tinymce.init({
+            selector: '#messageEmailDecision_1',
+            height: 400, 
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code',
+            ],
+            lineheight_formats: "7pt 8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 36pt",
+            toolbar: 'undo redo | styleselect | fontsizeselect | ' +
+            'bold italic backcolor | lineheight | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            toolbar_location: 'bottom',
+            branding: false,
+            statusbar: false,
+            placeholder: 'Enter message',
+            mobile: {
+                theme: 'mobile'
+            },
+            setup:function(editor) {
+                editor.on('keyup', function(e) {
+                    document.querySelector('[name="messageEmailDecision_1"]').value = editor.getContent();
+                });
+                editor.on('change', function(e) {
+                    document.querySelector('[name="messageEmailDecision_1"]').value = editor.getContent();
+                });
+            }
+        });
+        tinymce.init({
+            selector: '#messageEmailDecision_2',
+            height: 400, 
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code',
+            ],
+            lineheight_formats: "7pt 8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 36pt",
+            toolbar: 'undo redo | styleselect | fontsizeselect | ' +
+            'bold italic backcolor | lineheight | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            toolbar_location: 'bottom',
+            branding: false,
+            statusbar: false,
+            placeholder: 'Enter message',
+            mobile: {
+                theme: 'mobile'
+            },
+            setup:function(editor) {
+                editor.on('keyup', function(e) {
+                    document.querySelector('[name="messageEmailDecision_2"]').value = editor.getContent();
+                });
+                editor.on('change', function(e) {
+                    document.querySelector('[name="messageEmailDecision_2"]').value = editor.getContent();
+                });
+            }
+        });
+        tinymce.init({
+            selector: '#messageEmailDecision_3',
+            height: 400, 
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code',
+            ],
+            lineheight_formats: "7pt 8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 36pt",
+            toolbar: 'undo redo | styleselect | fontsizeselect | ' +
+            'bold italic backcolor | lineheight | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            toolbar_location: 'bottom',
+            branding: false,
+            statusbar: false,
+            placeholder: 'Enter message',
+            mobile: {
+                theme: 'mobile'
+            },
+            setup:function(editor) {
+                editor.on('keyup', function(e) {
+                    document.querySelector('[name="messageEmailDecision_3"]').value = editor.getContent();
+                });
+                editor.on('change', function(e) {
+                    document.querySelector('[name="messageEmailDecision_3"]').value = editor.getContent();
+                });
+            }
+        });
+       
+       
+
+
         
       var xInterval1 = setInterval(()=>{
         try{
-            document.querySelector('.tox-notification__dismiss').click();
+            document.querySelector(".tox-button").click();
+            // 3 for decision
+            document.querySelector(".tox-button").click();
+            document.querySelector(".tox-button").click();
+            document.querySelector(".tox-button").click();
             clearInterval(xInterval1);
         }catch(error){}
       },1);
@@ -180,15 +281,7 @@ $(".preview-holder-content")[0].classList.remove('col-12');
         searchPosition: "bottom",
         pickerPosition: "bottom"
     });
-    setTimeout(()=>{
-        document.querySelector('.emojionearea-button').style.top = '92.5%';
-        document.querySelector('.emojionearea-button').style.bottom = '10px';
-        document.querySelectorAll('.emojionearea-editor').forEach(element => {
-            element.classList.add('fixedMaxHeight');
-           element.style.setProperty('min-height', '100%', 'important');
-        });
-        document.querySelector('[role="application"]').style.height = '70%';
-    },500);
+
 
 
 

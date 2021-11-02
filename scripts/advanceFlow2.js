@@ -259,21 +259,69 @@ function previewPath(isFinal = false) {
             platformHolder[i]["current"]["titleInfo"].split('(', 2)[1].includes(')')) {
             platformHolder[i]["current"]["titleInfo"] = platformHolder[i]["current"]["titleInfo"].split('(')[0];
         }
-        // render themself for preview
-        if (platformHolder[i]["current"]["render"] == 'self') {
-            normalBoxRender(i);
-        } else if (platformHolder[i]["current"]["render"] == 'cat-space') {
-            catSpaceRender(i);
-        } else if (platformHolder[i]["current"]["render"] == 'SM-ITA') {
-            subjectWithTextArea(i);
-        } else if (platformHolder[i]["current"]["render"] == 'one-textarea') {
-            oneTextArea(i);
-        } else if (platformHolder[i]["current"]["render"] == 'dayOfWeek-r1'){
-            dayOfWeekRender(i);
-        } else if (platformHolder[i]["current"]["render"] == 'multiDecision'){
-            multiDecisionRender(i);
-        }
+        // Render cases
+        switch(platformHolder[i]["current"]["render"]){
+            case 'self':
+                normalBoxRender(i);
+            break;
+            case 'cat-space':
+                catSpaceRender(i);
+            break;
+            case 'SM-ITA':
+                subjectWithTextArea(i);
+            break;
+            case 'one-textarea':
+                oneTextArea(i);
+            break;
+            case 'dayOfWeek-r1':
+                dayOfWeekRender(i);
+            break;
+            case 'multiDecision':
+                multiDecisionRender(i);
+            break;
 
+            // decision 1
+            case 'self_1_1':
+                childNormalBoxRender(i,1);
+            break;
+            case 'chat_1_2':
+                decisionOneTextArea(i,1);
+            break;
+            case 'AADSanEMAIL_1':
+                subjectWithTextAreaDecision(i,1)
+            break;
+            case 'AADChatBotEnded_1':
+                textAreaDecision(i,1);
+            break;
+
+            // decision 2
+            case 'self_2_1':
+                childNormalBoxRender(i,2);
+            break;
+            case 'chat_2_2':
+                decisionOneTextArea(i,2);
+            break;
+            case 'AADSanEMAIL_2':
+                subjectWithTextAreaDecision(i,2)
+            break;
+            case 'AADChatBotEnded_2':
+                textAreaDecision(i,2);
+            break;
+
+            // decision 3
+            case 'self_3_1':
+                childNormalBoxRender(i,3);
+            break;
+            case 'chat_3_2':
+                decisionOneTextArea(i,3);
+            break;
+            case 'AADSanEMAIL_3':
+                subjectWithTextAreaDecision(i,3)
+            break;
+            case 'AADChatBotEnded_3':
+                textAreaDecision(i,3);
+            break;
+        }
 
 
         platformHolder[i]["current"]["titleInfo"] = tmpHolder; // return to the orginal value
@@ -317,31 +365,21 @@ function multiDecisionRender(i){
         <div id="ACDS-Holder" class="parentMultiDecision container row justify-content-around">
             
         </div>
-    </div>
-    `);
+    </div>`);
     var ACDSHolder = document.getElementById('ACDS-Holder');
     for(var j=1;j<inputsList.length;j++){
         ACDSHolder.insertAdjacentHTML('beforeend',`
-        <div class="childMultiDecision_${i} canSelect-limited row col-3 line-to-bottom justify-content-center">
+        <div class="childMultiDecision_${j} canSelect-limited row col-4 line-to-bottom justify-content-center">
             <div class="row d-flex w-100 justify-content-center line-to-bottom">
                 <div class="w-100  canSelect d-flex align-items-center justify-content-center">
                     ${inputsList[j].value}
                 </div>
             </div>
-            <!-- to be used later 
-            <div class="row d-flex w-100 justify-content-center line-to-bottom">
-                <h5 class="preview-main-title col-12">Decision message</h5>
-                <div class="w-75 canSelect d-flex align-items-center justify-content-center">
-                    SomeDAta
-                </div>
-            </div>
-            -->
         </div>`);
-        TMPDecisionData[j] = [];
-        TMPDecisionData[j]["value"] = inputsList[j].value;
-        
+        TMPDecisionData[j] = []; // declare array
+        TMPDecisionData[j]["value"] = inputsList[j].value; // declare array with value
     }
-          
+    TMPDecisionData["numberOfDecision"] = j-1;    
 }
 
 
@@ -352,11 +390,7 @@ function oneTextArea(i) {
     inputsList.forEach((item) => {
         inputsListValues.push(item.value);
     });
-    if (currentLevel - 1 != i)
-        var extraBorder = 'border:2px solid #60cef500;';
-    else
-        var extraBorder = 'border:2px solid rgb(96, 206, 245);';
-
+    var extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
@@ -371,6 +405,22 @@ function oneTextArea(i) {
     `);
 }
 
+function decisionOneTextArea(i,childNr){
+    var colChild = document.querySelector('.childMultiDecision_'+childNr);
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    var inputsListValues = [];
+    inputsList.forEach((item) => {
+        inputsListValues.push(item.value);
+    });
+    colChild.insertAdjacentHTML('beforeend',`
+    <div class="row d-flex w-100 justify-content-center pb-5">
+        <h5 class="preview-main-title col-12">Message</h5>
+        <div class="d-flex canSelect align-items-center p-3 mb-5">
+            <pre>${inputsList[0].value}</pre>
+        </div>
+    </div>`);
+}
+
 
 function subjectWithTextArea(i) {
     // render input 0 as Subject and input 1 as TextArea
@@ -379,11 +429,7 @@ function subjectWithTextArea(i) {
     inputsList.forEach((item) => {
         inputsListValues.push(item.value);
     });
-    if (currentLevel - 1 != i)
-        var extraBorder = 'border:2px solid #60cef500;';
-    else
-        var extraBorder = 'border:2px solid rgb(96, 206, 245);';
-
+    var extraBorder = (currentLevel - 1 != i) ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
@@ -400,6 +446,53 @@ function subjectWithTextArea(i) {
     </div>
     `);
 }
+
+function subjectWithTextAreaDecision(i,childNr) {
+    var colChild = document.querySelector('.childMultiDecision_'+childNr);
+
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    
+    var inputsListValues = [];
+    inputsList.forEach((item) => {
+        inputsListValues.push(item.value);
+    });
+
+    colChild.insertAdjacentHTML('beforeend',`
+    <div class="row d-flex w-100 justify-content-center pb-5">
+        <h5 class="preview-main-title col-12">Send an email</h5>
+        <div class="row">
+                <div class="canSelect text-start ">
+                <div class="form-text">Subject:</div>
+                <div class="mb-2" style="font-weight: 600;">${inputsListValues[0]}</div>
+                <div class="form-text">Message:</div>
+                <div class="text-wrap">${inputsListValues[1]}</div>
+            </div>
+        </div>
+    </div>`);
+}
+
+function textAreaDecision(i,childNr) {
+    var colChild = document.querySelector('.childMultiDecision_'+childNr);
+
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    
+    var inputsListValues = [];
+    inputsList.forEach((item) => {
+        inputsListValues.push(item.value);
+    });
+
+    colChild.insertAdjacentHTML('beforeend',`
+    <div class="row d-flex w-100 justify-content-center pb-5">
+        <h5 class="preview-main-title col-12">Chat with bot ended</h5>
+        <div class="row">
+                <div class="canSelect text-start">
+                <div class="form-text">Message:</div>
+                <div class="text-wrap">${inputsListValues[1]}</div>
+            </div>
+        </div>
+    </div>`);
+}
+
 
 
 function normalBoxRender(i) {
@@ -424,6 +517,22 @@ function normalBoxRender(i) {
     `);
     document.getElementById(randomIDGEN).insertAdjacentElement('beforeend', newCloneNode);
 }
+
+function childNormalBoxRender(i,childNr){
+    var randomIDGEN = 'previewD_' + Math.floor(Math.random() * 999999999);
+    var colChild = document.querySelector('.childMultiDecision_'+childNr);
+    var newCloneNode = platformHolder[i]["current"]["elementSelected"].cloneNode(true);
+    newCloneNode.removeAttribute('onclick');
+    newCloneNode.style.borderColor = '#60CEF500';
+    colChild.insertAdjacentHTML('beforeend',`
+    <div class="row d-flex w-100 justify-content-center line-to-bottom">
+        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+        <div id="${randomIDGEN}"></div>
+    </div>`);
+    document.getElementById(randomIDGEN).insertAdjacentElement('beforeend', newCloneNode);
+}
+
+
 
 function catSpaceRender(i) {
     // render as concatenated text [form value="t1"] and [form value="t2"] --> t1 t2
@@ -506,7 +615,7 @@ function checkBoxSetValue(parentElement,inputName,valueInput,localFormElement){
     //push if not in list
     if(!parsedValue.includes(valueInput) && onclickElementInput.checked){
         parsedValue.push(valueInput);
-        // order the week
+        // order the dayOfWekk
         var tmpParsedValue = [];
         for(var i=0;i<orderDayOfWeek.length;i++){
             if(parsedValue.includes(orderDayOfWeek[i])){

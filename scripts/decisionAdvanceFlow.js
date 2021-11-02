@@ -6,6 +6,7 @@ function removeDecision(inputID){
     if(document.getElementById('boxDecisionHolder').querySelectorAll('input').length < 3){
         document.getElementById('addDecisionButton').style.display = '';
     }
+    updateFinalFromDecision();
 }
 window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('addDecisionButton').addEventListener('click',(e)=>{
@@ -20,9 +21,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
             </div>
         `);
         
+        updateFinalFromDecision();
+
         if(boxDecisionHolder.querySelectorAll('input').length >=3){
             document.getElementById('addDecisionButton').style.display = 'none';
         }
     });
 });
 
+
+function updateFinalFromDecision(){
+    var jCol = document.querySelectorAll('[onclick*="removeDecision"]').length;
+    var totalColudBeFinal = document.querySelectorAll('.couldBeFinal'); // min 3 max 6
+
+    for(var i=0;i<totalColudBeFinal.length;i++){
+        totalColudBeFinal[i].removeAttribute('final');
+    }
+    for(var i=jCol*2;i<totalColudBeFinal.length;i++){
+        totalColudBeFinal[i].setAttribute('final','');
+    }
+
+}
