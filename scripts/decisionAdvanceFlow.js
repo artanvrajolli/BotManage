@@ -20,9 +20,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 <input id="${randomIdGen}" name="decisionInputs" class="custom-form-control-rounded" placeholder="Type decision" type="text" />
             </div>
         `);
-        
         updateFinalFromDecision();
-
         if(boxDecisionHolder.querySelectorAll('input').length >=3){
             document.getElementById('addDecisionButton').style.display = 'none';
         }
@@ -37,8 +35,11 @@ function updateFinalFromDecision(){
     for(var i=0;i<totalColudBeFinal.length;i++){
         totalColudBeFinal[i].removeAttribute('final');
     }
-    for(var i=jCol*2;i<totalColudBeFinal.length;i++){
-        totalColudBeFinal[i].setAttribute('final','');
+    if(jCol > 0){
+        for(var i=(jCol-1)*3;i<totalColudBeFinal.length;i++){
+            totalColudBeFinal[i].setAttribute('final','');
+        }
     }
+    
 
 }

@@ -28,6 +28,15 @@
 </head>
 
 <body>
+
+    <!-- startline spinner -->
+    <div class="blur-back-drop">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+    </div>
+    <!-- endline spinner -->
+
     <div class="container-fluid">
         <div class="row referenc-point">
             <span class="bar-collapse absolute-point">
@@ -243,13 +252,13 @@
 
                     <!-- Condition -->
                     <div id="conditionChoice" class="row" style="display:none;">
-                        <form render="self" id="CC412" hidden>
-                            <input type="text" name="conditionInput" value="">
+                        <form defaultrender="None" render="" id="CC412" defaultnext="actionTrigger" defaultnexttitle="Action" defaultnextdescription="What condition is needed in order to make next execute" hidden>
+                            <input type="text" name="conditionInput" defaultvalue="None" value="None">
                         </form>
                         <div class="row gy-1 gx-2 fixedBox">
                             <!-- for Condition: Browser -->
                             <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','Browser',{nextStage:'conditionBrowser',nextTitle:'Condition: Browser',nextDescription:'When the browser:'})"
+                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','Browser',{nextStage:'conditionBrowser',nextTitle:'Condition: Browser',nextDescription:'When the browser:'},{render:'self'})"
                                     class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
@@ -261,7 +270,7 @@
                             </div>
                             <!-- for Condition: Day -->
                             <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','dayPicker',{nextStage:'conditionDay',nextTitle:'Condition:Day',nextDescription:'When the day:'})"
+                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','dayPicker',{nextStage:'conditionDay',nextTitle:'Condition:Day',nextDescription:'When the day:'},{render:'self'})"
                                     class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
@@ -273,7 +282,7 @@
                             </div>
                             <!-- for Condition: OS -->
                             <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','OperatingSystem',{nextStage:'coditionOperatingSystem',nextTitle:'Condition: Operating System',nextDescription:'When the Operating System'})"
+                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','OperatingSystem',{nextStage:'coditionOperatingSystem',nextTitle:'Condition: Operating System',nextDescription:'When the Operating System'},{render:'self'})"
                                     class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
@@ -283,18 +292,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <!-- for Condition: noCondition -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','None',{nextStage:'actionTrigger',nextTitle:'Action',nextDescription:'What condition is needed in order to make next execute'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        None
-                                    </span>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -418,7 +416,7 @@
                         
                             
                             <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','decision',{nextStage:'actionDecision',nextTitle:'Action: Decision',nextDescription:'Message that will be sent to visitor:',nextChanger:'AAD'})" class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','decision',{nextStage:'actionDecision',nextTitle:'Action: Decision',nextDescription:'Message that will be sent to visitor:'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
                                     </span>
@@ -429,7 +427,7 @@
                             </div>
 
                             <div class="col-lg-6 col-12">
-                                <div class="box-format canSelect">
+                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','chatBotEnded',{nextStage:'actionBotEndedTrigger',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
                                     <span class="box-select-content-img">
                                         <img class="iconBox" src="./imagesBot/operator.svg">
                                     </span>
@@ -442,6 +440,22 @@
 
                         </div>
                     </div>
+               
+                    <!-- Action: Chat with bot ended -->
+                    <div id="actionBotEndedTrigger" class="row" style="display:none;">
+                    <form render="ActionChatBotEnded" final>
+                        <div class="row gy-1 gx-2 fixedBox">
+                            <div class="container form-check form-switch">
+                                <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_3" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                            </div>
+                            <div>
+                                <label class="form-text my-4">Transfer to operator message:</label>
+                                <textarea name="transgerToOperatorMain" class="customTextArea"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
                     <!-- Action: Decision -->
                     <div id="actionDecision" class="row" style="display:none;">
@@ -450,7 +464,7 @@
                                 <form render="multiDecision" id="actionDChoice" next="actionActionDecision_1" nextTitle="Action: Decision Answers (1)" nextDescription="Choose an action you want to take now based on decision answer">
                                     <textarea name="messageToVisitor" class="custom-form-control-textarea" ></textarea>
                                     <div class="container" id="boxDecisionHolder">
-                                        <!-- this is require to not allow empty input -->
+                                        <!-- This is required in order to prevent empty input. -->
                                         <input type="text" value="" name="doNotAllowEmptyInput" hidden />
                                     </div>
                                 </form>
@@ -538,12 +552,12 @@
                         <form class="couldBeFinal" render="AADChatBotEnded_1" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer " >
                             <div class="row gy-1 gx-2 fixedBox">
                                 <div class="container form-check form-switch">
-                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_1" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
                                     <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
                                 </div>
                                 <div>
                                     <label class="form-text my-4">Transfer to operator message:</label>
-                                    <textarea name="transferOperatorMessage" class="customTextArea"></textarea>
+                                    <textarea name="transferOperatorMessage_1" class="customTextArea"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -625,12 +639,12 @@
                         <form class="couldBeFinal" render="AADChatBotEnded_2" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer " >
                             <div class="row gy-1 gx-2 fixedBox">
                                 <div class="container form-check form-switch">
-                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_2" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
                                     <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
                                 </div>
                                 <div>
                                     <label class="form-text my-4">Transfer to operator message:</label>
-                                    <textarea name="transferOperatorMessage" class="customTextArea"></textarea>
+                                    <textarea name="transferOperatorMessage_2" class="customTextArea"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -712,12 +726,12 @@
                         <form render="AADChatBotEnded_3" final>
                             <div class="row gy-1 gx-2 fixedBox">
                                 <div class="container form-check form-switch">
-                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
+                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_3" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
                                     <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
                                 </div>
                                 <div>
                                     <label class="form-text my-4">Transfer to operator message:</label>
-                                    <textarea name="transferOperatorMessage" class="customTextArea"></textarea>
+                                    <textarea name="transferOperatorMessage_3" class="customTextArea"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -752,12 +766,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
 
                     <!-- Buttons:BACK and NEXT -->
                     <div class="row set-content-footer-buttons">

@@ -7,19 +7,34 @@ var currentLevel = 0;
 var platformActiveNode = null;
 var nextButton = null;
 var backButton = null;
+var levelRender = 0;
 window.onload = () => {
     // on load save next and back button on variables and as starting platform triggerTochoose
     platformActiveNode = document.getElementById('triggerToChoose');
     nextButton = document.getElementById('nextButton');
     backButton = document.getElementById('backButton');
+    // remove blur onload
+    document.querySelector('.blur-back-drop').remove();
 }
-
 // endline global variable
+
+
+// startline backup remove
+setTimeout(()=>{
+    // force remove the blur back drop if onload fail to remove it
+    try{
+        document.querySelector('.blur-back-drop').remove();
+    }catch(err){}
+},7000);
+// endline backup remove
+
 
 // startline tmp variable
 var TMPPreviewsSelected = [];
 var TMPDefaultValue = [];
 var TMPDecisionData = [];
+var TMPFullRender = [];
+var TMPPreviewPath = [];
 // endline tmp variable
 
 /*
@@ -85,7 +100,7 @@ function isTheNextFinalForm() {
     return platformHolder[currentLevel]["next"]["formNode"].getAttributeNames().includes('final');
 }
 
-function selectBox(element_t, localForm, localInput, localValue, nextData) {
+function selectBox(element_t, localForm, localInput, localValue, nextData,currentData) {
     if(!localForm.getAttribute('id')){
         dde("LocalForm required to have id and has to be unique!");
         return;
@@ -99,7 +114,6 @@ function selectBox(element_t, localForm, localInput, localValue, nextData) {
     if (TMPPreviewsSelected[localFormID] != element_t) {
         element_t.style.border = '2px solid #60CEF5';
         TMPPreviewsSelected[localFormID] = element_t; // save element 
-      
         if (!document.querySelector(`[name="${localInput}"]`)) {
             localForm.insertAdjacentHTML('beforeend', `
             <input type="text" name="${localInput}" value="${localValue}">
@@ -107,19 +121,25 @@ function selectBox(element_t, localForm, localInput, localValue, nextData) {
         } else {
             document.querySelector(`[name="${localInput}"]`).value = localValue;
         }
+        if(currentData && currentData.render)
+        localForm.setAttribute('render',currentData.render);
+
+        localForm.setAttribute('next', nextData.nextStage);
+        localForm.setAttribute('nextTitle', nextData.nextTitle);
+        localForm.setAttribute('nextDescription', nextData.nextDescription);
     } else {
         document.querySelector(`[name="${localInput}"]`).value = "";
         TMPPreviewsSelected[localFormID].style.border = '2px solid #60CEF500';
         TMPPreviewsSelected[localFormID] = null;
-
-        localForm.setAttribute('next', "");
+        if(localForm.getAttribute('defaultrender')){
+            localForm.setAttribute('render',localForm.getAttribute('defaultrender'));
+        }
+        localForm.setAttribute('next', '');
         localForm.setAttribute('nextTitle', "");
         localForm.setAttribute('nextDescription', "");
     }
 
-    localForm.setAttribute('next', nextData.nextStage);
-    localForm.setAttribute('nextTitle', nextData.nextTitle);
-    localForm.setAttribute('nextDescription', nextData.nextDescription);
+
 }
 
 
@@ -142,15 +162,20 @@ function messageOutput(stringData) {
     }, 5000);
 }
 
-function GOnextStage() {
+function GOnextStage(showMSG = '') {
     backButton.style.visibility = '';
+    if(nextButton.innerHTML == 'Finish' && showMSG == 'NO-MSG'){
+        return null; // do not submit if system continue when you left off
+    }
     saveCurrentData(); // process to save current data
     if (!checkRequirment()) {
+        if(showMSG != 'NO-MSG')
         messageOutput("It is necessary to complete the requirement.");
         return null;
     }
 
     if (nextButton.innerHTML == 'Finish') {
+       
         previewPath(true);
         messageOutput("Success is done");
         return null;
@@ -164,7 +189,8 @@ function GOnextStage() {
     currentLevel++;
     previewPath();
     showOrHideBackArrowButton();
-
+    
+    return null;
 }
 
 
@@ -208,13 +234,29 @@ function GObackStage() {
     displayBackStage();
     updateBackStageTitleAndDescription();
     platformActiveNode = platformHolder[currentLevel]["current"]["platformNode"];
+    // in case the button is final replace with next
     nextButton.innerHTML = 'Next';
 }
+function GONextMultipleLevels(){
+    for(var i=0;i<TMPPreviewPath-1;i++){
+        GOnextStage('NO-MSG');
+    }
+    nextButton.setAttribute('onclick','GOnextStage()');
+}
+
+var TMPNEXTFUNCTIONBUTTON = [];
+//TMPPreviewPath
 function GOBackTo(level) {
+    TMPNEXTFUNCTIONBUTTON = nextButton.getAttribute('onclick');
+    TMPPreviewPath = currentLevel;
     var backFrom = currentLevel - parseInt(level)
     for (var i = 0; i < backFrom; i++) {
         GObackStage();
     }
+    for(var i = 0; i < -backFrom;i++){
+        GOnextStage();
+    }
+    nextButton.setAttribute('onclick','GONextMultipleLevels();');
 }
 ////////////////// endline GoBackStage
 
@@ -231,8 +273,19 @@ function checkRequirment() {
     if (allInputs.length == 0) {
         return false;
     }
+    if(!platformHolder[currentLevel]["current"]["formNode"].getAttribute('next')){
+        platformHolder[currentLevel]["current"]["formNode"].setAttribute('next',platformHolder[currentLevel]["current"]["formNode"].getAttribute('defaultnext'));
+    }
+    if(!platformHolder[currentLevel]["current"]["formNode"].getAttribute('nexttitle')){
+        platformHolder[currentLevel]["current"]["formNode"].setAttribute('nexttitle',platformHolder[currentLevel]["current"]["formNode"].getAttribute('defaultnexttitle'));
+    }
+    if(!platformHolder[currentLevel]["current"]["formNode"].getAttribute('nextdescription')){
+        platformHolder[currentLevel]["current"]["formNode"].setAttribute('nextdescription',platformHolder[currentLevel]["current"]["formNode"].getAttribute('defaultnextdescription'));
+    }
     for (var i = 0; i < allInputs.length; i++) {
-        
+        if((!allInputs[i].value || allInputs[i].value == "") && allInputs[i].getAttributeNames().includes('defaultvalue')){
+            allInputs[i].value = allInputs[i].getAttribute('defaultvalue');
+        }
         if (!allInputs[i].value || allInputs[i].value == "") {
             return false;
         }
@@ -245,10 +298,9 @@ function checkRequirment() {
 function previewPath(isFinal = false) {
     var previewHolder = document.getElementById('previewHolder');
     previewHolder.innerHTML = '';
-    var levelRender = currentLevel;
+    levelRender = currentLevel;
     if (isFinal) {
         levelRender++;
-        currentLevel++;
     }
 
     for (var i = 0; i < levelRender; i++) {
@@ -261,6 +313,7 @@ function previewPath(isFinal = false) {
         }
         // Render cases
         switch(platformHolder[i]["current"]["render"]){
+            ////////////
             case 'self':
                 normalBoxRender(i);
             break;
@@ -278,6 +331,9 @@ function previewPath(isFinal = false) {
             break;
             case 'multiDecision':
                 multiDecisionRender(i);
+            break;
+            case 'ActionChatBotEnded':
+                oneTextAreaOffset1(i);
             break;
 
             // decision 1
@@ -343,20 +399,18 @@ function previewPath(isFinal = false) {
         </div>`;
     }
     document.querySelector('.preview-holder-content').scrollTop = document.querySelector('.preview-holder-content').scrollHeight;
-    if (isFinal) {
-        currentLevel--;
-    }
+
 }
 // endline previewpath
 
 // startline types of rendering
 function multiDecisionRender(i){
     var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
-    var extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    var extraBorder = levelRender - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">Decision message</h5>
-        <div class="row justify-content-around line-to-bottom">
+        <div onclick="GOBackTo(${i})" class="row justify-content-around line-to-bottom">
             <div style="display: flex;flex-direction: column;flex-wrap: wrap;align-content: flex-start;justify-content: flex-end;min-width: 50%;max-width: 50%;" class="canSelect simple-text-aligned">
                 <pre>${inputsList[0].value}</pre>
             </div>
@@ -369,7 +423,7 @@ function multiDecisionRender(i){
     var ACDSHolder = document.getElementById('ACDS-Holder');
     for(var j=1;j<inputsList.length;j++){
         ACDSHolder.insertAdjacentHTML('beforeend',`
-        <div class="childMultiDecision_${j} canSelect-limited row col-4 line-to-bottom justify-content-center">
+        <div class="childMultiDecision_${j} canSelect-limited row col-4 justify-content-center">
             <div class="row d-flex w-100 justify-content-center line-to-bottom">
                 <div class="w-100  canSelect d-flex align-items-center justify-content-center">
                     ${inputsList[j].value}
@@ -390,14 +444,35 @@ function oneTextArea(i) {
     inputsList.forEach((item) => {
         inputsListValues.push(item.value);
     });
-    var extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    var extraBorder = levelRender - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+        <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div style="${extraBorder}" onclick="GOBackTo(${i})" class="col-lg-3 col-12 canSelect simple-text-aligned">
                 <div>
                 <pre>${inputsListValues[0]}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    `);
+}
+function oneTextAreaOffset1(i) {
+    // render input 0 as div for just one
+    var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
+    var inputsListValues = [];
+    inputsList.forEach((item) => {
+        inputsListValues.push(item.value);
+    });
+    var extraBorder = levelRender - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    previewHolder.insertAdjacentHTML('beforeend', `
+    <div>
+        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+        <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
+            <div style="${extraBorder}" onclick="GOBackTo(${i})" class="col-lg-3 col-12 canSelect simple-text-aligned">
+                <div>
+                <pre>${inputsListValues[1]}</pre>
                 </div>
             </div>
         </div>
@@ -413,7 +488,7 @@ function decisionOneTextArea(i,childNr){
         inputsListValues.push(item.value);
     });
     colChild.insertAdjacentHTML('beforeend',`
-    <div class="row d-flex w-100 justify-content-center pb-5">
+    <div onclick="GOBackTo(${i})" class="row d-flex w-100 justify-content-center pb-5">
         <h5 class="preview-main-title col-12">Message</h5>
         <div class="d-flex canSelect align-items-center p-3 mb-5">
             <pre>${inputsList[0].value}</pre>
@@ -429,11 +504,11 @@ function subjectWithTextArea(i) {
     inputsList.forEach((item) => {
         inputsListValues.push(item.value);
     });
-    var extraBorder = (currentLevel - 1 != i) ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    var extraBorder = (levelRender - 1 != i) ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+        <div onclick="GOBackTo(${i})" class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div style="${extraBorder} ;padding-right: 30px;
             padding-left: 30px;
             padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(${i})" class="col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
@@ -460,7 +535,7 @@ function subjectWithTextAreaDecision(i,childNr) {
     colChild.insertAdjacentHTML('beforeend',`
     <div class="row d-flex w-100 justify-content-center pb-5">
         <h5 class="preview-main-title col-12">Send an email</h5>
-        <div class="row">
+        <div onclick="GOBackTo(${i})" class="row">
                 <div class="canSelect text-start ">
                 <div class="form-text">Subject:</div>
                 <div class="mb-2" style="font-weight: 600;">${inputsListValues[0]}</div>
@@ -484,7 +559,7 @@ function textAreaDecision(i,childNr) {
     colChild.insertAdjacentHTML('beforeend',`
     <div class="row d-flex w-100 justify-content-center pb-5">
         <h5 class="preview-main-title col-12">Chat with bot ended</h5>
-        <div class="row">
+        <div onclick="GOBackTo(${i})" class="row">
                 <div class="canSelect text-start">
                 <div class="form-text">Message:</div>
                 <div class="text-wrap">${inputsListValues[1]}</div>
@@ -501,7 +576,7 @@ function normalBoxRender(i) {
     newCloneNode.removeAttribute('onclick');
     newCloneNode.setAttribute('level', i);
     newCloneNode.setAttribute('onclick', `GOBackTo(${i});`);
-    if (currentLevel - 1 != i)
+    if (levelRender - 1 != i)
         newCloneNode.style.border = '2px solid #60cef500';
     else
         newCloneNode.style.border = '2px solid rgb(96, 206, 245);';
@@ -509,7 +584,7 @@ function normalBoxRender(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+        <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div id="${randomIDGEN}" class=" col-lg-3 col-12">
             </div>
         </div>
@@ -525,7 +600,7 @@ function childNormalBoxRender(i,childNr){
     newCloneNode.removeAttribute('onclick');
     newCloneNode.style.borderColor = '#60CEF500';
     colChild.insertAdjacentHTML('beforeend',`
-    <div class="row d-flex w-100 justify-content-center line-to-bottom">
+    <div onclick="GOBackTo(${i})" class="row d-flex w-100 justify-content-center line-to-bottom">
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
         <div id="${randomIDGEN}"></div>
     </div>`);
@@ -541,11 +616,11 @@ function catSpaceRender(i) {
     inputsList.forEach((item) => {
         inputsListValues.push(item.value);
     });
-    extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    extraBorder = levelRender - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+        <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div class="col-lg-3 col-12">
                 <div class="box-format canSelect mb-0" style="${extraBorder}" level="${i}" onclick="GOBackTo(${i})">
                     <span class="box-select-content-text">${inputsListValues.join(' ')}</span>
@@ -559,11 +634,11 @@ function catSpaceRender(i) {
 function dayOfWeekRender(i){
     var inputsList = platformHolder[i]["current"]["formNode"].querySelector('input').value;
     var parsedValues = inputsList.split(',') ? inputsList.split(',') : [inputsList];
-    var extraBorder = currentLevel - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
+    var extraBorder = levelRender - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center ${currentLevel - 1 == i ? '' : 'line-to-bottom'}">
+        <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div>
                 <div class="d-flex justify-content-center">
                     <div class="box-format canSelect mb-0" style="${extraBorder} padding-right: 30px;
@@ -637,5 +712,3 @@ function checkBoxSetValue(parentElement,inputName,valueInput,localFormElement){
     
 }
 // endline checkBoxHandler
-
-

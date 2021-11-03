@@ -286,4 +286,8 @@ $(".preview-holder-content")[0].classList.remove('col-12');
 
 
 
+
+  
+
 });
+
