@@ -8,6 +8,9 @@ var platformActiveNode = null;
 var nextButton = null;
 var backButton = null;
 var levelRender = 0;
+
+
+
 window.onload = () => {
     // on load save next and back button on variables and as starting platform triggerTochoose
     platformActiveNode = document.getElementById('triggerToChoose');
@@ -35,6 +38,9 @@ var TMPDefaultValue = [];
 var TMPDecisionData = [];
 var TMPFullRender = [];
 var TMPPreviewPath = [];
+var TMPLevelRender = 0;
+var TMPGoBackArray = [];
+var TMPNoRender = false;
 // endline tmp variable
 
 /*
@@ -162,52 +168,58 @@ function messageOutput(stringData) {
     }, 5000);
 }
 
-function GOnextStage(showMSG = '') {
-    backButton.style.visibility = '';
-    if(nextButton.innerHTML == 'Finish' && showMSG == 'NO-MSG'){
-        return null; // do not submit if system continue when you left off
+
+function GOnextStage(showMSG = '',keepPath = false) {
+    //test input variables
+    
+    noRender = TMPNoRender;
+    if(TMPNoRender){
+        TMPNoRender = false;
     }
+
+    ////
+    backButton.style.visibility = '';
+    
     saveCurrentData(); // process to save current data
     if (!checkRequirment()) {
         if(showMSG != 'NO-MSG')
         messageOutput("It is necessary to complete the requirement.");
-        return null;
+        return "requirmentNotComplete";
     }
-
-    if (nextButton.innerHTML == 'Finish') {
-       
+    if(nextButton.innerHTML == 'Finish' && showMSG == 'NO-MSG'){
         previewPath(true);
-        messageOutput("Success is done");
-        return null;
+        return "aboutToFinish"; // do not submit if system continue when you left off
+    }
+    if (nextButton.innerHTML == 'Finish') {
+        previewPath(true);
+        // part of code to be submited on backend
+        messageOutput("Success is done"); // placeholder msg
+        getAllInputs(); // send request
+        ////////////
+        return "finished";
     }
     saveNextData(); // process to save next data for render later
     displayNextStage(); // hide current stage show next stage
     updateTitleAndDescription(); // update titleInfo && descriptionInfo
     if (isTheNextFinalForm()) nextButton.innerHTML = 'Finish';
     platformActiveNode = platformHolder[currentLevel]["next"]["platformNode"];
-    showOrHideBackArrowButton();
     currentLevel++;
-    previewPath();
+    if(!noRender) previewPath(false,keepPath);
     showOrHideBackArrowButton();
-    
     return null;
 }
-
-
 
 /////////////////// startline GoBackStage
 function displayBackStage() {
     platformHolder[currentLevel]["current"]["platformNode"].style.display = '';
     platformHolder[currentLevel]["next"]["platformNode"].style.display = 'None';
 }
-
 function updateBackStageTitleAndDescription() {
     var titleInfo = document.getElementById('titleInfo');
     var descriptionInfo = document.getElementById('descriptionInfo');
     titleInfo.innerHTML = platformHolder[currentLevel]["current"]["titleInfo"];
     descriptionInfo.innerHTML = platformHolder[currentLevel]["current"]["descriptionInfo"];
 }
-
 function showOrHideBackArrowButton() {
     if (currentLevel == 0) {
         document.querySelectorAll('.fa-chevron-left-icon').forEach((item) => {
@@ -230,33 +242,66 @@ function GObackStage() {
     }
     showOrHideBackArrowButton();
     currentLevel--;
-    previewPath();
+    previewPath(false,true);
     displayBackStage();
     updateBackStageTitleAndDescription();
     platformActiveNode = platformHolder[currentLevel]["current"]["platformNode"];
     // in case the button is final replace with next
     nextButton.innerHTML = 'Next';
 }
-function GONextMultipleLevels(){
-    for(var i=0;i<TMPPreviewPath-1;i++){
-        GOnextStage('NO-MSG');
+function GONextMultipleLevels(forced = false){
+    for(var i=0;i<99;i++){
+         // do not show msg and do not submit on finish
+        if(GOnextStage('NO-MSG') == 'aboutToFinish'){
+            break;
+        }
+        //TMPGoBackArray
     }
-    nextButton.setAttribute('onclick','GOnextStage()');
+    if(!forced) nextButton.setAttribute('onclick','GOnextStage()');
+    if(nextButton.innerHTML == 'Finish'){
+        nextButton.setAttribute('onclick','GOnextStage()');
+    }
 }
 
-var TMPNEXTFUNCTIONBUTTON = [];
 //TMPPreviewPath
-function GOBackTo(level) {
-    TMPNEXTFUNCTIONBUTTON = nextButton.getAttribute('onclick');
+function GOBackTo(element_t,level,forced = false) {
+    TMPGoBackArray.push(currentLevel);
     TMPPreviewPath = currentLevel;
-    var backFrom = currentLevel - parseInt(level)
+
+    // if is forced goBackTo do not reRender preview
+    if(forced){
+        TMPNoRender = true;
+    }
+
+    var backFrom = currentLevel - parseInt(level);
     for (var i = 0; i < backFrom; i++) {
         GObackStage();
     }
     for(var i = 0; i < -backFrom;i++){
-        GOnextStage();
+        GOnextStage('NO-MSG',true); // NO-MSG do not submit when system check for correct path and true to keepPath Rendered
     }
-    nextButton.setAttribute('onclick','GONextMultipleLevels();');
+    
+    var allColoredBorders = document.getElementById('previewHolder').querySelectorAll('[onclick^="GOBackTo"]');
+    for(var i=0;i<allColoredBorders.length;i++){
+        if(i != level){
+        allColoredBorders[i].style.border = '2px solid #60cef500';
+        }else{
+            document.querySelector('.set-content-variables').insertAdjacentHTML('beforeend',`
+            <div class="small-Loader">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+            `)
+            allColoredBorders[i].style.border = '2px solid #60cef500';
+            var j = allColoredBorders[i]
+            setTimeout(()=>{
+                j.style.border = '2px solid #60cef5';
+                document.querySelector('.small-Loader').remove();
+            },100);
+        }
+    }
+    nextButton.setAttribute('onclick','GONextMultipleLevels('+forced+');');
 }
 ////////////////// endline GoBackStage
 
@@ -269,7 +314,6 @@ function dropDownChoice(element_t, localForm, nameInput) {
 // startline Utils
 function checkRequirment() {
     var allInputs = platformHolder[currentLevel]["current"]["formNode"].querySelectorAll('input:not(.search)[type="text"],textarea,input[type="checkbox"]');
-
     if (allInputs.length == 0) {
         return false;
     }
@@ -295,22 +339,42 @@ function checkRequirment() {
 // endline Utils
 
 // startline peviewPath
-function previewPath(isFinal = false) {
+function previewPath(isFinal = false,isgoingBack = false) {
     var previewHolder = document.getElementById('previewHolder');
     previewHolder.innerHTML = '';
+    
     levelRender = currentLevel;
-    if (isFinal) {
+   
+    if (isFinal || isgoingBack) {
         levelRender++;
     }
-
+    if(!isgoingBack){
+        TMPLevelRender = levelRender;
+    }
+    if(isgoingBack){
+        levelRender = TMPLevelRender;
+    }
     for (var i = 0; i < levelRender; i++) {
+        if(!platformHolder[i] || !platformHolder[i]["current"] || !platformHolder[i]["current"]["titleInfo"]){
+            continue;
+        }
         var tmpHolder = platformHolder[i]["current"]["titleInfo"];
-        // parse Text from Action (Optional) --> Action 
+        // parse Text from "Action (Optional)" --> "Action"
         if (platformHolder[i]["current"]["titleInfo"].includes('(') &&
             platformHolder[i]["current"]["titleInfo"].includes(')') &&
             platformHolder[i]["current"]["titleInfo"].split('(', 2)[1].includes(')')) {
             platformHolder[i]["current"]["titleInfo"] = platformHolder[i]["current"]["titleInfo"].split('(')[0];
         }
+        if(platformHolder[i]["current"]["titleInfo"].includes(':')){
+
+            platformHolder[i]["current"]["titleInfo"] = platformHolder[i]["current"]["titleInfo"].replace(/<\/?[^>]+(>|$)/g, "");
+            if(platformHolder[i]["current"]["titleInfo"].includes(':')){
+                var spliter = platformHolder[i]["current"]["titleInfo"].split(':');
+                platformHolder[i]["current"]["titleInfo"] = `<span class="form-text">${spliter[0]}</span>:${spliter[1]}`;
+            }
+        }
+
+
         // Render cases
         switch(platformHolder[i]["current"]["render"]){
             ////////////
@@ -377,6 +441,8 @@ function previewPath(isFinal = false) {
             case 'AADChatBotEnded_3':
                 textAreaDecision(i,3);
             break;
+            default:
+                hiddenRender(i);
         }
 
 
@@ -398,34 +464,37 @@ function previewPath(isFinal = false) {
             </div>
         </div>`;
     }
+    if(!isgoingBack)
     document.querySelector('.preview-holder-content').scrollTop = document.querySelector('.preview-holder-content').scrollHeight;
 
 }
 // endline previewpath
-
+function hiddenRender(i){
+    previewHolder.insertAdjacentHTML('beforeend',`
+    <div onclick="GOBackTo(this,${i})" style="display:none;">
+    </div>
+    `);
+}
 // startline types of rendering
 function multiDecisionRender(i){
     var inputsList = platformHolder[i]["current"]["formNode"].querySelectorAll('input:not(.search),textarea');
-    var extraBorder = levelRender - 1 != i ? 'border:2px solid #60cef500;' : 'border:2px solid rgb(96, 206, 245);';
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">Decision message</h5>
-        <div onclick="GOBackTo(${i})" class="row justify-content-around line-to-bottom">
-            <div style="display: flex;flex-direction: column;flex-wrap: wrap;align-content: flex-start;justify-content: flex-end;min-width: 50%;max-width: 50%;" class="canSelect simple-text-aligned">
+        <div class="row justify-content-around line-to-bottom">
+            <div onclick="GOBackTo(this,${i})" class="decision-text-area canSelect simple-text-aligned">
                 <pre>${inputsList[0].value}</pre>
             </div>
         </div>
         <h5 class="preview-main-title col-12">Decision answers</h5>
-        <div id="ACDS-Holder" class="parentMultiDecision container row justify-content-around">
-            
-        </div>
+        <div id="ACDS-Holder" class="parentMultiDecision d-flex justify-content-around"></div>
     </div>`);
     var ACDSHolder = document.getElementById('ACDS-Holder');
     for(var j=1;j<inputsList.length;j++){
         ACDSHolder.insertAdjacentHTML('beforeend',`
         <div class="childMultiDecision_${j} canSelect-limited row col-4 justify-content-center">
             <div class="row d-flex w-100 justify-content-center line-to-bottom">
-                <div class="w-100  canSelect d-flex align-items-center justify-content-center">
+                <div onclick=";GOBackTo(this,${i})"  class="w-100  canSelect d-flex align-items-center justify-content-center">
                     ${inputsList[j].value}
                 </div>
             </div>
@@ -448,8 +517,8 @@ function oneTextArea(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
-            <div style="${extraBorder}" onclick="GOBackTo(${i})" class="col-lg-3 col-12 canSelect simple-text-aligned">
+        <div  class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
+            <div onclick="GOBackTo(this,${i})" style="${extraBorder}"  class="col-lg-3 col-12 canSelect simple-text-aligned">
                 <div>
                 <pre>${inputsListValues[0]}</pre>
                 </div>
@@ -470,7 +539,7 @@ function oneTextAreaOffset1(i) {
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
         <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
-            <div style="${extraBorder}" onclick="GOBackTo(${i})" class="col-lg-3 col-12 canSelect simple-text-aligned">
+            <div style="${extraBorder}" onclick="GOBackTo(this,${i})" class="col-lg-3 col-12 canSelect simple-text-aligned">
                 <div>
                 <pre>${inputsListValues[1]}</pre>
                 </div>
@@ -488,9 +557,9 @@ function decisionOneTextArea(i,childNr){
         inputsListValues.push(item.value);
     });
     colChild.insertAdjacentHTML('beforeend',`
-    <div onclick="GOBackTo(${i})" class="row d-flex w-100 justify-content-center pb-5">
+    <div  class="row d-flex w-100 justify-content-center pb-5">
         <h5 class="preview-main-title col-12">Message</h5>
-        <div class="d-flex canSelect align-items-center p-3 mb-5">
+        <div onclick="GOBackTo(this,${i},true)" class="d-flex canSelect align-items-center p-3 mb-5">
             <pre>${inputsList[0].value}</pre>
         </div>
     </div>`);
@@ -508,10 +577,10 @@ function subjectWithTextArea(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div onclick="GOBackTo(${i})" class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
+        <div onclick="GOBackTo(this,${i})" class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div style="${extraBorder} ;padding-right: 30px;
             padding-left: 30px;
-            padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(${i})" class="col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
+            padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(this,${i})" class="col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
                 <div class="form-text">Subject:</div>
                 <div class="mb-2" style="font-weight: 600;">${inputsListValues[0]}</div>
                 <div class="form-text">Message:</div>
@@ -535,8 +604,8 @@ function subjectWithTextAreaDecision(i,childNr) {
     colChild.insertAdjacentHTML('beforeend',`
     <div class="row d-flex w-100 justify-content-center pb-5">
         <h5 class="preview-main-title col-12">Send an email</h5>
-        <div onclick="GOBackTo(${i})" class="row">
-                <div class="canSelect text-start ">
+        <div class="row">
+                <div onclick="GOBackTo(this,${i},true)"  class="canSelect text-start ">
                 <div class="form-text">Subject:</div>
                 <div class="mb-2" style="font-weight: 600;">${inputsListValues[0]}</div>
                 <div class="form-text">Message:</div>
@@ -559,8 +628,8 @@ function textAreaDecision(i,childNr) {
     colChild.insertAdjacentHTML('beforeend',`
     <div class="row d-flex w-100 justify-content-center pb-5">
         <h5 class="preview-main-title col-12">Chat with bot ended</h5>
-        <div onclick="GOBackTo(${i})" class="row">
-                <div class="canSelect text-start">
+        <div class="row">
+            <div onclick="GOBackTo(this,${i},true)" class="canSelect text-start">
                 <div class="form-text">Message:</div>
                 <div class="text-wrap">${inputsListValues[1]}</div>
             </div>
@@ -575,7 +644,7 @@ function normalBoxRender(i) {
     var newCloneNode = platformHolder[i]["current"]["elementSelected"].cloneNode(true);
     newCloneNode.removeAttribute('onclick');
     newCloneNode.setAttribute('level', i);
-    newCloneNode.setAttribute('onclick', `GOBackTo(${i});`);
+    newCloneNode.setAttribute('onclick', `GOBackTo(this,${i});`);
     if (levelRender - 1 != i)
         newCloneNode.style.border = '2px solid #60cef500';
     else
@@ -599,8 +668,9 @@ function childNormalBoxRender(i,childNr){
     var newCloneNode = platformHolder[i]["current"]["elementSelected"].cloneNode(true);
     newCloneNode.removeAttribute('onclick');
     newCloneNode.style.borderColor = '#60CEF500';
+    newCloneNode.setAttribute('onclick','GOBackTo(this,'+i+',true)');
     colChild.insertAdjacentHTML('beforeend',`
-    <div onclick="GOBackTo(${i})" class="row d-flex w-100 justify-content-center line-to-bottom">
+    <div  class="row d-flex w-100 justify-content-center line-to-bottom">
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
         <div id="${randomIDGEN}"></div>
     </div>`);
@@ -622,7 +692,7 @@ function catSpaceRender(i) {
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
         <div class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div class="col-lg-3 col-12">
-                <div class="box-format canSelect mb-0" style="${extraBorder}" level="${i}" onclick="GOBackTo(${i})">
+                <div class="box-format canSelect mb-0" style="${extraBorder}" level="${i}" onclick="GOBackTo(this,${i})">
                     <span class="box-select-content-text">${inputsListValues.join(' ')}</span>
                 </div>
             </div>
@@ -642,7 +712,7 @@ function dayOfWeekRender(i){
             <div>
                 <div class="d-flex justify-content-center">
                     <div class="box-format canSelect mb-0" style="${extraBorder} padding-right: 30px;
-                    padding-left: 30px;" level="${i}" onclick="GOBackTo(${i})">
+                    padding-left: 30px;" level="${i}" onclick="GOBackTo(this,${i})">
                         <span class="box-select-content-text">${parsedValues.join('<span class="small-dot"></span>')}</span>
                     </div>
                 </div>
@@ -701,7 +771,7 @@ function checkBoxSetValue(parentElement,inputName,valueInput,localFormElement){
 
         inputElement.value = parsedValue.join(',');
     }
-    // on unched remove from list
+    // on unchecked remove from list
     if(!onclickElementInput.checked){
         const index = parsedValue.indexOf(valueInput);
         if (index > -1) {

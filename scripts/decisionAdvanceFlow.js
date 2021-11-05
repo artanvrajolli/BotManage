@@ -8,10 +8,16 @@ function removeDecision(inputID){
     }
     updateFinalFromDecision();
 }
+
+
+
+
+
 window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('addDecisionButton').addEventListener('click',(e)=>{
         var boxDecisionHolder = document.getElementById('boxDecisionHolder');
-        var randomIdGen = 'decisionId_'+Math.floor(Math.random()*9999999999);
+        var numberOfChildren = document.querySelectorAll('[onclick*="removeDecision"]').length;
+        var randomIdGen = 'decisionChild_'+(numberOfChildren+1);
         boxDecisionHolder.insertAdjacentHTML('beforeend',`
             <div style="position:relative;">
                 <span onclick="removeDecision('${randomIdGen}')" class="selected-decision-remove">

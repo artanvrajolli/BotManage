@@ -32,16 +32,16 @@
     <!-- startline spinner -->
     <div class="blur-back-drop">
         <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+            <span class="sr-only"></span>
+        </div>
     </div>
     <!-- endline spinner -->
 
     <div class="container-fluid">
         <div class="row referenc-point">
-            <span class="bar-collapse absolute-point">
+            <!-- <span class="bar-collapse absolute-point">
                 <i class="fas fa-bars"></i>
-            </span>
+            </span> -->
             <div class="col-8 preview-holder-content">
                 <div id="previewHolder" class="row gx-2 gx-lg-4 justify-content-center">
                     <div>
@@ -70,720 +70,786 @@
                             Choose a trigger to continue
                         </p>
                     </div>
-
-                    <!-- Trigger -->
-                    <div id="triggerToChoose" class="row">
-                        <form render="self" id="tcNext" next="" hidden>
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','clickChat',{nextStage:'trigger_test442',nextTitle:'Something on title placeholder',nextDescription:'description placeholder'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">Visitor first visit on
-                                        site</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','clickChat',{nextStage:'trigger_test442',nextTitle:'Something on title placeholder',nextDescription:'description placeholder'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Visitor clicks on chat icon
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- Visitor opens a page -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','opensAPage',{nextStage:'opensAPage',nextTitle:'Trigger: Visitor opens a page',nextDescription:'What URL must the visitor hit in order for the chatbot to trigger?'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Visitor opens a page
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- Visitor returns to the site -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Visitor returns to the site
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- On certain days-->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'triggerOnSpecifiDay',nextTitle:'Trigger: On certain days',nextDescription:'Select days to trigger chatbot'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        On certain days
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- Operator unavailable-->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'trigger_test442',nextTitle:'Something on title placeholder',nextDescription:'description placeholder'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Operator unavailable
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trigger:Visitor opens a page -->
-                    <div id="opensAPage" class="row" style="display:none;">
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="col-12">
-                                <form id="tctest" next="intervalChoice" nextTitle="Interval"
-                                    nextDescription="Trigger limitation interval">
-                                    <input class="form-control" type="text" value=""
-                                        placeholder="Eg. www.yoursite.com/page">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trigger:On certain days -->
-                    <div id="triggerOnSpecifiDay" class="row" style="display:none;">
-                        <div class="row fixedBox">
-                            <form render="dayOfWeek-r1" id="trigSpecifiD" next="intervalChoice" nextTitle='Interval' nextDescription="Trigger limitation interval" hidden>
-                                <input type="text" name="dayOFWeekSelected" value="">
+                    <div class="set-content-variables">
+                        <!-- Trigger -->
+                        <div id="triggerToChoose" class="row">
+                            <form render="self" id="tcNext" next="" hidden>
                             </form>
-                            <div class="row ms-2 gx-2 gy-2 col-12">
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Monday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="mondaySelect">
-                                    <label class="form-check-label" for="mondaySelect">
-                                        Monday
-                                    </label>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">Visitor first visit on
+                                            site</span>
+                                    </div>
                                 </div>
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Tuesday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="tuesdaySelect">
-                                    <label class="form-check-label" for="tuesdaySelect">
-                                        Tuesday
-                                    </label>
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Visitor clicks on chat icon
+                                        </span>
+                                    </div>
                                 </div>
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Wednesday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect"  class="form-check-input" type="checkbox" value="" id="wednesdaySelect">
-                                    <label class="form-check-label" for="wednesdaySelect">
-                                        Wednesday
-                                    </label>
+                                <!-- Visitor opens a page -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','opensAPage',{nextStage:'opensAPage',nextTitle:'Trigger: Visitor opens a page',nextDescription:'What URL must the visitor hit in order for the chatbot to trigger?'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Visitor opens a page
+                                        </span>
+                                    </div>
                                 </div>
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Thursday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="thursdaySelect">
-                                    <label class="form-check-label" for="thursdaySelect">
-                                        Thursday
-                                    </label>
+                                <!-- Visitor returns to the site -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Visitor returns to the site
+                                        </span>
+                                    </div>
                                 </div>
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Friday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="fridaySelect">
-                                    <label class="form-check-label" for="fridaySelect">
-                                        Friday
-                                    </label>
+                                <!-- On certain days-->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'triggerOnSpecifiDay',nextTitle:'Trigger: On certain days',nextDescription:'Select days to trigger chatbot'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            On certain days
+                                        </span>
+                                    </div>
                                 </div>
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Saturday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="saturdaySelect">
-                                    <label class="form-check-label" for="saturdaySelect">
-                                        Saturday
-                                    </label>
-                                </div>
-                                <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Sunday',document.querySelector('#trigSpecifiD'))" class="form-check col-3">
-                                    <input name="daySelect" class="form-check-input" type="checkbox" value="" id="sundaySelect">
-                                    <label class="form-check-label" for="sundaySelect">
-                                        Sunday
-                                    </label>
+                                <!-- Operator unavailable-->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Operator unavailable
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                        <!-- Trigger:Visitor opens a page -->
+                        <div id="opensAPage" class="row" style="display:none;">
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="col-12">
+                                    <form id="tctest" next="intervalChoice" nextTitle="Interval"
+                                        nextDescription="Trigger limitation interval">
+                                        <input class="form-control" type="text" value=""
+                                            placeholder="Eg. www.yoursite.com/page">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
-                    <!-- Trigger:TEST442 placeholder for testing purpose -->
-                    <div id="trigger_test442" class="row" style="display:none;">
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="col-12">
-                                <form id="tctest442" next="test">
-                                    <input class="form-control" type="text" value=""
-                                        placeholder="Eg. www.yoursite.com/page1">
-                                    <input class="form-control" type="text" value=""
-                                        placeholder="Eg. www.yoursite.com/page2">
+                        <!-- Trigger:On certain days -->
+                        <div id="triggerOnSpecifiDay" class="row" style="display:none;">
+                            <div class="row fixedBox">
+                                <form render="dayOfWeek-r1" id="trigSpecifiD" next="intervalChoice" nextTitle='Interval'
+                                    nextDescription="Trigger limitation interval" hidden>
+                                    <input type="text" name="dayOFWeekSelected" value="">
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Interval -->
-                    <div id="intervalChoice" class="row" style="display:none;">
-                        <form render="self" id="tct412" next="trigger_test442" nextTitle="test"
-                            nextDescription="test442" hidden>
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div onclick="selectBox(this,document.querySelector('#tct412'),'whenToSend','oncePer24horse',{nextStage:'conditionChoice',nextTitle:'Condition (Optional)',nextDescription:'What condition is needed in order to make next execute'})"
-                                class="box-format canSelect">
-                                <span class="box-select-content-text">Send once per 24 hours</span>
-                            </div>
-                            <div onclick="selectBox(this,document.querySelector('#tct412'),'whenToSend','onceUniqueVisit',{nextStage:'conditionChoice',nextTitle:'Condition (Optional)',nextDescription:'What condition is needed in order to make next execute'})"
-                                class="box-format canSelect">
-                                <span class="box-select-content-text">Send only once for a unique visitor</span>
-                            </div>
-                            <div onclick="selectBox(this,document.querySelector('#tct412'),'whenToSend','eachVisit',{nextStage:'conditionChoice',nextTitle:'Condition (Optional)',nextDescription:'What condition is needed in order to make next execute'})"
-                                class="box-format canSelect">
-                                <span class="box-select-content-text">Send on each visit</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Condition -->
-                    <div id="conditionChoice" class="row" style="display:none;">
-                        <form defaultrender="None" render="" id="CC412" defaultnext="actionTrigger" defaultnexttitle="Action" defaultnextdescription="What condition is needed in order to make next execute" hidden>
-                            <input type="text" name="conditionInput" defaultvalue="None" value="None">
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <!-- for Condition: Browser -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','Browser',{nextStage:'conditionBrowser',nextTitle:'Condition: Browser',nextDescription:'When the browser:'},{render:'self'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Browser
-                                    </span>
+                                <div class="row ms-2 gx-2 gy-2 col-12">
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Monday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="mondaySelect">
+                                        <label class="form-check-label" for="mondaySelect">
+                                            Monday
+                                        </label>
+                                    </div>
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Tuesday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="tuesdaySelect">
+                                        <label class="form-check-label" for="tuesdaySelect">
+                                            Tuesday
+                                        </label>
+                                    </div>
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Wednesday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="wednesdaySelect">
+                                        <label class="form-check-label" for="wednesdaySelect">
+                                            Wednesday
+                                        </label>
+                                    </div>
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Thursday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="thursdaySelect">
+                                        <label class="form-check-label" for="thursdaySelect">
+                                            Thursday
+                                        </label>
+                                    </div>
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Friday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="fridaySelect">
+                                        <label class="form-check-label" for="fridaySelect">
+                                            Friday
+                                        </label>
+                                    </div>
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Saturday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="saturdaySelect">
+                                        <label class="form-check-label" for="saturdaySelect">
+                                            Saturday
+                                        </label>
+                                    </div>
+                                    <div onclick="checkBoxSetValue(this,'dayOFWeekSelected','Sunday',document.querySelector('#trigSpecifiD'))"
+                                        class="form-check col-3">
+                                        <input name="daySelect" class="form-check-input" type="checkbox" value=""
+                                            id="sundaySelect">
+                                        <label class="form-check-label" for="sundaySelect">
+                                            Sunday
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- for Condition: Day -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','dayPicker',{nextStage:'conditionDay',nextTitle:'Condition:Day',nextDescription:'When the day:'},{render:'self'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Day
-                                    </span>
+                        </div>
+
+
+                        <!-- Trigger:TEST442 placeholder for testing purpose -->
+                        <div id="trigger_test442" class="row" style="display:none;">
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="col-12">
+                                    <form id="tctest442" next="test">
+                                        <input class="form-control" type="text" value=""
+                                            placeholder="Eg. www.yoursite.com/page1">
+                                        <input class="form-control" type="text" value=""
+                                            placeholder="Eg. www.yoursite.com/page2">
+                                    </form>
                                 </div>
                             </div>
-                            <!-- for Condition: OS -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','OperatingSystem',{nextStage:'coditionOperatingSystem',nextTitle:'Condition: Operating System',nextDescription:'When the Operating System'},{render:'self'})"
+                        </div>
+
+                        <!-- Interval -->
+                        <div id="intervalChoice" class="row" style="display:none;">
+                            <form render="self" id="tct412" next="trigger_test442" nextTitle="test"
+                                nextDescription="test442" hidden>
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div onclick="selectBox(this,document.querySelector('#tct412'),'whenToSend','oncePer24horse',{nextStage:'conditionChoice',nextTitle:'Condition (Optional)',nextDescription:'What condition is needed in order to make next execute'})"
                                     class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Operating system
-                                    </span>
+                                    <span class="box-select-content-text">Send once per 24 hours</span>
+                                </div>
+                                <div onclick="selectBox(this,document.querySelector('#tct412'),'whenToSend','onceUniqueVisit',{nextStage:'conditionChoice',nextTitle:'Condition (Optional)',nextDescription:'What condition is needed in order to make next execute'})"
+                                    class="box-format canSelect">
+                                    <span class="box-select-content-text">Send only once for a unique visitor</span>
+                                </div>
+                                <div onclick="selectBox(this,document.querySelector('#tct412'),'whenToSend','eachVisit',{nextStage:'conditionChoice',nextTitle:'Condition (Optional)',nextDescription:'What condition is needed in order to make next execute'})"
+                                    class="box-format canSelect">
+                                    <span class="box-select-content-text">Send on each visit</span>
                                 </div>
                             </div>
-                            
                         </div>
-                    </div>
 
-                    <!-- Condition:Day -->
-                    <div id="conditionDay" class="row" style="display:none;">
-                        <form render="cat-space" id="CCD440" next="actionTrigger" nextTitle="Action"
-                            nextDescription="What condition is needed in order to make next execute" hidden>
-                            <input type="text" value="" name="dayRule">
-                            <input type="text" value="" name="dayDay">
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <!-- DayRule -->
-                            <select onclick="dropDownChoice(this,document.querySelector('#CCD440'),'dayRule');"
-                                class="form-select mb-3 py-3">
-                                <option value="" selected>Select rule</option>
-                                <option value="Is">Is</option>
-                                <option value="Is not">Is not</option>
-                            </select>
-                            <!-- DayDay -->
-                            <select onclick="dropDownChoice(this,document.querySelector('#CCD440'),'dayDay');"
-                                class="form-select mb-3 py-3">
-                                <option value="" selected>Select day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                                <option value="Sunday">Sunday</option>
-                            </select>
+                        <!-- Condition -->
+                        <div id="conditionChoice" class="row" style="display:none;">
+                            <form defaultrender="None" render="" id="CC412" defaultnext="actionTrigger"
+                                defaultnexttitle="Action"
+                                defaultnextdescription="What condition is needed in order to make next execute" hidden>
+                                <input type="text" name="conditionInput" defaultvalue="None" value="None">
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <!-- for Condition: Browser -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','Browser',{nextStage:'conditionBrowser',nextTitle:'Condition: Browser',nextDescription:'When the browser:'},{render:'self'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Browser
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- for Condition: Day -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','dayPicker',{nextStage:'conditionDay',nextTitle:'Condition:Day',nextDescription:'When the day:'},{render:'self'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Day
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- for Condition: OS -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#CC412'),'conditionInput','OperatingSystem',{nextStage:'coditionOperatingSystem',nextTitle:'Condition: Operating System',nextDescription:'When the Operating System'},{render:'self'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Operating system
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Condition:Operating system -->
-                    <div id="coditionOperatingSystem" class="row" style="display:none;">
-                        <form render="cat-space" id="CCOS4" next="actionTrigger" nextTitle="Action"
-                            nextDescription="What condition is needed in order to make next execute" hidden>
-                            <input type="text" value="" name="osRule">
-                            <input type="text" value="" name="osOS">
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <!-- osRule -->
-                            <select onclick="dropDownChoice(this,document.querySelector('#CCOS4'),'osRule');"
-                                class="form-select mb-3 py-3">
-                                <option value="" selected>Select rule</option>
-                                <option value="Is">Is</option>
-                                <option value="Is not">Is not</option>
-                            </select>
-                            <!-- osOS -->
-                            <select onclick="dropDownChoice(this,document.querySelector('#CCOS4'),'osOS');"
-                                class="form-select mb-3 py-3">
-                                <option value="" selected>Select Operating System</option>
-                                <option value="Windows">Windows</option>
-                                <option value="Linux">Linux</option>
-                                <option value="MacOS">Mac OS</option>
-                                <option value="Android">Android</option>
-                                <option value="Iphone">Iphone</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Condition:Browser -->
-                    <div id="conditionBrowser" class="row" style="display:none;">
-                        <form render="cat-space" id="CB442" next="actionTrigger" nextTitle="Action"
-                            nextDescription="What condition is needed in order to make next execute" hidden>
-                            <input type="text" value="" name="browserRule">
-                            <input type="text" value="" name="browserBrowser">
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <!-- browserRule -->
-                            <select onclick="dropDownChoice(this,document.querySelector('#CB442'),'browserRule');"
-                                class="form-select mb-3 py-3">
-                                <option value="" disabled selected>Select rule</option>
-                                <option value="Is">Is</option>
-                                <option value="Is not">Is not</option>
-                            </select>
-                            <!-- browserBrowser -->
-                            <label for="test123test">
-                                <select id="test123test" class="select2-single-drowdown form-control">
-                                    <option value="" disabled selected>Select Browser</option>
-                                    <option value="Chrome">Chrome</option>
-                                    <option value="Opera">Opera</option>
-                                    <option value="firefox">Mozilla</option>
-                                    <option value="Edge">Edge</option>
-                                    <option value="Brave">Brave</option>
-                                    <option value="Safari">Safari</option>
+                        <!-- Condition:Day -->
+                        <div id="conditionDay" class="row" style="display:none;">
+                            <form render="cat-space" id="CCD440" next="actionTrigger" nextTitle="Action"
+                                nextDescription="What condition is needed in order to make next execute" hidden>
+                                <input type="text" value="" name="dayRule">
+                                <input type="text" value="" name="dayDay">
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <!-- DayRule -->
+                                <select onclick="dropDownChoice(this,document.querySelector('#CCD440'),'dayRule');"
+                                    class="form-select mb-3 py-3">
+                                    <option value="" selected>Select rule</option>
+                                    <option value="Is">Is</option>
+                                    <option value="Is not">Is not</option>
                                 </select>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Action -->
-                    <div id="actionTrigger" class="row" style="display:none;">
-                        <form render="self" id="AT1" hidden>
-                        </form>
-                        <div class="row gx-2 fixedBox">
-                            <!-- Send a chat message -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','chatMessage',{nextStage:'actionChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send a chat message
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <!-- actionSendanEmail -->
-                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','sendEmail',{nextStage:'actionSendanEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})"
-                                    class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/greenChatIcon.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send an email
-                                    </span>
-                                </div>
-                            </div>
-                        
-                            
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','decision',{nextStage:'actionDecision',nextTitle:'Action: Decision',nextDescription:'Message that will be sent to visitor:'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Decision
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','chatBotEnded',{nextStage:'actionBotEndedTrigger',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/operator.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Chat with bot ended
-                                    </span>
-                                </div>
-                            </div>
-                            
-
-                        </div>
-                    </div>
-               
-                    <!-- Action: Chat with bot ended -->
-                    <div id="actionBotEndedTrigger" class="row" style="display:none;">
-                    <form render="ActionChatBotEnded" final>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="container form-check form-switch">
-                                <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_3" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
-                                <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
-                            </div>
-                            <div>
-                                <label class="form-text my-4">Transfer to operator message:</label>
-                                <textarea name="transgerToOperatorMain" class="customTextArea"></textarea>
+                                <!-- DayDay -->
+                                <select onclick="dropDownChoice(this,document.querySelector('#CCD440'),'dayDay');"
+                                    class="form-select mb-3 py-3">
+                                    <option value="" selected>Select day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                </select>
                             </div>
                         </div>
-                    </form>
-                </div>
 
-                    <!-- Action: Decision -->
-                    <div id="actionDecision" class="row" style="display:none;">
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div>
-                                <form render="multiDecision" id="actionDChoice" next="actionActionDecision_1" nextTitle="Action: Decision Answers (1)" nextDescription="Choose an action you want to take now based on decision answer">
-                                    <textarea name="messageToVisitor" class="custom-form-control-textarea" ></textarea>
-                                    <div class="container" id="boxDecisionHolder">
-                                        <!-- This is required in order to prevent empty input. -->
-                                        <input type="text" value="" name="doNotAllowEmptyInput" hidden />
+                        <!-- Condition:Operating system -->
+                        <div id="coditionOperatingSystem" class="row" style="display:none;">
+                            <form render="cat-space" id="CCOS4" next="actionTrigger" nextTitle="Action"
+                                nextDescription="What condition is needed in order to make next execute" hidden>
+                                <input type="text" value="" name="osRule">
+                                <input type="text" value="" name="osOS">
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <!-- osRule -->
+                                <select onclick="dropDownChoice(this,document.querySelector('#CCOS4'),'osRule');"
+                                    class="form-select mb-3 py-3">
+                                    <option value="" selected>Select rule</option>
+                                    <option value="Is">Is</option>
+                                    <option value="Is not">Is not</option>
+                                </select>
+                                <!-- osOS -->
+                                <select onclick="dropDownChoice(this,document.querySelector('#CCOS4'),'osOS');"
+                                    class="form-select mb-3 py-3">
+                                    <option value="" selected>Select Operating System</option>
+                                    <option value="Windows">Windows</option>
+                                    <option value="Linux">Linux</option>
+                                    <option value="MacOS">Mac OS</option>
+                                    <option value="Android">Android</option>
+                                    <option value="Iphone">Iphone</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Condition:Browser -->
+                        <div id="conditionBrowser" class="row" style="display:none;">
+                            <form render="cat-space" id="CB442" next="actionTrigger" nextTitle="Action"
+                                nextDescription="What condition is needed in order to make next execute" hidden>
+                                <input type="text" value="" name="browserRule">
+                                <input type="text" value="" name="browserBrowser">
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <!-- browserRule -->
+                                <select onclick="dropDownChoice(this,document.querySelector('#CB442'),'browserRule');"
+                                    class="form-select mb-3 py-3">
+                                    <option value="" disabled selected>Select rule</option>
+                                    <option value="Is">Is</option>
+                                    <option value="Is not">Is not</option>
+                                </select>
+                                <!-- browserBrowser -->
+                                <label for="test123test">
+                                    <select id="test123test" class="select2-single-drowdown form-control">
+                                        <option value="" disabled selected>Select Browser</option>
+                                        <option value="Chrome">Chrome</option>
+                                        <option value="Opera">Opera</option>
+                                        <option value="firefox">Mozilla</option>
+                                        <option value="Edge">Edge</option>
+                                        <option value="Brave">Brave</option>
+                                        <option value="Safari">Safari</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Action -->
+                        <div id="actionTrigger" class="row" style="display:none;">
+                            <form render="self" id="AT1" hidden>
+                            </form>
+                            <div class="row gx-2 fixedBox">
+                                <!-- Send a chat message -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','chatMessage',{nextStage:'actionChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send a chat message
+                                        </span>
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <!-- actionSendanEmail -->
+                                    <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','sendEmail',{nextStage:'actionSendanEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/greenChatIcon.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send an email
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','decision',{nextStage:'actionDecision',nextTitle:'Action: Decision',nextDescription:'Message that will be sent to visitor:'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Decision
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AT1'),'actionTrigger','chatBotEnded',{nextStage:'actionBotEndedTrigger',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/operator.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Chat with bot ended
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Action: Chat with bot ended -->
+                        <div id="actionBotEndedTrigger" class="row" style="display:none;">
+                            <form render="ActionChatBotEnded" final>
+                                <div class="row gy-1 gx-2 fixedBox">
+                                    <div class="container form-check form-switch">
+                                        <input onclick="this.checked ? this.value='on' : this.value='off';"
+                                            name="AfterBotFinishes_3" class="form-check-input" type="checkbox"
+                                            id="displayMessageAFterBotFinishes" checked>
+                                        <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a
+                                            message after a bot finishes the conversation.</label>
+                                    </div>
+                                    <div>
+                                        <label class="form-text my-4">Transfer to operator message:</label>
+                                        <textarea name="transgerToOperatorMain" class="customTextArea"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Action: Decision -->
+                        <div id="actionDecision" class="row" style="display:none;">
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div>
+                                    <form render="multiDecision" id="actionDChoice" next="actionActionDecision_1"
+                                        nextTitle="Action: Decision Answers (1)"
+                                        nextDescription="Choose an action you want to take now based on decision answer">
+                                        <textarea name="messageToVisitor"
+                                            class="custom-form-control-textarea"></textarea>
+                                        <div class="container" id="boxDecisionHolder">
+                                            <!-- This is required in order to prevent empty input. -->
+                                            <input type="text" value="" name="doNotAllowEmptyInput" hidden />
+                                        </div>
+                                    </form>
+                                    <div class="container">
+                                        <div id="addDecisionButton" class="custom-form-control-rounded">
+                                            <img class="me-2" src="imagesBot/plusIconInBlue.svg">Add new answer
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action in action Decision answer 1-->
+                        <div id="actionActionDecision_1" class="row" style="display:none;">
+                            <form render="self_1_1" id="AAD_1" hidden>
+                                <input type="text" name="actionDecision_1" />
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendChatMessageDecision',{nextStage:'actionActionDecision_1_sendChatMessage',nextTitle:'Action: Send a chat message (1)',nextDescription:'Type in the message that will be sent to visitor...'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send a chat message
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendAnEmailDecision',{nextStage:'actionActionDecision_1_sendAnEmail',nextTitle:'Action: Send an email (1)',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send an email
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- actionActionDecision_1_chatBotEnded -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','chatBotEnded',{nextStage:'actionActionDecision_1_chatBotEnded',nextTitle:'Action: Chat with bot ended (1)',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Chat with bot ended
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Action in action Decision: Send a chat message -->
+                        <div id="actionActionDecision_1_sendChatMessage" class="row" style="display:none;">
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <form class="couldBeFinal" render="chat_1_2" id="AAD1ChatM"
+                                    next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)"
+                                    nextDescription="Choose an action you want to take now based on decision answer ">
+                                    <textarea class="customTextArea" name="ITTS_1"></textarea>
                                 </form>
-                                <div class="container">
-                                    <div id="addDecisionButton" class="custom-form-control-rounded">
-                                        <img class="me-2" src="imagesBot/plusIconInBlue.svg">Add new answer
+                            </div>
+                        </div>
+
+                        <!-- Action in action Decision: Action: Send an email -->
+                        <div id="actionActionDecision_1_sendAnEmail" class="row" style="display:none;">
+                            <form class="couldBeFinal" render="AADSanEMAIL_1" next="actionActionDecision_2"
+                                nextTitle="Action: Decision Answers (2)"
+                                nextDescription="Choose an action you want to take now based on decision answer "
+                                hidden>
+                                <input type="text" name="subjectEmailDecision_1" value="">
+                                <textarea type="text" name="messageEmailDecision_1" value=""></textarea>
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="mb-3">
+                                    <label class="form-text">Subject:</label>
+                                    <input
+                                        onkeyup="document.querySelector(`[name='subjectEmailDecision_1']`).value = this.value"
+                                        onchange="document.querySelector(`[name='subjectEmailDecision_1']`).value = this.value"
+                                        class="form-control" type="text" name="subjectEmailDecision_1"
+                                        placeholder="Enter Subject">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-text">Message:</label>
+                                    <textarea id="messageEmailDecision_1" name="messageEmailDecision_1"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action in action Decision: Action: Chat with bot ended -->
+                        <div id="actionActionDecision_1_chatBotEnded" class="row" style="display:none;">
+                            <form class="couldBeFinal" render="AADChatBotEnded_1" next="actionActionDecision_2"
+                                nextTitle="Action: Decision Answers (2)"
+                                nextDescription="Choose an action you want to take now based on decision answer ">
+                                <div class="row gy-1 gx-2 fixedBox">
+                                    <div class="container form-check form-switch">
+                                        <input onclick="this.checked ? this.value='on' : this.value='off';"
+                                            name="AfterBotFinishes_1" class="form-check-input" type="checkbox"
+                                            id="displayMessageAFterBotFinishes" checked>
+                                        <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a
+                                            message after a bot finishes the conversation.</label>
+                                    </div>
+                                    <div>
+                                        <label class="form-text my-4">Transfer to operator message:</label>
+                                        <textarea name="transferOperatorMessage_1" class="customTextArea"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <!-- Action in action Decision answer 2-->
+                        <div id="actionActionDecision_2" class="row" style="display:none;">
+                            <form render="self_2_1" id="AAD_2" hidden>
+                                <input type="text" name="actionDecision_2" />
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','sendChatMessageDecision',{nextStage:'actionActionDecision_2_sendChatMessage',nextTitle:'Action: Send a chat message (2)',nextDescription:'Type in the message that will be sent to visitor...'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send a chat message
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','sendAnEmailDecision',{nextStage:'actionActionDecision_2_sendAnEmail',nextTitle:'Action: Send an email (2)',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send an email
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- actionActionDecision_2_chatBotEnded -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','chatBotEnded',{nextStage:'actionActionDecision_2_chatBotEnded',nextTitle:'Action: Chat with bot ended (2)',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Chat with bot ended
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Action in action Decision answer 1-->
-                    <div id="actionActionDecision_1" class="row" style="display:none;">
-                        <form render="self_1_1" id="AAD_1" hidden>
-                            <input type="text" name="actionDecision_1" />
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendChatMessageDecision',{nextStage:'actionActionDecision_1_sendChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send a chat message
-                                    </span>
-                                </div>
+
+                        <!-- Action in action Decision: Send a chat message -->
+                        <div id="actionActionDecision_2_sendChatMessage" class="row" style="display:none;">
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <form class="couldBeFinal" render="chat_2_2" id="AAD1ChatM"
+                                    next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)"
+                                    nextDescription="Choose an action you want to take now based on decision answer ">
+                                    <textarea class="customTextArea" name="ITTS_2"></textarea>
+                                </form>
                             </div>
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','sendAnEmailDecision',{nextStage:'actionActionDecision_1_sendAnEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send an email
-                                    </span>
+                        </div>
+
+                        <!-- Action in action Decision: Action: Send an email -->
+                        <div id="actionActionDecision_2_sendAnEmail" class="row" style="display:none;">
+                            <form class="couldBeFinal" render="AADSanEMAIL_2" next="actionActionDecision_3"
+                                nextTitle="Action: Decision Answers (3)"
+                                nextDescription="Choose an action you want to take now based on decision answer "
+                                hidden>
+                                <input type="text" name="subjectEmailDecision_2" value="">
+                                <textarea type="text" name="messageEmailDecision_2" value=""></textarea>
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="mb-3">
+                                    <label class="form-text">Subject:</label>
+                                    <input
+                                        onkeyup="document.querySelector(`[name='subjectEmailDecision_2']`).value = this.value"
+                                        onchange="document.querySelector(`[name='subjectEmailDecision_2']`).value = this.value"
+                                        class="form-control" type="text" name="subjectEmailDecision_2"
+                                        placeholder="Enter Subject">
                                 </div>
-                            </div>
-                            <!-- actionActionDecision_1_chatBotEnded -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_1'),'actionDecision_1','chatBotEnded',{nextStage:'actionActionDecision_1_chatBotEnded',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Chat with bot ended
-                                    </span>
+                                <div class="mb-3">
+                                    <label class="form-text">Message:</label>
+                                    <textarea id="messageEmailDecision_2" name="messageEmailDecision_2"></textarea>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-
-                    <!-- Action in action Decision: Send a chat message -->
-                    <div id="actionActionDecision_1_sendChatMessage" class="row" style="display:none;">
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <form class="couldBeFinal" render="chat_1_2" id="AAD1ChatM" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer ">
-                                <textarea class="customTextArea" name="ITTS_1"></textarea>
+                        <!-- Action in action Decision: Action: Chat with bot ended -->
+                        <div id="actionActionDecision_2_chatBotEnded" class="row" style="display:none;">
+                            <form class="couldBeFinal" render="AADChatBotEnded_2" next="actionActionDecision_3"
+                                nextTitle="Action: Decision Answers (3)"
+                                nextDescription="Choose an action you want to take now based on decision answer ">
+                                <div class="row gy-1 gx-2 fixedBox">
+                                    <div class="container form-check form-switch">
+                                        <input onclick="this.checked ? this.value='on' : this.value='off';"
+                                            name="AfterBotFinishes_2" class="form-check-input" type="checkbox"
+                                            id="displayMessageAFterBotFinishes" checked>
+                                        <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a
+                                            message after a bot finishes the conversation.</label>
+                                    </div>
+                                    <div>
+                                        <label class="form-text my-4">Transfer to operator message:</label>
+                                        <textarea name="transferOperatorMessage_2" class="customTextArea"></textarea>
+                                    </div>
+                                </div>
                             </form>
                         </div>
-                    </div>
 
-                    <!-- Action in action Decision: Action: Send an email -->
-                    <div id="actionActionDecision_1_sendAnEmail" class="row" style="display:none;">
-                    <form class="couldBeFinal" render="AADSanEMAIL_1" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer " hidden>
-                        <input type="text" name="subjectEmailDecision_1" value="">
-                        <textarea type="text" name="messageEmailDecision_1" value=""></textarea>
-                    </form>
-                    <div class="row gy-1 gx-2 fixedBox">
-                        <div class="mb-3">
-                            <label class="form-text">Subject:</label>
-                            <input onkeyup="document.querySelector(`[name='subjectEmailDecision_1']`).value = this.value"
-                                onchange="document.querySelector(`[name='subjectEmailDecision_1']`).value = this.value"
-                                class="form-control" type="text" name="subjectEmailDecision_1" placeholder="Enter Subject">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-text">Message:</label>
-                            <textarea id="messageEmailDecision_1" name="messageEmailDecision_1"></textarea>
-                        </div>
-                    </div>
-                    </div>
 
-                    <!-- Action in action Decision: Action: Chat with bot ended -->
-                    <div id="actionActionDecision_1_chatBotEnded" class="row" style="display:none;">
-                        <form class="couldBeFinal" render="AADChatBotEnded_1" next="actionActionDecision_2" nextTitle="Action: Decision Answers (2)" nextDescription="Choose an action you want to take now based on decision answer " >
+                        <!-- Action in action Decision answer 2-->
+                        <div id="actionActionDecision_3" class="row" style="display:none;">
+                            <form render="self_3_1" id="AAD_3" hidden>
+                                <input type="text" name="actionDecision_3" />
+                            </form>
                             <div class="row gy-1 gx-2 fixedBox">
-                                <div class="container form-check form-switch">
-                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_1" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
-                                    <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','sendChatMessageDecision',{nextStage:'actionActionDecision_3_sendChatMessage',nextTitle:'Action: Send a chat message (3)',nextDescription:'Type in the message that will be sent to visitor...'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send a chat message
+                                        </span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="form-text my-4">Transfer to operator message:</label>
-                                    <textarea name="transferOperatorMessage_1" class="customTextArea"></textarea>
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','sendAnEmailDecision',{nextStage:'actionActionDecision_3_sendAnEmail',nextTitle:'Action: Send an email (3)',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Send an email
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-
-
-                    <!-- Action in action Decision answer 2-->
-                    <div id="actionActionDecision_2" class="row" style="display:none;">
-                        <form render="self_2_1" id="AAD_2" hidden>
-                            <input type="text" name="actionDecision_2" />
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','sendChatMessageDecision',{nextStage:'actionActionDecision_2_sendChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send a chat message
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','sendAnEmailDecision',{nextStage:'actionActionDecision_2_sendAnEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send an email
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- actionActionDecision_2_chatBotEnded -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_2'),'actionDecision_2','chatBotEnded',{nextStage:'actionActionDecision_2_chatBotEnded',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Chat with bot ended
-                                    </span>
+                                <!-- actionActionDecision_2_chatBotEnded -->
+                                <div class="col-lg-6 col-12">
+                                    <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','chatBotEnded',{nextStage:'actionActionDecision_3_chatBotEnded',nextTitle:'Action: Chat with bot ended (3)',nextDescription:'&nbsp;'})"
+                                        class="box-format canSelect">
+                                        <span class="box-select-content-img">
+                                            <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
+                                        </span>
+                                        <span class="box-select-content-text">
+                                            Chat with bot ended
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                    <!-- Action in action Decision: Send a chat message -->
-                    <div id="actionActionDecision_2_sendChatMessage" class="row" style="display:none;">
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <form class="couldBeFinal" render="chat_2_2" id="AAD1ChatM" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer ">
-                                <textarea class="customTextArea" name="ITTS_2"></textarea>
+                        <!-- Action in action Decision: Send a chat message -->
+                        <div id="actionActionDecision_3_sendChatMessage" class="row" style="display:none;">
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <form render="chat_3_2" final>
+                                    <textarea class="customTextArea" name="ITTS_3"></textarea>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Action in action Decision: Action: Send an email -->
+                        <div id="actionActionDecision_3_sendAnEmail" class="row" style="display:none;">
+                            <form render="AADSanEMAIL_3" final hidden>
+                                <input type="text" name="subjectEmailDecision_3" value="">
+                                <textarea type="text" name="messageEmailDecision_3" value=""></textarea>
+                            </form>
+                            <div class="row gy-1 gx-2 fixedBox">
+                                <div class="mb-3">
+                                    <label class="form-text">Subject:</label>
+                                    <input
+                                        onkeyup="document.querySelector(`[name='subjectEmailDecision_3']`).value = this.value"
+                                        onchange="document.querySelector(`[name='subjectEmailDecision_3']`).value = this.value"
+                                        class="form-control" type="text" name="subjectEmailDecision_3"
+                                        placeholder="Enter Subject">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-text">Message:</label>
+                                    <textarea id="messageEmailDecision_3" name="messageEmailDecision_3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action in action Decision: Action: Chat with bot ended -->
+                        <div id="actionActionDecision_3_chatBotEnded" class="row" style="display:none;">
+                            <form render="AADChatBotEnded_3" final>
+                                <div class="row gy-1 gx-2 fixedBox">
+                                    <div class="container form-check form-switch">
+                                        <input onclick="this.checked ? this.value='on' : this.value='off';"
+                                            name="AfterBotFinishes_3" class="form-check-input" type="checkbox"
+                                            id="displayMessageAFterBotFinishes" checked>
+                                        <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a
+                                            message after a bot finishes the conversation.</label>
+                                    </div>
+                                    <div>
+                                        <label class="form-text my-4">Transfer to operator message:</label>
+                                        <textarea name="transferOperatorMessage_3" class="customTextArea"></textarea>
+                                    </div>
+                                </div>
                             </form>
                         </div>
-                    </div>
 
-                    <!-- Action in action Decision: Action: Send an email -->
-                    <div id="actionActionDecision_2_sendAnEmail" class="row" style="display:none;">
-                    <form class="couldBeFinal" render="AADSanEMAIL_2" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer " hidden>
-                        <input type="text" name="subjectEmailDecision_2" value="">
-                        <textarea type="text" name="messageEmailDecision_2" value=""></textarea>
-                    </form>
-                    <div class="row gy-1 gx-2 fixedBox">
-                        <div class="mb-3">
-                            <label class="form-text">Subject:</label>
-                            <input onkeyup="document.querySelector(`[name='subjectEmailDecision_2']`).value = this.value"
-                                onchange="document.querySelector(`[name='subjectEmailDecision_2']`).value = this.value"
-                                class="form-control" type="text" name="subjectEmailDecision_2" placeholder="Enter Subject">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-text">Message:</label>
-                            <textarea id="messageEmailDecision_2" name="messageEmailDecision_2"></textarea>
-                        </div>
-                    </div>
-                    </div>
 
-                    <!-- Action in action Decision: Action: Chat with bot ended -->
-                    <div id="actionActionDecision_2_chatBotEnded" class="row" style="display:none;">
-                        <form class="couldBeFinal" render="AADChatBotEnded_2" next="actionActionDecision_3" nextTitle="Action: Decision Answers (3)" nextDescription="Choose an action you want to take now based on decision answer " >
-                            <div class="row gy-1 gx-2 fixedBox">
-                                <div class="container form-check form-switch">
-                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_2" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
-                                    <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                        <!-- Action: Send a chat message -->
+                        <div id="actionChatMessage" class="row" style="display:none;">
+                            <form final render="one-textarea" id="ACM1">
+                                <div class="row gy-1 gx-2 fixedBox">
+                                    <textarea name="chatMessage" class="form-control customTextArea"></textarea>
                                 </div>
-                                <div>
-                                    <label class="form-text my-4">Transfer to operator message:</label>
-                                    <textarea name="transferOperatorMessage_2" class="customTextArea"></textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-
-                    <!-- Action in action Decision answer 2-->
-                    <div id="actionActionDecision_3" class="row" style="display:none;">
-                        <form render="self_3_1" id="AAD_3" hidden>
-                            <input type="text" name="actionDecision_3" />
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','sendChatMessageDecision',{nextStage:'actionActionDecision_3_sendChatMessage',nextTitle:'Action: Send a chat message',nextDescription:'Type in the message that will be sent to visitor...'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send a chat message
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','sendAnEmailDecision',{nextStage:'actionActionDecision_3_sendAnEmail',nextTitle:'Action: Send an email',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Send an email
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- actionActionDecision_2_chatBotEnded -->
-                            <div class="col-lg-6 col-12">
-                                <div onclick="selectBox(this,document.querySelector('#AAD_3'),'actionDecision_3','chatBotEnded',{nextStage:'actionActionDecision_3_chatBotEnded',nextTitle:'Action: Chat with bot ended',nextDescription:'&nbsp;'})" class="box-format canSelect">
-                                    <span class="box-select-content-img">
-                                        <img class="iconBox" src="./imagesBot/darkBlueHouse.svg">
-                                    </span>
-                                    <span class="box-select-content-text">
-                                        Chat with bot ended
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Action in action Decision: Send a chat message -->
-                    <div id="actionActionDecision_3_sendChatMessage" class="row" style="display:none;">
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <form render="chat_3_2" final>
-                                <textarea class="customTextArea" name="ITTS_3"></textarea>
                             </form>
                         </div>
-                    </div>
 
-                    <!-- Action in action Decision: Action: Send an email -->
-                    <div id="actionActionDecision_3_sendAnEmail" class="row" style="display:none;">
-                    <form render="AADSanEMAIL_3" final hidden>
-                        <input type="text" name="subjectEmailDecision_3" value="">
-                        <textarea type="text" name="messageEmailDecision_3" value=""></textarea>
-                    </form>
-                    <div class="row gy-1 gx-2 fixedBox">
-                        <div class="mb-3">
-                            <label class="form-text">Subject:</label>
-                            <input onkeyup="document.querySelector(`[name='subjectEmailDecision_3']`).value = this.value"
-                                onchange="document.querySelector(`[name='subjectEmailDecision_3']`).value = this.value"
-                                class="form-control" type="text" name="subjectEmailDecision_3" placeholder="Enter Subject">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-text">Message:</label>
-                            <textarea id="messageEmailDecision_3" name="messageEmailDecision_3"></textarea>
-                        </div>
-                    </div>
-                    </div>
-
-                    <!-- Action in action Decision: Action: Chat with bot ended -->
-                    <div id="actionActionDecision_3_chatBotEnded" class="row" style="display:none;">
-                        <form render="AADChatBotEnded_3" final>
+                        <!-- Action: Send an email -->
+                        <div id="actionSendanEmail" class="row" style="display:none;">
+                            <form render='SM-ITA' final id="ASENDE" hidden>
+                                <input type="text" id="" name="subjectEmail" value="">
+                                <textarea type="text" name="messageEmail" value=""></textarea>
+                            </form>
                             <div class="row gy-1 gx-2 fixedBox">
-                                <div class="container form-check form-switch">
-                                    <input onclick="this.checked ? this.value='on' : this.value='off';" name="AfterBotFinishes_3" class="form-check-input" type="checkbox" id="displayMessageAFterBotFinishes" checked>
-                                    <label class="form-check-label" for="displayMessageAFterBotFinishes">Display a message after a bot finishes the conversation.</label>
+                                <div class="mb-3">
+                                    <label class="form-text">Subject:</label>
+                                    <input onkeyup="document.querySelector(`[name='subjectEmail']`).value = this.value"
+                                        onchange="document.querySelector(`[name='subjectEmail']`).value = this.value"
+                                        class="form-control" type="text" name="subjectEmail"
+                                        placeholder="Enter Subject">
                                 </div>
-                                <div>
-                                    <label class="form-text my-4">Transfer to operator message:</label>
-                                    <textarea name="transferOperatorMessage_3" class="customTextArea"></textarea>
+                                <div class="mb-3">
+                                    <label class="form-text">Message:</label>
+                                    <textarea id="messageEmail" name="messageEmail"></textarea>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
+                        <!-- Buttons:BACK and NEXT -->
+                        <div class="row set-content-footer-buttons">
+                            <div id="messageOutputContainer" class="col-12">
+                                <span id="messageOutput">
 
-                    <!-- Action: Send a chat message -->
-                    <div id="actionChatMessage" class="row" style="display:none;">
-                        <form final render="one-textarea" id="ACM1">
-                            <div class="row gy-1 gx-2 fixedBox">
-                                <textarea name="chatMessage" class="form-control customTextArea"></textarea>
+                                </span>
                             </div>
-                        </form>
-                    </div>
-
-                    <!-- Action: Send an email -->
-                    <div id="actionSendanEmail" class="row" style="display:none;">
-                        <form render='SM-ITA' final id="ASENDE" hidden>
-                            <input type="text" id="" name="subjectEmail" value="">
-                            <textarea type="text" name="messageEmail" value=""></textarea>
-                        </form>
-                        <div class="row gy-1 gx-2 fixedBox">
-                            <div class="mb-3">
-                                <label class="form-text">Subject:</label>
-                                <input onkeyup="document.querySelector(`[name='subjectEmail']`).value = this.value"
-                                    onchange="document.querySelector(`[name='subjectEmail']`).value = this.value"
-                                    class="form-control" type="text" name="subjectEmail" placeholder="Enter Subject">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-text">Message:</label>
-                                <textarea id="messageEmail" name="messageEmail"></textarea>
+                            <div class="col-12 d-flex justify-content-between">
+                                <div class="col-lg-3">
+                                    <button style="visibility: hidden;" id="backButton" onclick="GObackStage(this)"
+                                        class="back-button">Back</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button id="nextButton" onclick="GOnextStage(this)"
+                                        class="btn btn-info next-button">Next</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Buttons:BACK and NEXT -->
-                    <div class="row set-content-footer-buttons">
-                        <div id="messageOutputContainer" class="col-12">
-                            <span id="messageOutput">
-
-                            </span>
-                        </div>
-                        <div class="col-12 d-flex justify-content-between">
-                            <div class="col-lg-3">
-                                <button style="visibility: hidden;" id="backButton" onclick="GObackStage(this)"
-                                    class="back-button">Back</button>
-                            </div>
-                            <div class="col-lg-3">
-                                <button id="nextButton" onclick="GOnextStage(this)"
-                                    class="btn btn-info next-button">Next</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
