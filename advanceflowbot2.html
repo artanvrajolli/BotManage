@@ -74,6 +74,7 @@
                         <!-- Trigger -->
                         <div id="triggerToChoose" class="row">
                             <form render="self" id="tcNext" next="" hidden>
+                                <input type="text" name="triggerInput" value="" />
                             </form>
                             <div class="row gy-1 gx-2 fixedBox">
                                 <div class="col-lg-6 col-12">
@@ -87,7 +88,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
-                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorClicksOnChatIcon',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
                                         class="box-format canSelect">
                                         <span class="box-select-content-img">
                                             <img class="iconBox" src="./imagesBot/operator.svg">
@@ -123,7 +124,7 @@
                                 </div>
                                 <!-- On certain days-->
                                 <div class="col-lg-6 col-12">
-                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'triggerOnSpecifiDay',nextTitle:'Trigger: On certain days',nextDescription:'Select days to trigger chatbot'})"
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','onCertainDays',{nextStage:'triggerOnSpecifiDay',nextTitle:'Trigger: On certain days',nextDescription:'Select days to trigger chatbot'})"
                                         class="box-format canSelect">
                                         <span class="box-select-content-img">
                                             <img class="iconBox" src="./imagesBot/operator.svg">
@@ -135,7 +136,7 @@
                                 </div>
                                 <!-- Operator unavailable-->
                                 <div class="col-lg-6 col-12">
-                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','visitorReturnToTheSite',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
+                                    <div onclick="selectBox(this,document.querySelector('#tcNext'),'triggerInput','OperatorUnavailable',{nextStage:'intervalChoice',nextTitle:'Interval',nextDescription:'Trigger limitation interval'})"
                                         class="box-format canSelect">
                                         <span class="box-select-content-img">
                                             <img class="iconBox" src="./imagesBot/operator.svg">
@@ -154,8 +155,7 @@
                                 <div class="col-12">
                                     <form id="tctest" next="intervalChoice" nextTitle="Interval"
                                         nextDescription="Trigger limitation interval">
-                                        <input class="form-control" type="text" value=""
-                                            placeholder="Eg. www.yoursite.com/page">
+                                        <input name="pageOpensLink" class="form-control" type="text" value="" placeholder="Eg. www.yoursite.com/page">
                                     </form>
                                 </div>
                             </div>
@@ -387,8 +387,8 @@
                                     <option value="Is not">Is not</option>
                                 </select>
                                 <!-- browserBrowser -->
-                                <label for="test123test">
-                                    <select id="test123test" class="select2-single-drowdown form-control">
+                                <label for="browserBrowserSelect2">
+                                    <select id="browserBrowserSelect2" class="select2-single-drowdown form-control">
                                         <option value="" disabled selected>Select Browser</option>
                                         <option value="Chrome">Chrome</option>
                                         <option value="Opera">Opera</option>
@@ -404,6 +404,7 @@
                         <!-- Action -->
                         <div id="actionTrigger" class="row" style="display:none;">
                             <form render="self" id="AT1" hidden>
+                                <input type="text" name="actionTrigger" value="">
                             </form>
                             <div class="row gx-2 fixedBox">
                                 <!-- Send a chat message -->
@@ -473,7 +474,7 @@
                                     </div>
                                     <div>
                                         <label class="form-text my-4">Transfer to operator message:</label>
-                                        <textarea name="transgerToOperatorMain" class="customTextArea"></textarea>
+                                        <textarea id="transferToOperatorMain" name="transferToOperatorMain" class="customTextArea"></textarea>
                                     </div>
                                 </div>
                             </form>
@@ -597,7 +598,7 @@
                                     </div>
                                     <div>
                                         <label class="form-text my-4">Transfer to operator message:</label>
-                                        <textarea name="transferOperatorMessage_1" class="customTextArea"></textarea>
+                                        <textarea id="transferOperatorMessage_1" name="transferOperatorMessage_1" class="customTextArea"></textarea>
                                     </div>
                                 </div>
                             </form>

@@ -59,6 +59,7 @@
     display: inline;
     margin-top: auto;
     margin-bottom: auto;
+    z-index: 14;
     background-color: #ffab00;
     border-radius: 7px;
     text-align: center;
@@ -356,4 +357,33 @@ pre{
     min-width: 50%;
     max-width: 50%;
     padding-left:30px;
+}
+/* test */
+
+.line-to-top{
+    position:relative;
+}
+
+.line-to-top::after{
+    content: "";
+    position: absolute;
+    top: -48px;
+    left: 50%;
+    height: 48px;
+    z-index: 44;
+    width: 1px;
+    background: #60cef5;
+}
+
+.line-to-top::before{
+    content: "";
+    position: absolute;
+    height: 6.5px;
+    top: -5px;
+    left: 49.5%;
+    border-radius: 50%;
+    background: #60cef5;
+    width: 6.5px;
+    z-index: 44;
+    border: 1.5px solid white;
 }

@@ -17,7 +17,10 @@ window.onload = () => {
     nextButton = document.getElementById('nextButton');
     backButton = document.getElementById('backButton');
     // remove blur onload
-    document.querySelector('.blur-back-drop').remove();
+    try{
+        document.querySelector('.blur-back-drop').remove();
+    }catch(err){}
+    
 }
 // endline global variable
 
@@ -188,6 +191,7 @@ function GOnextStage(showMSG = '',keepPath = false) {
     }
     if(nextButton.innerHTML == 'Finish' && showMSG == 'NO-MSG'){
         previewPath(true);
+        document.querySelector('.preview-holder-content').querySelectorAll('.canSelect')[document.querySelector('.preview-holder-content').querySelectorAll('.canSelect').length-1].style.border = '2px solid rgb(96, 206, 245)';
         return "aboutToFinish"; // do not submit if system continue when you left off
     }
     if (nextButton.innerHTML == 'Finish') {
@@ -252,8 +256,12 @@ function GObackStage() {
 function GONextMultipleLevels(forced = false){
     for(var i=0;i<99;i++){
          // do not show msg and do not submit on finish
-        if(GOnextStage('NO-MSG') == 'aboutToFinish'){
-            break;
+        if(i != 0){
+            if(GOnextStage('NO-MSG') == 'aboutToFinish'){
+                break;
+            }
+        }else{
+            GOnextStage();
         }
         //TMPGoBackArray
     }
@@ -365,6 +373,7 @@ function previewPath(isFinal = false,isgoingBack = false) {
             platformHolder[i]["current"]["titleInfo"].split('(', 2)[1].includes(')')) {
             platformHolder[i]["current"]["titleInfo"] = platformHolder[i]["current"]["titleInfo"].split('(')[0];
         }
+        
         if(platformHolder[i]["current"]["titleInfo"].includes(':')){
 
             platformHolder[i]["current"]["titleInfo"] = platformHolder[i]["current"]["titleInfo"].replace(/<\/?[^>]+(>|$)/g, "");
@@ -464,9 +473,10 @@ function previewPath(isFinal = false,isgoingBack = false) {
             </div>
         </div>`;
     }
-    if(!isgoingBack)
-    document.querySelector('.preview-holder-content').scrollTop = document.querySelector('.preview-holder-content').scrollHeight;
-
+    if(!isgoingBack){
+        var tmpE = document.querySelector('.preview-holder-content');
+        tmpE.scrollTo({top: tmpE.scrollHeight, behavior: 'smooth'});
+    }
 }
 // endline previewpath
 function hiddenRender(i){
@@ -493,7 +503,7 @@ function multiDecisionRender(i){
     for(var j=1;j<inputsList.length;j++){
         ACDSHolder.insertAdjacentHTML('beforeend',`
         <div class="childMultiDecision_${j} canSelect-limited row col-4 justify-content-center">
-            <div class="row d-flex w-100 justify-content-center line-to-bottom">
+            <div class="row d-flex w-100 justify-content-center">
                 <div onclick=";GOBackTo(this,${i})"  class="w-100  canSelect d-flex align-items-center justify-content-center">
                     ${inputsList[j].value}
                 </div>
@@ -558,7 +568,7 @@ function decisionOneTextArea(i,childNr){
     });
     colChild.insertAdjacentHTML('beforeend',`
     <div  class="row d-flex w-100 justify-content-center pb-5">
-        <h5 class="preview-main-title col-12">Message</h5>
+        <h5 class="preview-main-title col-12 line-to-top">Message</h5>
         <div onclick="GOBackTo(this,${i},true)" class="d-flex canSelect align-items-center p-3 mb-5">
             <pre>${inputsList[0].value}</pre>
         </div>
@@ -603,7 +613,7 @@ function subjectWithTextAreaDecision(i,childNr) {
 
     colChild.insertAdjacentHTML('beforeend',`
     <div class="row d-flex w-100 justify-content-center pb-5">
-        <h5 class="preview-main-title col-12">Send an email</h5>
+        <h5 class="preview-main-title col-12 line-to-top">Send an email</h5>
         <div class="row">
                 <div onclick="GOBackTo(this,${i},true)"  class="canSelect text-start ">
                 <div class="form-text">Subject:</div>
@@ -627,7 +637,7 @@ function textAreaDecision(i,childNr) {
 
     colChild.insertAdjacentHTML('beforeend',`
     <div class="row d-flex w-100 justify-content-center pb-5">
-        <h5 class="preview-main-title col-12">Chat with bot ended</h5>
+        <h5 class="preview-main-title col-12 line-to-top">Chat with bot ended</h5>
         <div class="row">
             <div onclick="GOBackTo(this,${i},true)" class="canSelect text-start">
                 <div class="form-text">Message:</div>
@@ -670,8 +680,8 @@ function childNormalBoxRender(i,childNr){
     newCloneNode.style.borderColor = '#60CEF500';
     newCloneNode.setAttribute('onclick','GOBackTo(this,'+i+',true)');
     colChild.insertAdjacentHTML('beforeend',`
-    <div  class="row d-flex w-100 justify-content-center line-to-bottom">
-        <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
+    <div  class="row d-flex w-100 justify-content-center">
+        <h5 class="preview-main-title col-12  line-to-top">${platformHolder[i]["current"]["titleInfo"]}</h5>
         <div id="${randomIDGEN}"></div>
     </div>`);
     document.getElementById(randomIDGEN).insertAdjacentElement('beforeend', newCloneNode);
@@ -782,3 +792,372 @@ function checkBoxSetValue(parentElement,inputName,valueInput,localFormElement){
     
 }
 // endline checkBoxHandler
+
+
+
+
+
+
+// startline demo for edit Bot
+function setTestInputs_2(){
+    var inputsObject = {
+        triggerInput:"opensAPage",
+        pageOpensLink:"https://example.com/",
+        whenToSend: "oncePer24horse",
+        conditionInput: "OperatingSystem",
+        osRule: "Is not",
+        osOS: "Windows",
+        actionTrigger: "chatMessage",
+        chatMessage: "Why are you here!!!!!!!!!!!"
+    }
+    setInputs(inputsObject);
+}
+function setTestInputs_3(){
+    var inputsObject = {
+        triggerInput:"onCertainDays",
+        dayOFWeekSelected: "Monday",
+        whenToSend: "onceUniqueVisit",
+        conditionInput: "dayPicker",
+        dayRule: "Is not",
+        dayDay: "Monday",
+        actionTrigger: "sendEmail",
+        subjectEmail: "Subject is over i have hight ground",
+        messageEmail : '<p>asdasdasdasd</p><p>dasdasdasd</p><p>Something anaken is over</p>'
+
+    }
+    setInputs(inputsObject);
+}
+
+function setTestInputs_4(){
+    var inputsObject = {
+        triggerInput:"OperatorUnavailable",
+        whenToSend:"eachVisit",
+        conditionInput: "Browser",
+        browserRule:"Is not",
+        browserBrowser: "firefox",
+        actionTrigger:"chatBotEnded",
+        transferToOperatorMain:"Hmmmmmmmmmmmmmmmmmmm\n ok"
+    }
+    setInputs(inputsObject);
+}
+
+function setTestInputs_5(){
+    inputsObject = {
+        triggerInput:"OperatorUnavailable",
+        whenToSend:"eachVisit",
+        conditionInput: "Browser",
+        browserRule:"Is not",
+        browserBrowser: "firefox",
+        actionTrigger:"decision",
+        decisionInputs: ["figma","discord","Skype"],
+        messageToVisitor: "SkyWalker",
+
+        actionDecision_1: "chatBotEnded",
+        transferOperatorMessage_1: "hmmmmmmmmmmmmmm one by one",
+
+        actionDecision_2: "sendChatMessageDecision",
+        ITTS_2: "<p>two by two</p>",
+
+        actionDecision_3: "sendAnEmailDecision",
+        subjectEmailDecision_3:"osdoaso",
+        messageEmailDecision_3:"ssssssssd"
+
+    } 
+    setInputs(inputsObject);
+}
+
+function setTestInputs_1(){
+    // Trigger 
+    document.querySelector(`[onclick*="'triggerInput','opensAPage'"]`).click();
+    // Trigger:Visitor opens a page
+    document.querySelector('[name="pageOpensLink"]').value = 'https://something.com/';
+    // Interval
+    document.querySelector(`[onclick*="'whenToSend','oncePer24horse'"]`).click();
+    //Condition
+    // TODO special case when is None
+    document.querySelector(`[onclick*="'conditionInput','OperatingSystem'"]`).click();
+    // Condition System Operative
+    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osRule'"`).querySelector('[value="Is not"]').selected = true;
+    document.querySelector('[name="osRule"]').value = 'Is not';
+    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osOS'"]`).querySelector('[value="Windows"]').selected = true;
+    document.querySelector('[name="osOS"]').value = 'Windows';
+    //Action
+    document.querySelector(`[onclick*="'actionTrigger','decision'"]`).click();
+    //Decision
+    //Decision with 3 answers // decisionInputs
+    var messageToVisitor = "HeLLLLLLO";
+    var inputsDecisions = ["Figma","Scatch","redBlueYellow"];
+    for(var i=0;i<inputsDecisions.length;i++){
+        document.getElementById('addDecisionButton').click();
+        document.getElementById('decisionChild_'+(i+1)).value = inputsDecisions[i];
+    }
+    document.querySelector('[name="messageToVisitor"]').value = messageToVisitor;
+    if(inputsDecisions.length > 0){
+        // remove the restrict
+        document.querySelector(`[name="doNotAllowEmptyInput"]`).remove();
+    }
+    //Decision one 
+    document.querySelector(`[onclick*="'actionDecision_1','chatBotEnded'"]`).click();
+    // chatBotEnded_1
+    document.querySelector('[name="transferOperatorMessage_1"]').emojioneArea.setText('okk');
+    //Decision two 
+    document.querySelector(`[onclick*="'actionDecision_2','sendChatMessageDecision'"]`).click();
+    // chatBotEnded_2
+    document.querySelector('[name="ITTS_2"]').emojioneArea.setText('okk2');
+    //Decision three
+    document.querySelector(`[onclick*="'actionDecision_3','sendAnEmailDecision'"]`).click();
+    //send email
+    document.querySelectorAll(`[name="messageEmailDecision_3"]`)[0].value = 'hmmmmmmmmmmmm\nhmmmmmmmmmmmmmmmmmmm';
+    tinymce.get('messageEmailDecision_3').setContent('hmmmmmmmmmmmm\nhmmmmmmmmmmmmmmmmmmm');
+    document.querySelectorAll(`[name="subjectEmailDecision_3"]`)[0].value = 'Ok this is subject thnx!';
+    document.querySelectorAll(`[name="subjectEmailDecision_3"]`)[1].value = 'Ok this is subject thnx!';
+    for(var i=0;i<99;i++){
+        if(GOnextStage('NO-MSG') == 'aboutToFinish'){
+            break;
+        }
+    }
+}
+// endline demo for edit Bot
+
+// startline edit bot
+function setInputs(inputsObject){
+    // startline test input
+    if(!inputsObject){
+            /////
+
+            //////
+    }
+    // endline test input
+
+    for (const [key, value] of Object.entries(inputsObject)) {
+        console.log(`${key}: ${value}`);
+        switch(key){
+            case 'triggerInput':
+                triggerSelect(value);
+            break;
+            case 'pageOpensLink':
+                trigger_opensAPage(value);
+            break;
+            case 'whenToSend':
+                intervalSelect(value);
+            break;
+            case 'conditionInput':
+                conditionSelect(value)
+            break;
+            case 'osRule':
+            case 'osOS':
+                 // this will be executed twice once for osRule once for osOS
+                 // will not break anything safe to use or you can remove one of the cases osRule or osOS
+                conditionOperatingSystem(inputsObject.osRule,inputsObject.osOS);
+            break;
+            case 'actionTrigger':
+                actionSelect(value);
+            break;
+            case 'chatMessage':
+                actionChatMessage(value);
+            break;
+            case 'dayOFWeekSelected':
+                triggerDayOFWeek(value);
+            break;
+            case 'dayRule':
+            case 'dayDay':
+                // (same as condition OS) this will be executed twice once for dayRule once for dayDay
+                // will not break anything safe to use or you can remove one of the cases dayRule or dayDay
+                conditiondayPicker(inputsObject.dayRule,inputsObject.dayDay);
+            break;
+            case 'subjectEmail':
+            case 'messageEmail':
+                // (same as condition OS) this will be executed twice once for subjectEmail once for messageEmail
+                // will not break anything safe to use or you can remove one of the cases subjectEmail or messageEmail
+                actionSendAnEmail(inputsObject.subjectEmail,inputsObject.messageEmail);
+            break;
+            case 'browserRule':
+            case 'browserBrowser':
+                 // (same as condition OS) this will be executed twice once for browserRule once for browserBrowser
+                // will not break anything safe to use or you can remove one of the cases browserRule or browserBrowser
+                conditionBrowser(inputsObject.browserRule,inputsObject.browserBrowser);
+            break;
+            case 'transferToOperatorMain':
+                ActionChatBotEnded(value);
+            break;
+            case 'decisionInputs':
+                actionDecision(inputsObject.messageToVisitor,inputsObject.decisionInputs);
+            break;
+
+            case 'actionDecision_1':
+                actionChatBotEnded(1,value);
+            break;
+            case 'actionDecision_2':
+                actionChatBotEnded(2,value);
+            break;
+            case 'actionDecision_3':
+                actionChatBotEnded(3,value);
+            break;
+
+            case 'transferOperatorMessage_1':
+                ActionChatBotEndedDecision(1,value);
+            break;
+            case 'transferOperatorMessage_2':
+                ActionChatBotEndedDecision(2,value);
+            break;
+            case 'transferOperatorMessage_3':
+                ActionChatBotEndedDecision(3,value);
+            break;
+
+            case 'ITTS_1':
+                ActionSendaChatMessage(2,value);
+            break;
+            case 'ITTS_2':
+                ActionSendaChatMessage(2,value);
+            break;
+            case 'ITTS_3':
+                ActionSendaChatMessage(2,value);
+            break;
+
+            case 'subjectEmailDecision_1':
+            case 'messageEmailDecision_1':
+                 // (same as condition OS)
+                ActionSendAnemailDecision(1,inputsObject.subjectEmailDecision_1,inputsObject.messageEmailDecision_1);
+            break;
+            case 'subjectEmailDecision_2':
+            case 'messageEmailDecision_2':
+                 // (same as condition OS)
+                ActionSendAnemailDecision(2,inputsObject.subjectEmailDecision_2,inputsObject.messageEmailDecision_2);
+            break;
+            case 'subjectEmailDecision_3':
+            case 'messageEmailDecision_3':
+                 // (same as condition OS)
+                ActionSendAnemailDecision(3,inputsObject.subjectEmailDecision_3,inputsObject.messageEmailDecision_3);
+            break;
+
+            default:
+                console.log("Skiped:",key,value)
+        }
+    }
+
+
+
+    for(var i=0;i<99;i++){
+        if(GOnextStage('NO-MSG') == 'aboutToFinish'){
+            break; // break when is about to finish required to not submit the form
+        }
+    }
+
+}
+//endline edit bot
+
+/////// startline types of inputs
+function triggerSelect(value){
+    // Trigger 
+    document.querySelector(`[onclick*="'triggerInput','${value}"]`).click();
+}
+
+function trigger_opensAPage(valueInput){
+    // Trigger:Visitor opens a page
+    document.querySelector('[name="pageOpensLink"]').value = valueInput;
+}
+function intervalSelect(value){
+    // Interval
+    document.querySelector(`[onclick*="'whenToSend','${value}'"]`).click();
+}
+function conditionSelect(value){
+    // if is None do nothing, default is None for Condition
+    if(value != 'None'){
+        document.querySelector(`[onclick*="'conditionInput','${value}'"]`).click();
+    }
+}
+
+function conditionOperatingSystem(osRuleValue,osOSValue){
+    // Condition System Operative
+    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osRule'"`).querySelector('[value="'+osRuleValue+'"]').selected = true;
+    document.querySelector('[name="osRule"]').value = osRuleValue;
+
+    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osOS'"]`).querySelector('[value="'+osOSValue+'"]').selected = true;
+    document.querySelector('[name="osOS"]').value = osOSValue;
+}
+function conditiondayPicker(dayRuleValue,dayDayValue){
+    // Condition day picker
+    document.querySelector(`[onclick*="document.querySelector('#CCD440'),'dayRule'"`).querySelector('[value="'+dayRuleValue+'"]').selected = true;
+    document.querySelector('[name="dayRule"]').value = dayRuleValue;
+
+    document.querySelector(`[onclick*="document.querySelector('#CCD440'),'dayDay'"]`).querySelector('[value="'+dayDayValue+'"]').selected = true;
+    document.querySelector('[name="dayDay"]').value = dayDayValue;
+}
+
+function actionSelect(value){
+    //Action
+    document.querySelector(`[onclick*="'actionTrigger','${value}'"]`).click();
+}
+
+function actionChatMessage(value){
+    // Action: Send a caht message
+    document.querySelector('[name="chatMessage"]').emojioneArea.setText(value);
+}
+
+function triggerDayOFWeek(value){
+    // Trigger: on certain days
+    var parsedValue = value?.split(',') ? value?.split(',') : [value];// if cannot split must have only one day selected
+    for(var i=0;i<parsedValue.length;i++){
+        document.getElementById(parsedValue[i].toLowerCase()+"Select").click();
+    }
+}
+
+function actionSendAnEmail(subjectValue,subjectEmailValue){
+    document.querySelectorAll(`[name="subjectEmail"]`)[0].value = subjectValue;
+    tinymce.get('messageEmail').setContent(subjectEmailValue);
+    document.querySelectorAll(`[name="messageEmail"]`)[0].value = subjectEmailValue;
+    document.querySelectorAll(`[name="subjectEmail"]`)[1].value = subjectValue;
+}
+
+function conditionBrowser(browserRuleValue,browserBrowserValue){
+    // Condition System Operative
+    document.querySelector(`[onclick*="document.querySelector('#CB442'),'browserRule'"`).querySelector('[value="'+browserRuleValue+'"]').selected = true;
+    document.querySelector('[name="browserRule"]').value = browserRuleValue;
+
+
+    document.querySelector('[name="browserBrowser"]').value = browserBrowserValue;
+    $('#browserBrowserSelect2').val(browserBrowserValue); 
+    $('#browserBrowserSelect2').trigger('change'); 
+    
+}
+
+function ActionChatBotEnded(value){
+    document.getElementById('transferToOperatorMain').emojioneArea.setText(value);
+}
+
+function ActionChatBotEndedDecision(childNr,value){
+    document.getElementById('transferOperatorMessage_'+childNr).emojioneArea.setText(value);
+}
+
+function actionDecision(messageToVisitorValue,inputsDecisionsArray){
+    // var messageToVisitor = "HeLLLLLLO";
+    // var inputsDecisions = ["Figma","Scatch","redBlueYellow"];
+    for(var i=0;i<inputsDecisionsArray.length;i++){
+        document.getElementById('addDecisionButton').click();
+        document.getElementById('decisionChild_'+(i+1)).value = inputsDecisionsArray[i];
+    }
+    document.querySelector('[name="messageToVisitor"]').value = messageToVisitorValue;
+    if(inputsDecisionsArray.length > 0){
+        // remove the restrict
+        try{
+            document.querySelector(`[name="doNotAllowEmptyInput"]`).remove();
+        }catch(err){}
+    }
+}
+
+function actionChatBotEnded(childNr,value){
+    document.querySelector(`[onclick*="'actionDecision_${childNr}','${value}'"`).click();
+}
+
+function ActionSendaChatMessage(childNr,value){
+    document.querySelector('[name="ITTS_'+childNr+'"]').emojioneArea.setText(value);
+}
+
+function ActionSendAnemailDecision(childNr,subjectValue,subjectEmailValue){
+    document.querySelectorAll(`[name="subjectEmailDecision_${childNr}"]`)[0].value = subjectValue;
+    tinymce.get('messageEmailDecision_'+childNr).setContent(subjectEmailValue);
+    document.querySelectorAll(`[name="messageEmailDecision_${childNr}"]`)[0].value = subjectEmailValue;
+    document.querySelectorAll(`[name="subjectEmailDecision_${childNr}"]`)[1].value = subjectValue;
+}
+
+////// endline types of inputs

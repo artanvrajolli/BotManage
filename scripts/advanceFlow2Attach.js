@@ -65,8 +65,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             placeholder:'Select Browser'
         });
 
-        $('#test123test').on("select2:select", function(e) { 
-            dropDownChoice(document.getElementById('test123test'),document.querySelector('#CB442'),'browserBrowser');
+        $('#browserBrowserSelect2').on("select2:select", function(e) { 
+            dropDownChoice(document.getElementById('browserBrowserSelect2'),document.querySelector('#CB442'),'browserBrowser');
         });
      
         tinymce.init({
@@ -280,8 +280,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+    setTimeout(()=>{
+        document.querySelectorAll('[class*="emojionearea"]').forEach((item)=> item.style.setProperty('pointer-events','All'));
+    },1500)
 
-
+    
   
 
 });
