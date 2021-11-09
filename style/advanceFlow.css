@@ -1,4 +1,11 @@
 
+/* Poppins */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+.container-bot-path{
+    font-family: 'Poppins', sans-serif;
+}
 
 .canSelect{
     overflow: hidden;
@@ -9,28 +16,28 @@
     min-height:68px;
     cursor: pointer;
     user-select: none;
-    border:2px solid #25313c00;
+    z-index: 2;
+    border: 1px solid #F0F0F0;
+    box-sizing: border-box;
+    transition: all 0.15s ease;
 }
 .canSelect:hover{
-    border: 2px solid #60cdf522;
+    border: 1px solid #60cdf522;
 }
 .canSelect-limited{
     height: 68px;
 }
 .fixedBox{
     display: flex;
-    overflow-y:auto;
-    overflow-x:hidden;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: flex-start;
     align-items: flex-start;
     justify-content: space-between;
-    height: 70vh;
 }
 
 .no-color-border-2{
-    border:2px solid #25313c00;
+    border: 1px solid #F0F0F0;
 }
 
 .next-button{
@@ -53,6 +60,11 @@
     background: #dadcdf;
     color: #7f858a;
 }
+
+#titleInfo{
+    margin-left: 20px;
+}
+
 #messageOutputContainer{
     position: absolute;
     bottom: 50px;
@@ -70,7 +82,11 @@
 }
 
 .set-content-variables{
+    padding-bottom: 100px;
     position: relative;
+    flex-grow: 1;
+    padding-left: 35px;
+    padding-right: 35px;
 }
 .line-to-bottom::before{
     content: "";
@@ -106,28 +122,35 @@
     padding-left: 0.5rem;
     display:flex;
     align-items: center;
-    /* margin-bottom: 0.5rem; */
+    margin-bottom: 0.2rem;
 }
 
 .set-path-holder-container{
     position: relative;
-    padding-bottom: 20px;
+    padding: 30px 30px 30px 0px;
     background: #f5f7f9;
+    height: 100%;
 }
 
 .set-path-holder-container-main{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
     background-color: white;
     padding-top:20px;
     padding-bottom:20px;
 }
 
 .set-content-info{
+    height:100px;
     position: relative;
-    margin-top:2rem;
     margin-bottom:2rem;
 }
 
 .fa-chevron-left-icon{
+    position: absolute;
+    left: 14px;
+    top: 7px;
     display: inline;
     cursor: pointer;
     user-select: none;
@@ -182,6 +205,7 @@ pre{
 .preview-holder-content{
     background: url(../imagesBot/dotsbackground.png);
     background-repeat: repeat;
+    background-attachment: local;
     background-size: 30px;
     text-align:center;
     justify-content:center;
@@ -199,6 +223,11 @@ pre{
 .set-content-footer-buttons{
     padding-top:1rem;
     border-top:1px solid #dee2e6;
+    background: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    right: 10px;
     justify-content: space-between;
 }
 
@@ -216,6 +245,7 @@ pre{
     text-align: center;
     width:100%;
     overflow:hidden;
+    font-size: 0.90rem;
 }
 
 /* d-flex align-items-center ms-3 */
@@ -236,7 +266,7 @@ pre{
     width: 4px;
     border-radius: 50%;
     flex-grow: 0;
-    margin: 10px 7px 0px 7px;
+    margin: 7px 7px 10px 7px;
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-evenly;
@@ -295,15 +325,21 @@ pre{
 
 
 .selected-decision-remove{
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+
     position: absolute;
     right: -11px;
     z-index: 1;
     top: 50%;
     height: 30px;
     border-radius: 35px;
-    text-align: center;
+
     width: 30px;
-    display: flex;
+    
     justify-content: center;
     transform: translateY(-50%);
     background-color:#F9F9F9;
@@ -318,6 +354,9 @@ pre{
     background-color: #FF5454;
     border: 0.5px solid #FF5454;
     color: white;
+}
+.emojionearea-editor{
+    min-height:200px;
 }
 
 .small-Loader{
@@ -358,7 +397,6 @@ pre{
     max-width: 50%;
     padding-left:30px;
 }
-/* test */
 
 .line-to-top{
     position:relative;
@@ -367,10 +405,10 @@ pre{
 .line-to-top::after{
     content: "";
     position: absolute;
-    top: -48px;
+    top: -50px;
     left: 50%;
     height: 48px;
-    z-index: 44;
+    z-index: 1;
     width: 1px;
     background: #60cef5;
 }
@@ -380,10 +418,14 @@ pre{
     position: absolute;
     height: 6.5px;
     top: -5px;
-    left: 49.5%;
+    left: 49.3%;
     border-radius: 50%;
     background: #60cef5;
     width: 6.5px;
     z-index: 44;
     border: 1.5px solid white;
+}
+
+.fixedBox > .col-lg-6{
+    margin-bottom:0.5rem;
 }

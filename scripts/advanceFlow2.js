@@ -118,7 +118,8 @@ function selectBox(element_t, localForm, localInput, localValue, nextData,curren
     
     //change border if has previews
     if (TMPPreviewsSelected[localFormID]) {
-        TMPPreviewsSelected[localFormID].style.border = '2px solid #60CEF500';
+        // #F0F0F0
+        TMPPreviewsSelected[localFormID].style.border = '1px solid #F0F0F0';
     }
     if (TMPPreviewsSelected[localFormID] != element_t) {
         element_t.style.border = '2px solid #60CEF5';
@@ -165,10 +166,24 @@ function updateTitleAndDescription() {
 
 
 function messageOutput(stringData) {
-    document.getElementById('messageOutput').innerHTML = stringData;
-    setTimeout(() => {
-        document.getElementById('messageOutput').innerHTML = '';
-    }, 5000);
+    // document.getElementById('messageOutput').innerHTML = stringData;
+    // setTimeout(() => {
+    //     document.getElementById('messageOutput').innerHTML = '';
+    // }, 5000);
+    
+    // new Noty({
+    //     type: 'success',
+    //     layout: 'topRight',
+    //     text: 'Some notification text'
+    // }).show();
+    new Noty({
+        theme: 'relax',
+        type: 'warning',
+        layout: 'bottomRight',
+        text: stringData,
+        timeout: 1500
+    }).show();
+    //$.notify(stringData, "warn");
 }
 
 
@@ -286,7 +301,8 @@ function GOBackTo(element_t,level,forced = false) {
         GObackStage();
     }
     for(var i = 0; i < -backFrom;i++){
-        GOnextStage('NO-MSG',true); // NO-MSG do not submit when system check for correct path and true to keepPath Rendered
+        GOnextStage('NO-MSG',true); 
+        // NO-MSG do not submit when system check for correct path and true to keepPath Rendered
     }
     
     var allColoredBorders = document.getElementById('previewHolder').querySelectorAll('[onclick^="GOBackTo"]');
@@ -306,7 +322,7 @@ function GOBackTo(element_t,level,forced = false) {
             setTimeout(()=>{
                 j.style.border = '2px solid #60cef5';
                 document.querySelector('.small-Loader').remove();
-            },100);
+            },75);
         }
     }
     nextButton.setAttribute('onclick','GONextMultipleLevels('+forced+');');
@@ -379,7 +395,7 @@ function previewPath(isFinal = false,isgoingBack = false) {
             platformHolder[i]["current"]["titleInfo"] = platformHolder[i]["current"]["titleInfo"].replace(/<\/?[^>]+(>|$)/g, "");
             if(platformHolder[i]["current"]["titleInfo"].includes(':')){
                 var spliter = platformHolder[i]["current"]["titleInfo"].split(':');
-                platformHolder[i]["current"]["titleInfo"] = `<span class="form-text">${spliter[0]}</span>:${spliter[1]}`;
+                platformHolder[i]["current"]["titleInfo"] = `<span class="form-text d-inline">${spliter[0]}:</span> ${spliter[1]}`;
             }
         }
 
@@ -463,15 +479,16 @@ function previewPath(isFinal = false,isgoingBack = false) {
     if (previewHolder.innerHTML == '') {
         previewHolder.innerHTML = `
         <div>
-            <h5 class="preview-main-title col-12">Choose a trigger</h5>
+            <h5 class="mt-5 mb-4 col-12">Choose a trigger</h5>
             <div class="row justify-content-center">
-                <div class="col-lg-3 col-4">
-                    <div class="d-flex ps-2 canSelect align-items-center">
+                <div class="col-lg-5 col-12 justify-content-center">
+                    <div class="box-format canSelect justify-content-center">
                         Choose how your visitors will be engaged by the chatbot.
                     </div>
                 </div>
             </div>
-        </div>`;
+        </div>
+        `;
     }
     if(!isgoingBack){
         var tmpE = document.querySelector('.preview-holder-content');
@@ -587,7 +604,7 @@ function subjectWithTextArea(i) {
     previewHolder.insertAdjacentHTML('beforeend', `
     <div>
         <h5 class="preview-main-title col-12">${platformHolder[i]["current"]["titleInfo"]}</h5>
-        <div onclick="GOBackTo(this,${i})" class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
+        <div  class="row justify-content-center ${levelRender - 1 == i ? '' : 'line-to-bottom'}">
             <div style="${extraBorder} ;padding-right: 30px;
             padding-left: 30px;
             padding-top: 10px;padding-bottom: 10px;" onclick="GOBackTo(this,${i})" class="col-lg-4 col-12 text-start canSelect align-items-center  justify-content-center">
@@ -866,71 +883,27 @@ function setTestInputs_5(){
     setInputs(inputsObject);
 }
 
-function setTestInputs_1(){
-    // Trigger 
-    document.querySelector(`[onclick*="'triggerInput','opensAPage'"]`).click();
-    // Trigger:Visitor opens a page
-    document.querySelector('[name="pageOpensLink"]').value = 'https://something.com/';
-    // Interval
-    document.querySelector(`[onclick*="'whenToSend','oncePer24horse'"]`).click();
-    //Condition
-    // TODO special case when is None
-    document.querySelector(`[onclick*="'conditionInput','OperatingSystem'"]`).click();
-    // Condition System Operative
-    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osRule'"`).querySelector('[value="Is not"]').selected = true;
-    document.querySelector('[name="osRule"]').value = 'Is not';
-    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osOS'"]`).querySelector('[value="Windows"]').selected = true;
-    document.querySelector('[name="osOS"]').value = 'Windows';
-    //Action
-    document.querySelector(`[onclick*="'actionTrigger','decision'"]`).click();
-    //Decision
-    //Decision with 3 answers // decisionInputs
-    var messageToVisitor = "HeLLLLLLO";
-    var inputsDecisions = ["Figma","Scatch","redBlueYellow"];
-    for(var i=0;i<inputsDecisions.length;i++){
-        document.getElementById('addDecisionButton').click();
-        document.getElementById('decisionChild_'+(i+1)).value = inputsDecisions[i];
-    }
-    document.querySelector('[name="messageToVisitor"]').value = messageToVisitor;
-    if(inputsDecisions.length > 0){
-        // remove the restrict
-        document.querySelector(`[name="doNotAllowEmptyInput"]`).remove();
-    }
-    //Decision one 
-    document.querySelector(`[onclick*="'actionDecision_1','chatBotEnded'"]`).click();
-    // chatBotEnded_1
-    document.querySelector('[name="transferOperatorMessage_1"]').emojioneArea.setText('okk');
-    //Decision two 
-    document.querySelector(`[onclick*="'actionDecision_2','sendChatMessageDecision'"]`).click();
-    // chatBotEnded_2
-    document.querySelector('[name="ITTS_2"]').emojioneArea.setText('okk2');
-    //Decision three
-    document.querySelector(`[onclick*="'actionDecision_3','sendAnEmailDecision'"]`).click();
-    //send email
-    document.querySelectorAll(`[name="messageEmailDecision_3"]`)[0].value = 'hmmmmmmmmmmmm\nhmmmmmmmmmmmmmmmmmmm';
-    tinymce.get('messageEmailDecision_3').setContent('hmmmmmmmmmmmm\nhmmmmmmmmmmmmmmmmmmm');
-    document.querySelectorAll(`[name="subjectEmailDecision_3"]`)[0].value = 'Ok this is subject thnx!';
-    document.querySelectorAll(`[name="subjectEmailDecision_3"]`)[1].value = 'Ok this is subject thnx!';
-    for(var i=0;i<99;i++){
-        if(GOnextStage('NO-MSG') == 'aboutToFinish'){
-            break;
-        }
-    }
-}
 // endline demo for edit Bot
+
+function localStoragePath(data){
+    window.localStorage["ipath"] = JSON.stringify(data);
+}
 
 // startline edit bot
 function setInputs(inputsObject){
     // startline test input
     if(!inputsObject){
             /////
-
+      
+        if(!inputsObject){
+            inputsObject = JSON.parse(window.localStorage["ipath"]);
+        }
             //////
     }
     // endline test input
 
     for (const [key, value] of Object.entries(inputsObject)) {
-        console.log(`${key}: ${value}`);
+       
         switch(key){
             case 'triggerInput':
                 triggerSelect(value);
@@ -946,7 +919,7 @@ function setInputs(inputsObject){
             break;
             case 'osRule':
             case 'osOS':
-                 // this will be executed twice once for osRule once for osOS
+                 // Note: this will be executed twice once for osRule once for osOS
                  // will not break anything safe to use or you can remove one of the cases osRule or osOS
                 conditionOperatingSystem(inputsObject.osRule,inputsObject.osOS);
             break;
@@ -961,19 +934,19 @@ function setInputs(inputsObject){
             break;
             case 'dayRule':
             case 'dayDay':
-                // (same as condition OS) this will be executed twice once for dayRule once for dayDay
+                // Note: (same as condition OS) this will be executed twice once for dayRule once for dayDay
                 // will not break anything safe to use or you can remove one of the cases dayRule or dayDay
                 conditiondayPicker(inputsObject.dayRule,inputsObject.dayDay);
             break;
             case 'subjectEmail':
             case 'messageEmail':
-                // (same as condition OS) this will be executed twice once for subjectEmail once for messageEmail
+                // Note: (same as condition OS) this will be executed twice once for subjectEmail once for messageEmail
                 // will not break anything safe to use or you can remove one of the cases subjectEmail or messageEmail
                 actionSendAnEmail(inputsObject.subjectEmail,inputsObject.messageEmail);
             break;
             case 'browserRule':
             case 'browserBrowser':
-                 // (same as condition OS) this will be executed twice once for browserRule once for browserBrowser
+                // Note: (same as condition OS) this will be executed twice once for browserRule once for browserBrowser
                 // will not break anything safe to use or you can remove one of the cases browserRule or browserBrowser
                 conditionBrowser(inputsObject.browserRule,inputsObject.browserBrowser);
             break;
@@ -1016,22 +989,22 @@ function setInputs(inputsObject){
 
             case 'subjectEmailDecision_1':
             case 'messageEmailDecision_1':
-                 // (same as condition OS)
+                 // Note: (same as condition OS)
                 ActionSendAnemailDecision(1,inputsObject.subjectEmailDecision_1,inputsObject.messageEmailDecision_1);
             break;
             case 'subjectEmailDecision_2':
             case 'messageEmailDecision_2':
-                 // (same as condition OS)
+                 // Note: (same as condition OS)
                 ActionSendAnemailDecision(2,inputsObject.subjectEmailDecision_2,inputsObject.messageEmailDecision_2);
             break;
             case 'subjectEmailDecision_3':
             case 'messageEmailDecision_3':
-                 // (same as condition OS)
+                 // Note: (same as condition OS)
                 ActionSendAnemailDecision(3,inputsObject.subjectEmailDecision_3,inputsObject.messageEmailDecision_3);
             break;
 
             default:
-                console.log("Skiped:",key,value)
+                console.log("It's possible that was payload and it has been skipped:",key,value)
         }
     }
 
@@ -1069,18 +1042,18 @@ function conditionSelect(value){
 
 function conditionOperatingSystem(osRuleValue,osOSValue){
     // Condition System Operative
-    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osRule'"`).querySelector('[value="'+osRuleValue+'"]').selected = true;
+    document.querySelector(`[onchange*="document.querySelector('#CCOS4'),'osRule'"`).querySelector('[value="'+osRuleValue+'"]').selected = true;
     document.querySelector('[name="osRule"]').value = osRuleValue;
 
-    document.querySelector(`[onclick*="document.querySelector('#CCOS4'),'osOS'"]`).querySelector('[value="'+osOSValue+'"]').selected = true;
+    document.querySelector(`[onchange*="document.querySelector('#CCOS4'),'osOS'"]`).querySelector('[value="'+osOSValue+'"]').selected = true;
     document.querySelector('[name="osOS"]').value = osOSValue;
 }
 function conditiondayPicker(dayRuleValue,dayDayValue){
     // Condition day picker
-    document.querySelector(`[onclick*="document.querySelector('#CCD440'),'dayRule'"`).querySelector('[value="'+dayRuleValue+'"]').selected = true;
+    document.querySelector(`[onchange*="document.querySelector('#CCD440'),'dayRule'"`).querySelector('[value="'+dayRuleValue+'"]').selected = true;
     document.querySelector('[name="dayRule"]').value = dayRuleValue;
 
-    document.querySelector(`[onclick*="document.querySelector('#CCD440'),'dayDay'"]`).querySelector('[value="'+dayDayValue+'"]').selected = true;
+    document.querySelector(`[onchange*="document.querySelector('#CCD440'),'dayDay'"]`).querySelector('[value="'+dayDayValue+'"]').selected = true;
     document.querySelector('[name="dayDay"]').value = dayDayValue;
 }
 
@@ -1111,7 +1084,7 @@ function actionSendAnEmail(subjectValue,subjectEmailValue){
 
 function conditionBrowser(browserRuleValue,browserBrowserValue){
     // Condition System Operative
-    document.querySelector(`[onclick*="document.querySelector('#CB442'),'browserRule'"`).querySelector('[value="'+browserRuleValue+'"]').selected = true;
+    document.querySelector(`[onchange*="document.querySelector('#CB442'),'browserRule'"`).querySelector('[value="'+browserRuleValue+'"]').selected = true;
     document.querySelector('[name="browserRule"]').value = browserRuleValue;
 
 

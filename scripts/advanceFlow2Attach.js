@@ -5,21 +5,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // create an observer instance
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
+            // clear the text from html
+            mutation.target.innerHTML = mutation.target.innerText;
+
+            // change color text before "TEXT:"
             if(mutation.target.innerHTML.includes(':')){
                 var spliter = mutation.target.innerText.split(':',2)
-                mutation.target.innerHTML = `<span class="form-text">${spliter[0]}:</span> ${spliter[1]}`
+                mutation.target.innerHTML = `<span class="form-text d-inline">${spliter[0]}:</span> ${spliter[1]}`
             }
+
+            // change color text between brackets "(TEXT)"
             if(mutation.target.innerHTML.includes('(') 
             && mutation.target.innerHTML.includes(')') 
             && mutation.target.innerHTML?.split('(',2)[1].includes(')')){
+
                 var spliter = mutation.target.innerText.split('(',2);
                 var withOutParsed = mutation.target.innerHTML.split('(',2);
-                var silter2 = spliter[1].split(')',2);
+
+                var spliter2 = spliter[1].split(')',2);
+
                 mutation.target.innerHTML = `${withOutParsed[0]}
-                <span class="form-text">(${silter2[0]})</span>
-                ${silter2[1]}
-                `;
-            }           
+                <span class="form-text d-inline">(${spliter2[0]})</span>
+                ${spliter2[1]}`;
+            }
+
+
+
+
         });   
         observer.disconnect();
         observer.observe(document.querySelector('#titleInfo'), { attributes: false, childList: true, characterData: true }); 
@@ -61,7 +73,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         $(".select2-single-drowdown").select2({
             templateResult: formatState,
-            width: '100%',
+            width: 'style',
             placeholder:'Select Browser'
         });
 
@@ -282,6 +294,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     setTimeout(()=>{
         document.querySelectorAll('[class*="emojionearea"]').forEach((item)=> item.style.setProperty('pointer-events','All'));
+    
+        document.querySelectorAll('.emojionearea-button').forEach((item)=>{
+            item.style.setProperty('top','75%','important');
+        })
+    
     },1500)
 
     
